@@ -204,26 +204,36 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Beautiful Category Cards Section */}
-      <section className="py-16 bg-gray-50">
+      {/* Category Scroll Bar Section */}
+      <section className="py-8 bg-white border-b">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary mb-4">Shop Medical Equipment by Category</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover our comprehensive selection of medical equipment, organized by specialty to help you find exactly what you need
-            </p>
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-primary mb-2">Shop by Category</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category) => (
-              <CategoryCard
-                key={category.id}
-                image={category.image}
-                title={category.title}
-                onClick={() => navigate(`/category/${category.id}`)}
-                className="transform hover:scale-105 transition-all duration-300"
-              />
-            ))}
+          <div className="relative">
+            <div className="flex overflow-x-auto scrollbar-hide gap-4 pb-4">
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  onClick={() => navigate(`/category/${category.id}`)}
+                  className="flex-shrink-0 cursor-pointer group"
+                >
+                  <div className="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-primary transition-colors">
+                    <img 
+                      src={category.image} 
+                      alt={category.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-medium text-gray-700 group-hover:text-primary transition-colors leading-tight max-w-[80px]">
+                      {category.title}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
