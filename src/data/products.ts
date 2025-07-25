@@ -266,18 +266,30 @@ export const compressionProducts: Product[] = [
   }
 ];
 
-// New product categories from the actual website
+// Extensive product catalog from Shop Home Med
+
 export const bathLiftProducts: Product[] = [
   {
     id: 'bath-lift-1',
     name: '2-in-1 Bath Lift and Fall Recovery Lift',
-    image: bedsideCommodeImg, // Will use existing bathroom-related image
+    image: bedsideCommodeImg,
     currentPrice: 399.99,
     rating: 4.8,
     reviewCount: 125,
     isStaffPick: true,
     isFsaEligible: true,
     badges: ['Emergency Stop', 'Aluminum Construction'],
+    category: 'Bath Lifts'
+  },
+  {
+    id: 'bath-lift-2',
+    name: '3-in-1 Sidekick Ultralight Shower Chair with Commode',
+    image: showerChairImg,
+    currentPrice: 424.99,
+    rating: 4.7,
+    reviewCount: 89,
+    isFsaEligible: true,
+    badges: ['3-in-1 Design', 'Rust-Proof'],
     category: 'Bath Lifts'
   }
 ];
@@ -286,7 +298,7 @@ export const geriChairProducts: Product[] = [
   {
     id: 'geri-chair-1',
     name: '3 Position Geri Chair Recliner with Meal Tray',
-    image: wheelchairImg, // Will use wheelchair image as placeholder
+    image: wheelchairImg,
     originalPrice: 799.99,
     currentPrice: 699.99,
     rating: 4.6,
@@ -301,7 +313,7 @@ export const stethoscopeProducts: Product[] = [
   {
     id: 'stethoscope-1',
     name: '3M Healthcare Littmann Master Cardiology Stethoscope',
-    image: pulseOximeterImg, // Will use medical device image as placeholder
+    image: pulseOximeterImg,
     originalPrice: 349.99,
     currentPrice: 299.99,
     rating: 4.9,
@@ -348,6 +360,30 @@ export const positioningProducts: Product[] = [
     reviewCount: 78,
     isFsaEligible: true,
     badges: ['Pair Included', 'Ergonomic'],
+    category: 'Positioning'
+  },
+  {
+    id: 'positioning-3',
+    name: '30-Degree Full Body Bed Support System with 4 Attached Bolsters',
+    image: medicalMattressImg,
+    originalPrice: 199.99,
+    currentPrice: 169.99,
+    rating: 4.6,
+    reviewCount: 45,
+    isFsaEligible: true,
+    badges: ['Full Body Support', '4 Bolsters'],
+    category: 'Positioning'
+  },
+  {
+    id: 'positioning-4',
+    name: '30º Bed System with Slider Sheet and Two Wedges',
+    image: medicalMattressImg,
+    originalPrice: 159.99,
+    currentPrice: 134.99,
+    rating: 4.5,
+    reviewCount: 67,
+    isFsaEligible: true,
+    badges: ['Slider Sheet', 'Two Wedges'],
     category: 'Positioning'
   }
 ];
@@ -433,6 +469,18 @@ export const orthopedicProducts: Product[] = [
     isFsaEligible: true,
     badges: ['Rolyan Brand', 'Regular Foam'],
     category: 'Orthopedic'
+  },
+  {
+    id: 'orthopedic-3',
+    name: 'Abductor/Contracture Cushion',
+    image: medicalMattressImg,
+    originalPrice: 99.99,
+    currentPrice: 84.99,
+    rating: 4.2,
+    reviewCount: 34,
+    isFsaEligible: true,
+    badges: ['10 x 14 x 13', 'Skil-Care'],
+    category: 'Orthopedic'
   }
 ];
 
@@ -460,6 +508,127 @@ export const personalCareProducts: Product[] = [
     isFsaEligible: true,
     badges: ['Dual Purpose', 'Compact'],
     category: 'Pain Relief'
+  },
+  {
+    id: 'personal-care-3',
+    name: 'Dr. Scholl\'s Hard Skin Remover Glass Foot File',
+    image: compressionSocksImg,
+    originalPrice: 29.99,
+    currentPrice: 24.99,
+    rating: 4.9,
+    reviewCount: 178,
+    isFsaEligible: true,
+    badges: ['Glass File', 'Dr. Scholl\'s'],
+    category: 'Personal Care'
+  }
+];
+
+export const disposableProducts: Product[] = [
+  {
+    id: 'disposable-1',
+    name: 'ProCure Nitrile Gloves (Powder Free)',
+    image: compressionSocksImg,
+    originalPrice: 34.99,
+    currentPrice: 27.99,
+    rating: 4.6,
+    reviewCount: 567,
+    isFsaEligible: true,
+    badges: ['Powder Free', 'Nitrile'],
+    category: 'Disposables'
+  },
+  {
+    id: 'disposable-2',
+    name: '7-10 Gallon Clear Trash Bags, 100 Count',
+    image: compressionSocksImg,
+    originalPrice: 19.99,
+    currentPrice: 16.99,
+    rating: 4.3,
+    reviewCount: 89,
+    badges: ['100 Count', 'High Density'],
+    category: 'Disposables'
+  }
+];
+
+export const sunscreenProducts: Product[] = [
+  {
+    id: 'sunscreen-1',
+    name: 'Coppertone Waterbabies Baby Sunscreen Lotion SPF 50',
+    image: compressionSocksImg,
+    originalPrice: 14.99,
+    currentPrice: 11.99,
+    rating: 4.7,
+    reviewCount: 234,
+    isFsaEligible: true,
+    badges: ['SPF 50', 'Baby Safe'],
+    category: 'Sun Protection'
+  }
+];
+
+export const supplementProducts: Product[] = [
+  {
+    id: 'supplement-1',
+    name: 'Gas-X Maximum Strength Gas Relief Softgels - 30 Ct',
+    image: glucoseMeterImg,
+    originalPrice: 12.99,
+    currentPrice: 9.99,
+    rating: 4.5,
+    reviewCount: 445,
+    isFsaEligible: true,
+    badges: ['Maximum Strength', '30 Count'],
+    category: 'Digestive Health'
+  },
+  {
+    id: 'supplement-2',
+    name: 'Cure Hydrating Electrolyte Drink Mix - Lemonade',
+    image: glucoseMeterImg,
+    originalPrice: 24.99,
+    currentPrice: 19.99,
+    rating: 4.4,
+    reviewCount: 178,
+    badges: ['Electrolyte', 'Lemonade Flavor'],
+    category: 'Hydration'
+  }
+];
+
+export const walkerAccessories: Product[] = [
+  {
+    id: 'walker-acc-1',
+    name: '5" Walker Wheel Replacement',
+    image: walkerImg,
+    originalPrice: 29.99,
+    currentPrice: 24.99,
+    rating: 4.5,
+    reviewCount: 123,
+    isFsaEligible: true,
+    badges: ['5 Inch', 'Replacement'],
+    category: 'Walker Accessories'
+  }
+];
+
+export const clinicalEquipment: Product[] = [
+  {
+    id: 'clinical-1',
+    name: '67001 Store & Go Cart',
+    image: hospitalBedImg,
+    originalPrice: 399.99,
+    currentPrice: 349.99,
+    rating: 4.4,
+    reviewCount: 45,
+    badges: ['Clinton Brand', 'Mobile Storage'],
+    category: 'Clinical Equipment'
+  }
+];
+
+export const batteryProducts: Product[] = [
+  {
+    id: 'battery-1',
+    name: '20AH Battery Housing',
+    image: oxygenConcentratorImg,
+    currentPrice: 100.00,
+    rating: 4.2,
+    reviewCount: 67,
+    badges: ['20AH Capacity', 'Metro Mobility'],
+    category: 'Battery & Power'
   }
 ];
 
@@ -478,5 +647,11 @@ export const allProducts: Product[] = [
   ...pediatricProducts,
   ...scooterProducts,
   ...orthopedicProducts,
-  ...personalCareProducts
+  ...personalCareProducts,
+  ...disposableProducts,
+  ...sunscreenProducts,
+  ...supplementProducts,
+  ...walkerAccessories,
+  ...clinicalEquipment,
+  ...batteryProducts
 ];

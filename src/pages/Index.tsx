@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/ProductCard";
-import { allProducts, wellnessProducts, hospitalBedsProducts, mobilityProducts, bathroomSafetyProducts, respiratoryProducts, compressionProducts, bathLiftProducts, geriChairProducts, stethoscopeProducts, positioningProducts, diabeticCareProducts, pediatricProducts, scooterProducts, orthopedicProducts, personalCareProducts } from "@/data/products";
+import { allProducts, wellnessProducts, hospitalBedsProducts, mobilityProducts, bathroomSafetyProducts, respiratoryProducts, compressionProducts, bathLiftProducts, geriChairProducts, stethoscopeProducts, positioningProducts, diabeticCareProducts, pediatricProducts, scooterProducts, orthopedicProducts, personalCareProducts, disposableProducts, sunscreenProducts, supplementProducts, walkerAccessories, clinicalEquipment, batteryProducts } from "@/data/products";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Filter, SortAsc } from "lucide-react";
@@ -26,6 +26,12 @@ const Index = () => {
       case 'scooters': return scooterProducts;
       case 'orthopedic': return orthopedicProducts;
       case 'personal-care': return personalCareProducts;
+      case 'disposables': return disposableProducts;
+      case 'sunscreen': return sunscreenProducts;
+      case 'supplements': return supplementProducts;
+      case 'walker-accessories': return walkerAccessories;
+      case 'clinical': return clinicalEquipment;
+      case 'battery': return batteryProducts;
       default: return allProducts;
     }
   };
