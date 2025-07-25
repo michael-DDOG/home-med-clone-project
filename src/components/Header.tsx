@@ -69,6 +69,9 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
             </Button>
           </div>
         </div>
+        
+        {/* Main Navigation - Right below main header */}
+        <MainNavigation />
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-8 py-4 border-t">
@@ -92,9 +95,6 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
           </Button>
         </nav>
       </div>
-      
-      {/* Main Navigation */}
-      <MainNavigation />
     </header>
   );
 };
