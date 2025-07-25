@@ -34,6 +34,13 @@ import invisibleHearingAidImg from '@/assets/invisible-hearing-aid.jpg';
 import bluetoothHearingAidImg from '@/assets/bluetooth-hearing-aid.jpg';
 import hearingAidCleaningKitImg from '@/assets/hearing-aid-cleaning-kit.jpg';
 import hearingAidBatteriesImg from '@/assets/hearing-aid-batteries.jpg';
+import stethoscopeImg from '@/assets/stethoscope.jpg';
+import airWalkerBootImg from '@/assets/air-walker-boot.jpg';
+import nitrileGlovesImg from '@/assets/nitrile-gloves.jpg';
+import babySunscreenImg from '@/assets/baby-sunscreen.jpg';
+import diabeticSocksImg from '@/assets/diabetic-socks.jpg';
+import batteryHousingImg from '@/assets/battery-housing.jpg';
+import mobilityBatteryPackImg from '@/assets/mobility-battery-pack.jpg';
 
 export interface Product {
   id: string;
@@ -357,7 +364,7 @@ export const stethoscopeProducts: Product[] = [
   {
     id: 'stethoscope-1',
     name: '3M Healthcare Littmann Master Cardiology Stethoscope',
-    image: pulseOximeterImg,
+    image: stethoscopeImg,
     originalPrice: 349.99,
     currentPrice: 299.99,
     rating: 4.9,
@@ -370,7 +377,7 @@ export const stethoscopeProducts: Product[] = [
   {
     id: 'stethoscope-2',
     name: '3M Littmann Lightweight II S.E. Stethoscope',
-    image: pulseOximeterImg,
+    image: stethoscopeImg,
     originalPrice: 149.99,
     currentPrice: 129.99,
     rating: 4.7,
@@ -414,7 +421,7 @@ export const orthopedicProducts: Product[] = [
   {
     id: 'orthopedic-1',
     name: '360 Air Walker Boot',
-    image: compressionSocksImg,
+    image: airWalkerBootImg,
     originalPrice: 159.99,
     currentPrice: 129.99,
     rating: 4.3,
@@ -498,7 +505,7 @@ export const disposableProducts: Product[] = [
   {
     id: 'disposable-1',
     name: 'ProCure Nitrile Gloves (Powder Free)',
-    image: compressionSocksImg,
+    image: nitrileGlovesImg,
     originalPrice: 34.99,
     currentPrice: 27.99,
     rating: 4.6,
@@ -586,7 +593,7 @@ export const sunscreenProducts: Product[] = [
   {
     id: 'sunscreen-1',
     name: 'Coppertone Waterbabies Baby Sunscreen Lotion SPF 50',
-    image: compressionSocksImg,
+    image: babySunscreenImg,
     originalPrice: 14.99,
     currentPrice: 11.99,
     rating: 4.7,
@@ -656,7 +663,7 @@ export const batteryProducts: Product[] = [
   {
     id: 'battery-1',
     name: '20AH Battery Housing',
-    image: oxygenConcentratorImg,
+    image: batteryHousingImg,
     currentPrice: 100.00,
     rating: 4.2,
     reviewCount: 67,
@@ -857,7 +864,7 @@ export const dailyLivingAidsProducts: Product[] = [
   {
     id: 'dla-15',
     name: 'Metro Mobility Battery Pack',
-    image: oxygenConcentratorImg,
+    image: mobilityBatteryPackImg,
     currentPrice: 120.00,
     rating: 4.0,
     reviewCount: 12,
@@ -945,7 +952,7 @@ export const footwearProducts: Product[] = [
   {
     id: 'footwear-3',
     name: 'Diabetic Socks - Seamless Construction',
-    image: compressionSocksImg,
+    image: diabeticSocksImg,
     originalPrice: 24.99,
     currentPrice: 19.99,
     rating: 4.7,
