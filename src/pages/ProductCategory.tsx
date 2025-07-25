@@ -18,7 +18,11 @@ import {
   orthopedicProducts,
   positioningProducts,
   personalCareProducts,
-  disposableProducts
+  disposableProducts,
+  dailyLivingAidsProducts,
+  footwearProducts,
+  contactLensProducts,
+  hearingAidsProducts
 } from "@/data/products";
 
 interface ComprehensiveFilterState {
@@ -82,6 +86,10 @@ const ProductCategory = () => {
       case 'positioning': return positioningProducts;
       case 'personal-care': return personalCareProducts;
       case 'disposables': return disposableProducts;
+      case 'daily-living-aids': return dailyLivingAidsProducts;
+      case 'diabetic-footwear': return footwearProducts;
+      case 'contact-lens': return contactLensProducts;
+      case 'hearing-aids': return hearingAidsProducts;
       default: return allProducts;
     }
   };
@@ -90,7 +98,7 @@ const ProductCategory = () => {
     switch (category) {
       case 'wellness': return 'Wellness Collection';
       case 'hospital-beds': return 'Hospital Beds & Mattresses';
-      case 'mobility': return 'Mobility Aids';
+      case 'mobility': return 'Mobility Products';
       case 'bathroom-safety': return 'Bathroom Safety';
       case 'respiratory': return 'Respiratory Equipment';
       case 'compression': return 'Compression Therapy';
@@ -100,6 +108,10 @@ const ProductCategory = () => {
       case 'positioning': return 'Positioning & Support';
       case 'personal-care': return 'Personal Care';
       case 'disposables': return 'Disposables';
+      case 'daily-living-aids': return 'Daily Living Aids';
+      case 'diabetic-footwear': return 'Diabetic & Orthopedic Footwear';
+      case 'contact-lens': return 'Contact Lens';
+      case 'hearing-aids': return 'Hearing Aids';
       default: return 'All Products';
     }
   };
