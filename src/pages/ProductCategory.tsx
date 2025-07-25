@@ -10,9 +10,10 @@ import {
   wellnessProducts, 
   hospitalBedsProducts, 
   mobilityProducts, 
-  bathroomSafetyProducts, 
-  respiratoryProducts, 
+  bathroomSafetyProducts,
+  respiratoryProducts,
   compressionProducts,
+  babyChildrenProducts,
   stethoscopeProducts,
   pediatricProducts,
   orthopedicProducts,
@@ -93,6 +94,7 @@ const ProductCategory = () => {
       case 'bathroom-safety': return bathroomSafetyProducts;
       case 'respiratory': return respiratoryProducts;
       case 'compression': return compressionProducts;
+      case 'baby-children': return babyChildrenProducts;
       case 'diagnostics': return stethoscopeProducts;
       case 'pediatric': return pediatricProducts;
       case 'orthopedic': return orthopedicProducts;
@@ -155,6 +157,7 @@ const ProductCategory = () => {
       case 'bathroom-safety': return 'Bathroom Safety';
       case 'respiratory': return 'Respiratory Equipment';
       case 'compression': return 'Compression Therapy';
+      case 'baby-children': return 'Baby & Children';
       case 'diagnostics': return 'Diagnostic Equipment';
       case 'pediatric': return 'Pediatric Products';
       case 'orthopedic': return 'Orthopedic Supports';
