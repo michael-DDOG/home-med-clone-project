@@ -56,6 +56,15 @@ export const ProductFilters = ({ onFilterChange, className = "" }: ProductFilter
     onFilterChange(newFilters);
   };
 
+  const handleSelectChange = (key: keyof FilterState, value: string) => {
+    // Handle the display value vs actual filter value conversion
+    let actualValue = value;
+    if (value === 'all-brands' || value === 'all-widths' || value === 'all-types') {
+      actualValue = '';
+    }
+    updateFilter(key, actualValue);
+  };
+
   const addFeature = (feature: string) => {
     if (!filters.features.includes(feature)) {
       const newFeatures = [...filters.features, feature];
@@ -136,12 +145,12 @@ export const ProductFilters = ({ onFilterChange, className = "" }: ProductFilter
           {/* Brand Filter */}
           <div className="space-y-3">
             <label className="text-sm font-medium">Brand</label>
-            <Select value={filters.brand} onValueChange={(value) => updateFilter('brand', value)}>
+            <Select value={filters.brand || 'all-brands'} onValueChange={(value) => handleSelectChange('brand', value)}>
               <SelectTrigger className="w-full bg-white border border-gray-300 z-50">
                 <SelectValue placeholder="Select brand" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-300 shadow-lg z-50">
-                <SelectItem value="">All Brands</SelectItem>
+                <SelectItem value="all-brands">All Brands</SelectItem>
                 {brands.map((brand) => (
                   <SelectItem key={brand} value={brand}>{brand}</SelectItem>
                 ))}
@@ -152,12 +161,12 @@ export const ProductFilters = ({ onFilterChange, className = "" }: ProductFilter
           {/* Bed Width */}
           <div className="space-y-3">
             <label className="text-sm font-medium">Bed Width</label>
-            <Select value={filters.bedWidth} onValueChange={(value) => updateFilter('bedWidth', value)}>
+            <Select value={filters.bedWidth || 'all-widths'} onValueChange={(value) => handleSelectChange('bedWidth', value)}>
               <SelectTrigger className="w-full bg-white border border-gray-300 z-50">
                 <SelectValue placeholder="Select width" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-300 shadow-lg z-50">
-                <SelectItem value="">All Widths</SelectItem>
+                <SelectItem value="all-widths">All Widths</SelectItem>
                 {bedWidths.map((width) => (
                   <SelectItem key={width} value={width}>{width}</SelectItem>
                 ))}
@@ -168,12 +177,12 @@ export const ProductFilters = ({ onFilterChange, className = "" }: ProductFilter
           {/* Bed Type */}
           <div className="space-y-3">
             <label className="text-sm font-medium">Bed Type</label>
-            <Select value={filters.bedType} onValueChange={(value) => updateFilter('bedType', value)}>
+            <Select value={filters.bedType || 'all-types'} onValueChange={(value) => handleSelectChange('bedType', value)}>
               <SelectTrigger className="w-full bg-white border border-gray-300 z-50">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-300 shadow-lg z-50">
-                <SelectItem value="">All Types</SelectItem>
+                <SelectItem value="all-types">All Types</SelectItem>
                 {bedTypes.map((type) => (
                   <SelectItem key={type} value={type}>{type}</SelectItem>
                 ))}
