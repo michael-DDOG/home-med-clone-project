@@ -184,7 +184,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl font-bold text-primary mb-4">
-              Shop Home Med - Complete Medical Supply Store
+              APEX medtech - Complete Medical Supply Store
             </h1>
             <p className="text-xl text-muted-foreground mb-6">
               High-quality, affordable medical products from wellness devices to hospital equipment
@@ -299,7 +299,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-bold text-lg mb-4">Shop Home Med</h3>
+              <h3 className="font-bold text-lg mb-4">APEX medtech</h3>
               <p className="text-sm opacity-90">
                 Your trusted partner for high-quality, affordable medical products
                 that prioritize comfort and care.

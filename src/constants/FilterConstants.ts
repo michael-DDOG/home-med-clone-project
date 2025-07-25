@@ -1,4 +1,4 @@
-// Comprehensive filter constants based on Shop Home Med website analysis
+// Comprehensive filter constants based on APEX medtech website analysis
 
 export const FILTER_BRANDS = [
   'Aqua Creek', 'Circle Specialty', 'Climbing Steps', 'Comfort Company',
@@ -6,7 +6,7 @@ export const FILTER_BRANDS = [
   'Graham Field', 'iCare Medical', 'Inspired by Drive', 'Invacare',
   'MDS', 'Med-Mizer', 'MedaCure', 'Metro Mobility', 'MJM International',
   'NY Ortho', 'Parks Health', 'Proactive Medical', 'ProHeal',
-  'Pursonic USA', 'Sammons Preston', 'Shop Home Med', 'Skil-Care',
+  'Pursonic USA', 'Sammons Preston', 'APEX medtech', 'Skil-Care',
   'SMILEZ', 'StarSleep', 'SuperHandy', 'Transfer Master'
 ];
 

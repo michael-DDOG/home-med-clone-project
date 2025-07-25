@@ -30,7 +30,7 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center gap-8">
             <h1 className="text-2xl font-bold text-primary">
-              Shop Home Med
+              APEX medtech
             </h1>
             <p className="text-muted-foreground hidden md:block">
               Health, Wellness and Much More

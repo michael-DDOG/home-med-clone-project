@@ -187,7 +187,7 @@ export const ComprehensiveProductFilters = ({ onFilterChange, className = "" }: 
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Horizontal Filter Bar - Matches Shop Home Med */}
+      {/* Horizontal Filter Bar - Matches APEX medtech */}
       <div className="flex items-center justify-between bg-white border border-gray-200 rounded p-4">
         {/* Left side - Filters */}
         <div className="flex items-center gap-6">
