@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, User, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import MainNavigation from "./MainNavigation";
 import { SearchBar } from "./SearchBar";
+import { useCart } from "@/contexts/CartContext";
+import { CartSidebar } from "./CartSidebar";
 
 interface HeaderProps {
   onCategorySelect: (category: string) => void;
@@ -11,7 +14,12 @@ interface HeaderProps {
 
 export const Header = ({ onCategorySelect }: HeaderProps) => {
   const navigate = useNavigate();
+  const { totalItems } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  
   return (
+    <>
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     <header className="border-b bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4">
         {/* Top bar */}
@@ -53,11 +61,18 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
               <User className="h-5 w-5" />
             </Button>
             
-            <Button variant="ghost" size="icon" className="relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={() => setIsCartOpen(true)}
+            >
               <ShoppingCart className="h-5 w-5" />
-              <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary text-xs">
-                0
-              </Badge>
+              {totalItems > 0 && (
+                <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary text-xs">
+                  {totalItems}
+                </Badge>
+              )}
             </Button>
 
             <Button variant="ghost" size="icon" className="md:hidden">
@@ -92,5 +107,6 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
         </nav>
       </div>
     </header>
+    </>
   );
 };
