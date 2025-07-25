@@ -267,79 +267,69 @@ const ProductCategory = () => {
               <span className="text-muted-foreground">({filteredProducts.length} items)</span>
             </div>
             
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">
-                Showing {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length} products
-              </span>
-              <Button variant="outline" size="sm">
-                <SortAsc className="h-4 w-4 mr-2" />
-                Sort by: Featured
-              </Button>
-            </div>
+            <span className="text-sm text-muted-foreground">
+              Showing {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length} products
+            </span>
           </div>
         </div>
       </section>
 
-      {/* Main Content with Sidebar Filter */}
-      <section className="py-12">
+      {/* Main Content */}
+      <section className="py-8">
         <div className="container mx-auto px-4">
-          <div className="flex gap-8">
-            {/* Left Sidebar - Filters */}
-            <div className="w-80 flex-shrink-0">
-              <ComprehensiveProductFilters onFilterChange={setFilters} className="sticky top-4" />
-            </div>
-            
-            {/* Right Content - Products */}
-            <div className="flex-1">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {/* Horizontal Filter Bar */}
+          <div className="mb-6">
+            <ComprehensiveProductFilters onFilterChange={setFilters} />
+          </div>
+          
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             {paginatedProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 {...product}
               />
             ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-2 mt-12">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </Button>
-                  
-                  {generatePageNumbers().map((page) => (
-                    <Button
-                      key={page}
-                      variant={currentPage === page ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handlePageChange(page)}
-                      className="min-w-[40px]"
-                    >
-                      {page}
-                    </Button>
-                  ))}
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </Button>
-                  
-                  <span className="text-sm text-muted-foreground ml-4">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                </div>
-              )}
-            </div>
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-12">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              
+              {generatePageNumbers().map((page) => (
+                <Button
+                  key={page}
+                  variant={currentPage === page ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handlePageChange(page)}
+                  className="min-w-[40px]"
+                >
+                  {page}
+                </Button>
+              ))}
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+              
+              <span className="text-sm text-muted-foreground ml-4">
+                Page {currentPage} of {totalPages}
+              </span>
+            </div>
+          )}
         </div>
       </section>
     </div>
