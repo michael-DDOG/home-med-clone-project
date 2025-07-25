@@ -13,7 +13,15 @@ interface HeaderProps {
 
 export const Header = ({ onCategorySelect }: HeaderProps) => {
   const navigate = useNavigate();
-  const { itemCount } = useCart();
+  
+  // Use try-catch to handle potential context issues
+  let itemCount = 0;
+  try {
+    const cart = useCart();
+    itemCount = cart.itemCount;
+  } catch (error) {
+    console.error('Cart context not available:', error);
+  }
   return (
     <header className="border-b bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4">

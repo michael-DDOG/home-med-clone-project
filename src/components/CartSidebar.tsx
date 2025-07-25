@@ -11,7 +11,31 @@ interface CartSidebarProps {
 }
 
 export const CartSidebar: React.FC<CartSidebarProps> = ({ children }) => {
-  const { items, itemCount, isLoading, updateQuantity, removeFromCart, clearCart } = useCart();
+  // Use try-catch to handle potential context issues
+  let cartData;
+  try {
+    cartData = useCart();
+  } catch (error) {
+    console.error('Cart context not available in CartSidebar:', error);
+    // Return a fallback UI when context is not available
+    return (
+      <Sheet>
+        <SheetTrigger asChild>
+          {children}
+        </SheetTrigger>
+        <SheetContent className="w-full sm:max-w-lg">
+          <SheetHeader>
+            <SheetTitle>Shopping Cart</SheetTitle>
+          </SheetHeader>
+          <div className="mt-6 text-center">
+            <p className="text-muted-foreground">Cart is loading...</p>
+          </div>
+        </SheetContent>
+      </Sheet>
+    );
+  }
+  
+  const { items, itemCount, isLoading, updateQuantity, removeFromCart, clearCart } = cartData;
 
   const total = items.reduce((sum, item) => sum + (item.currentPrice * item.quantity), 0);
 

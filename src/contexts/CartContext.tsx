@@ -26,7 +26,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) {
+  if (context === undefined) {
+    console.error('useCart must be used within a CartProvider');
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
@@ -37,6 +38,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
+  console.log('CartProvider rendering, sessionId:', sessionId, 'items:', items.length);
 
   // Initialize session
   useEffect(() => {
