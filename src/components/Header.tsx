@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, ShoppingCart, User, Menu } from "lucide-react";
+import { ShoppingCart, User, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import MainNavigation from "./MainNavigation";
+import { SearchBar } from "./SearchBar";
 
 interface HeaderProps {
   onCategorySelect: (category: string) => void;
@@ -44,13 +45,8 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center bg-gray-50 rounded-lg px-3 py-2 w-80">
-              <input
-                type="text"
-                placeholder="Search for medical supplies..."
-                className="bg-transparent outline-none flex-1"
-              />
-              <Search className="h-4 w-4 text-muted-foreground" />
+            <div className="hidden md:block w-80">
+              <SearchBar />
             </div>
             
             <Button variant="ghost" size="icon">
