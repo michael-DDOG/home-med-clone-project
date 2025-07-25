@@ -263,15 +263,6 @@ export const ComprehensiveProductFilters = ({ onFilterChange, className = "" }: 
                 <label htmlFor="in-stock" className="text-sm">In stock</label>
                 <span className="text-sm text-gray-500 ml-auto">(245)</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="out-of-stock"
-                  checked={!filters.inStock}
-                  onCheckedChange={(checked) => updateFilter('inStock', !checked)}
-                />
-                <label htmlFor="out-of-stock" className="text-sm">Out of stock</label>
-                <span className="text-sm text-gray-500 ml-auto">(23)</span>
-              </div>
             </div>
           </FilterSection>
 
