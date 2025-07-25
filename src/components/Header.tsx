@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, ShoppingCart, User, Menu } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   onCategorySelect: (category: string) => void;
 }
 
 export const Header = ({ onCategorySelect }: HeaderProps) => {
+  const navigate = useNavigate();
   return (
     <header className="border-b bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -29,7 +31,10 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
         {/* Main header */}
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center gap-8">
-            <h1 className="text-2xl font-bold text-primary">
+            <h1 
+              className="text-2xl font-bold text-primary cursor-pointer hover:text-primary/80 transition-colors"
+              onClick={() => navigate('/')}
+            >
               APEX medtech
             </h1>
             <p className="text-muted-foreground hidden md:block">
