@@ -64,12 +64,11 @@ export const ProductCard = ({
     
     try {
       await addToCart({
-        productId: id,
-        productName: name,
-        productImage: image,
-        currentPrice: currentPrice,
-        originalPrice: originalPrice,
-        quantity: 1
+        id,
+        name,
+        currentPrice,
+        originalPrice,
+        image
       });
     } catch (error) {
       console.error('Failed to add item to cart:', error);

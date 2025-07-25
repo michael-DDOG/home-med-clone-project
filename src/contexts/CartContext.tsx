@@ -16,7 +16,13 @@ interface CartContextType {
   items: CartItem[];
   itemCount: number;
   isLoading: boolean;
-  addToCart: (item: Omit<CartItem, 'id'>) => Promise<void>;
+  addToCart: (product: {
+    id: string;
+    name: string;
+    currentPrice: number;
+    originalPrice?: number;
+    image?: string;
+  }) => Promise<void>;
   updateQuantity: (id: string, quantity: number) => Promise<void>;
   removeFromCart: (id: string) => Promise<void>;
   clearCart: () => Promise<void>;
@@ -27,7 +33,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {
-    console.error('useCart must be used within a CartProvider');
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
@@ -39,50 +44,57 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  console.log('CartProvider rendering, sessionId:', sessionId, 'items:', items.length);
-
-  // Initialize session
   useEffect(() => {
     initializeSession();
   }, []);
 
   const initializeSession = async () => {
-    console.log('Initializing cart session...');
     try {
-      let storedSessionId = localStorage.getItem('cart_session_id');
-      console.log('Stored session ID:', storedSessionId);
+      setIsLoading(true);
+      console.log('🛒 Initializing cart session...');
       
-      if (!storedSessionId) {
-        console.log('Creating new session...');
-        const { data: newSession, error } = await supabase
+      let sessionId = localStorage.getItem('cart_session_id');
+      
+      if (!sessionId) {
+        console.log('🆕 Creating new session...');
+        
+        // Try to create session in database first
+        const { data, error } = await supabase
           .from('user_sessions')
           .insert({})
-          .select()
+          .select('id')
           .single();
         
         if (error) {
-          console.error('Failed to create session:', error);
-          throw error;
+          console.warn('⚠️ Database session creation failed:', error.message);
+          // Use local session as fallback
+          sessionId = `local_${crypto.randomUUID()}`;
+          console.log('🔄 Using local session fallback:', sessionId);
+        } else {
+          sessionId = data.id;
+          console.log('✅ Database session created:', sessionId);
         }
         
-        storedSessionId = newSession.id;
-        localStorage.setItem('cart_session_id', storedSessionId);
-        console.log('New session created:', storedSessionId);
+        localStorage.setItem('cart_session_id', sessionId);
+      } else {
+        console.log('🔍 Using existing session:', sessionId);
       }
       
-      setSessionId(storedSessionId);
-      console.log('Loading cart items for session:', storedSessionId);
-      await loadCartItems(storedSessionId);
+      setSessionId(sessionId);
+      await loadCartItems(sessionId);
+      console.log('🎉 Cart session initialized successfully');
+      
     } catch (error) {
-      console.error('Error initializing session:', error);
-      // Try to recover by creating a simple local session
-      const fallbackSessionId = `local_${Date.now()}`;
-      localStorage.setItem('cart_session_id', fallbackSessionId);
-      setSessionId(fallbackSessionId);
+      console.error('❌ Session initialization failed:', error);
+      // Create emergency local session
+      const emergencySession = `emergency_${crypto.randomUUID()}`;
+      setSessionId(emergencySession);
+      localStorage.setItem('cart_session_id', emergencySession);
+      setItems([]);
       toast({
         variant: "destructive",
         title: "Cart Error",
-        description: "Using local cart mode. Items may not persist."
+        description: "Using offline cart mode. Items will be saved locally."
       });
     } finally {
       setIsLoading(false);
@@ -91,180 +103,301 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loadCartItems = async (sessionId: string) => {
     try {
+      console.log('📦 Loading cart items for session:', sessionId);
+      
+      // Skip database operations for local sessions
+      if (sessionId.startsWith('local_') || sessionId.startsWith('emergency_')) {
+        console.log('🏠 Local session detected, using local storage');
+        const localCart = localStorage.getItem(`cart_items_${sessionId}`);
+        const items = localCart ? JSON.parse(localCart) : [];
+        setItems(items);
+        return;
+      }
+      
       const { data, error } = await supabase
         .from('cart_items')
         .select('*')
         .eq('session_id', sessionId);
-      
-      if (error) throw error;
-      
-      const cartItems: CartItem[] = data.map(item => ({
-        id: item.id,
-        productId: item.product_id,
-        productName: item.product_name,
-        productImage: item.product_image,
-        currentPrice: parseFloat(item.current_price.toString()),
-        originalPrice: item.original_price ? parseFloat(item.original_price.toString()) : undefined,
-        quantity: item.quantity
-      }));
-      
-      setItems(cartItems);
-    } catch (error) {
-      console.error('Error loading cart items:', error);
+
+      if (error) {
+        console.warn('⚠️ Failed to load from database:', error.message);
+        // Try to load from local storage as fallback
+        const localCart = localStorage.getItem(`cart_items_${sessionId}`);
+        const items = localCart ? JSON.parse(localCart) : [];
+        setItems(items);
+      } else {
+        console.log('✅ Loaded cart items from database:', data?.length || 0, 'items');
+        const cartItems: CartItem[] = data.map(item => ({
+          id: item.id,
+          productId: item.product_id,
+          productName: item.product_name,
+          productImage: item.product_image,
+          currentPrice: parseFloat(item.current_price.toString()),
+          originalPrice: item.original_price ? parseFloat(item.original_price.toString()) : undefined,
+          quantity: item.quantity
+        }));
+        setItems(cartItems);
+      }
+    } catch (err) {
+      console.error('❌ Error loading cart items:', err);
+      setItems([]);
     }
   };
 
-  const addToCart = async (newItem: Omit<CartItem, 'id'>) => {
-    console.log('AddToCart called:', { sessionId, newItem });
-    
+  const addToCart = async (product: {
+    id: string;
+    name: string;
+    currentPrice: number;
+    originalPrice?: number;
+    image?: string;
+  }) => {
     if (!sessionId) {
-      console.error('No session ID available for cart operation');
+      console.error('❌ No session ID available for cart operation');
       toast({
         variant: "destructive",
         title: "Cart Error",
-        description: "Cart session not ready. Please refresh the page."
+        description: "Cart not ready. Please wait a moment and try again."
       });
       return;
     }
+
+    console.log('🛒 Adding to cart:', product.name);
+    const existingItem = items.find(item => item.productId === product.id);
     
+    if (existingItem) {
+      await updateQuantity(existingItem.id, existingItem.quantity + 1);
+      return;
+    }
+
     try {
-      // Check if item already exists
-      const existingItem = items.find(item => item.productId === newItem.productId);
-      console.log('Existing item:', existingItem);
-      
-      if (existingItem) {
-        console.log('Updating existing item quantity');
-        await updateQuantity(existingItem.id, existingItem.quantity + newItem.quantity);
-      } else {
-        console.log('Inserting new cart item to database...');
-        const { data, error } = await supabase
-          .from('cart_items')
-          .insert({
-            session_id: sessionId,
-            product_id: newItem.productId,
-            product_name: newItem.productName,
-            product_image: newItem.productImage,
-            current_price: newItem.currentPrice,
-            original_price: newItem.originalPrice,
-            quantity: newItem.quantity
-          })
-          .select()
-          .single();
-        
-        if (error) {
-          console.error('Database insert error:', error);
-          throw error;
-        }
-        
-        console.log('Database insert successful:', data);
-        
-        const cartItem: CartItem = {
-          id: data.id,
-          productId: data.product_id,
-          productName: data.product_name,
-          productImage: data.product_image,
-          currentPrice: parseFloat(data.current_price.toString()),
-          originalPrice: data.original_price ? parseFloat(data.original_price.toString()) : undefined,
-          quantity: data.quantity
+      // Handle local sessions
+      if (sessionId.startsWith('local_') || sessionId.startsWith('emergency_')) {
+        const localItem: CartItem = {
+          id: crypto.randomUUID(),
+          productId: product.id,
+          productName: product.name,
+          productImage: product.image,
+          currentPrice: product.currentPrice,
+          originalPrice: product.originalPrice,
+          quantity: 1
         };
         
-        console.log('Adding item to local state:', cartItem);
-        setItems(prev => {
-          const newItems = [...prev, cartItem];
-          console.log('New items state:', newItems);
-          return newItems;
+        const updatedItems = [...items, localItem];
+        setItems(updatedItems);
+        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
+        toast({
+          title: "Added to cart",
+          description: `${product.name} added to cart!`
         });
+        console.log('✅ Added to local cart:', product.name);
+        return;
       }
-      
+
+      // Try database first
+      const { data, error } = await supabase
+        .from('cart_items')
+        .insert({
+          session_id: sessionId,
+          product_id: product.id,
+          product_name: product.name,
+          product_image: product.image,
+          current_price: product.currentPrice,
+          original_price: product.originalPrice,
+          quantity: 1
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.warn('⚠️ Database insert failed, using local fallback:', error.message);
+        // Fallback to local storage
+        const localItem: CartItem = {
+          id: crypto.randomUUID(),
+          productId: product.id,
+          productName: product.name,
+          productImage: product.image,
+          currentPrice: product.currentPrice,
+          originalPrice: product.originalPrice,
+          quantity: 1
+        };
+        
+        const updatedItems = [...items, localItem];
+        setItems(updatedItems);
+        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
+        toast({
+          title: "Added to cart",
+          description: `${product.name} added to cart!`
+        });
+        return;
+      }
+
+      console.log('✅ Added to database cart:', product.name);
+      const cartItem: CartItem = {
+        id: data.id,
+        productId: data.product_id,
+        productName: data.product_name,
+        productImage: data.product_image,
+        currentPrice: parseFloat(data.current_price.toString()),
+        originalPrice: data.original_price ? parseFloat(data.original_price.toString()) : undefined,
+        quantity: data.quantity
+      };
+      setItems(prevItems => [...prevItems, cartItem]);
       toast({
         title: "Added to cart",
-        description: `${newItem.productName} has been added to your cart.`
+        description: `${product.name} added to cart!`
       });
-    } catch (error) {
-      console.error('Error adding to cart:', error);
+      
+    } catch (err) {
+      console.error('❌ Failed to add to cart:', err);
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to add item to cart: ${error.message || 'Unknown error'}`
+        description: "Failed to add to cart. Please try again."
       });
     }
   };
 
-  const updateQuantity = async (id: string, quantity: number) => {
-    if (quantity <= 0) {
-      await removeFromCart(id);
+  const updateQuantity = async (itemId: string, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      await removeFromCart(itemId);
       return;
     }
-    
+
     try {
+      // Handle local sessions
+      if (sessionId?.startsWith('local_') || sessionId?.startsWith('emergency_')) {
+        const updatedItems = items.map(item => 
+          item.id === itemId ? { ...item, quantity: newQuantity } : item
+        );
+        setItems(updatedItems);
+        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
+        return;
+      }
+
       const { error } = await supabase
         .from('cart_items')
-        .update({ quantity })
-        .eq('id', id);
+        .update({ quantity: newQuantity })
+        .eq('id', itemId);
+
+      if (error) {
+        console.warn('⚠️ Database update failed, using local fallback');
+        // Fallback to local update
+        const updatedItems = items.map(item => 
+          item.id === itemId ? { ...item, quantity: newQuantity } : item
+        );
+        setItems(updatedItems);
+        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
+        return;
+      }
       
-      if (error) throw error;
+      setItems(prevItems => 
+        prevItems.map(item => 
+          item.id === itemId ? { ...item, quantity: newQuantity } : item
+        )
+      );
       
-      setItems(prev => prev.map(item => 
-        item.id === id ? { ...item, quantity } : item
-      ));
-    } catch (error) {
-      console.error('Error updating quantity:', error);
+    } catch (err) {
+      console.error('❌ Failed to update quantity:', err);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to update quantity"
+        description: "Failed to update quantity. Please try again."
       });
     }
   };
 
-  const removeFromCart = async (id: string) => {
+  const removeFromCart = async (itemId: string) => {
     try {
+      // Handle local sessions
+      if (sessionId?.startsWith('local_') || sessionId?.startsWith('emergency_')) {
+        const updatedItems = items.filter(item => item.id !== itemId);
+        setItems(updatedItems);
+        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
+        toast({
+          title: "Item removed",
+          description: "Item removed from cart"
+        });
+        return;
+      }
+
       const { error } = await supabase
         .from('cart_items')
         .delete()
-        .eq('id', id);
+        .eq('id', itemId);
+
+      if (error) {
+        console.warn('⚠️ Database delete failed, using local fallback');
+        // Fallback to local removal
+        const updatedItems = items.filter(item => item.id !== itemId);
+        setItems(updatedItems);
+        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
+        toast({
+          title: "Item removed",
+          description: "Item removed from cart"
+        });
+        return;
+      }
       
-      if (error) throw error;
-      
-      setItems(prev => prev.filter(item => item.id !== id));
-      
+      setItems(prevItems => prevItems.filter(item => item.id !== itemId));
       toast({
         title: "Item removed",
-        description: "Item has been removed from your cart."
+        description: "Item removed from cart"
       });
-    } catch (error) {
-      console.error('Error removing from cart:', error);
+      
+    } catch (err) {
+      console.error('❌ Failed to remove item:', err);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to remove item"
+        description: "Failed to remove item. Please try again."
       });
     }
   };
 
   const clearCart = async () => {
     if (!sessionId) return;
-    
+
     try {
+      // Handle local sessions
+      if (sessionId.startsWith('local_') || sessionId.startsWith('emergency_')) {
+        setItems([]);
+        localStorage.removeItem(`cart_items_${sessionId}`);
+        toast({
+          title: "Cart cleared",
+          description: "All items removed from cart"
+        });
+        return;
+      }
+
       const { error } = await supabase
         .from('cart_items')
         .delete()
         .eq('session_id', sessionId);
-      
-      if (error) throw error;
+
+      if (error) {
+        console.warn('⚠️ Database clear failed, using local fallback');
+        // Fallback to local clear
+        setItems([]);
+        localStorage.removeItem(`cart_items_${sessionId}`);
+        toast({
+          title: "Cart cleared",
+          description: "All items removed from cart"
+        });
+        return;
+      }
       
       setItems([]);
-      
       toast({
         title: "Cart cleared",
-        description: "All items have been removed from your cart."
+        description: "All items removed from cart"
       });
-    } catch (error) {
-      console.error('Error clearing cart:', error);
+      
+    } catch (err) {
+      console.error('❌ Failed to clear cart:', err);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to clear cart"
+        description: "Failed to clear cart. Please try again."
       });
     }
   };
