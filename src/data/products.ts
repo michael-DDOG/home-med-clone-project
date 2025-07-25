@@ -2709,6 +2709,442 @@ export const medicinesProducts: Product[] = [
   }
 ];
 
+// Baby & Children Products
+export const babyChildrenProducts: Product[] = [
+  {
+    id: "baby-001",
+    name: "Cuties Baby Diapers Size 1",
+    image: "/src/assets/baby-diapers.png",
+    currentPrice: 24.99,
+    originalPrice: 29.99,
+    rating: 4.8,
+    reviewCount: 245,
+    isStaffPick: true,
+    isFsaEligible: true,
+    brand: "Cuties",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "baby-002", 
+    name: "Medela Breast Pump with Accessories",
+    image: "/src/assets/breast-pump.png",
+    currentPrice: 159.99,
+    originalPrice: 189.99,
+    rating: 4.7,
+    reviewCount: 128,
+    isFsaEligible: true,
+    brand: "Medela",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "baby-003",
+    name: "Children of Design Deluxe High Chair",
+    image: "/src/assets/high-chair.png", 
+    currentPrice: 89.99,
+    rating: 4.6,
+    reviewCount: 87,
+    brand: "Children of Design",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "baby-004",
+    name: "Kids Face Masks - 50 Pack",
+    image: "/src/assets/kids-masks.png",
+    currentPrice: 12.99,
+    originalPrice: 15.99,
+    rating: 4.5,
+    reviewCount: 342,
+    isFsaEligible: true,
+    brand: "ProCure",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "baby-005",
+    name: "Baby Changing Table with Storage",
+    image: "/src/assets/changing-table.png",
+    currentPrice: 124.99,
+    rating: 4.4,
+    reviewCount: 56,
+    brand: "Drive Medical",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "baby-006",
+    name: "Mommy's Bliss Organic Kids Cough Syrup",
+    image: "/src/assets/medicines-treatments.jpg",
+    currentPrice: 10.90,
+    rating: 4.6,
+    reviewCount: 134,
+    isFsaEligible: true,
+    brand: "Mommy's Bliss",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "baby-007",
+    name: "Baby Sunscreen SPF 50",
+    image: "/src/assets/baby-sunscreen.jpg",
+    currentPrice: 14.99,
+    rating: 4.7,
+    reviewCount: 89,
+    isFsaEligible: true,
+    brand: "Coppertone",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "baby-008",
+    name: "Children's Multivitamin Gummies",
+    image: "/src/assets/vitamins-supplements.jpg",
+    currentPrice: 18.99,
+    originalPrice: 22.99,
+    rating: 4.5,
+    reviewCount: 167,
+    brand: "Vitafusion",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "baby-009",
+    name: "Pediatric Wheelchair 12-inch Seat",
+    image: "/src/assets/wheelchair.jpg",
+    currentPrice: 814.00,
+    rating: 4.8,
+    reviewCount: 23,
+    brand: "Circle Specialty",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "baby-010",
+    name: "Postpartum Care Kit",
+    image: "/src/assets/medicines-treatments.jpg",
+    currentPrice: 39.99,
+    originalPrice: 49.99,
+    rating: 4.6,
+    reviewCount: 78,
+    isFsaEligible: true,
+    brand: "Lansinoh",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  }
+// Additional categories for missing navigation items
+export const babyChildrenProducts: Product[] = [
+  {
+    id: "baby-001",
+    name: "Cuties Baby Diapers Size 1",
+    image: "/src/assets/baby-diapers.png",
+    currentPrice: 24.99,
+    originalPrice: 29.99,
+    rating: 4.8,
+    reviewCount: 245,
+    isStaffPick: true,
+    isFsaEligible: true,
+    brand: "Cuties",
+    category: "Baby & Children",
+    inStock: true,
+    freeShipping: true
+  }
+];
+
+// FSA/HSA and Brand categories filtered from existing products
+export const fsaEligibleProducts: Product[] = allProducts.filter(product => product.isFsaEligible);
+export const driveMedicalProducts: Product[] = allProducts.filter(product => product.brand === "Drive Medical");
+export const invacareProducts: Product[] = allProducts.filter(product => product.brand === "Invacare");
+  {
+    id: "fsa-002",
+    name: "Electric Thermometer",
+    image: "/src/assets/thermometer.jpg",
+    currentPrice: 24.99,
+    rating: 4.6,
+    reviewCount: 189,
+    isFsaEligible: true,
+    brand: "Braun",
+    category: "FSA/HSA Products",
+    subcategory: "health-monitors",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "fsa-003",
+    name: "Compression Socks - Graduated 20-30mmHg",
+    image: "/src/assets/compression-socks.jpg",
+    currentPrice: 19.99,
+    originalPrice: 24.99,
+    rating: 4.5,
+    reviewCount: 156,
+    isFsaEligible: true,
+    brand: "Jobst",
+    category: "FSA/HSA Products",
+    subcategory: "compression-products",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "fsa-004",
+    name: "TENS Unit for Pain Relief",
+    image: "/src/assets/tens-unit.jpg",
+    currentPrice: 89.99,
+    originalPrice: 109.99,
+    rating: 4.4,
+    reviewCount: 98,
+    isFsaEligible: true,
+    brand: "HotShotz",
+    category: "FSA/HSA Products",
+    subcategory: "pain-relief",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "fsa-005",
+    name: "Glucose Test Strips - 50 Count",
+    image: "/src/assets/glucose-meter.jpg",
+    currentPrice: 29.99,
+    rating: 4.8,
+    reviewCount: 312,
+    isFsaEligible: true,
+    brand: "Accu-Chek",
+    category: "FSA/HSA Products",
+    subcategory: "diabetic-care",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "fsa-006",
+    name: "First Aid Kit - Complete 200-Piece",
+    image: "/src/assets/medicines-treatments.jpg",
+    currentPrice: 34.99,
+    originalPrice: 44.99,
+    rating: 4.6,
+    reviewCount: 145,
+    isFsaEligible: true,
+    brand: "Johnson & Johnson",
+    category: "FSA/HSA Products",
+    subcategory: "first-aid-safety",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "fsa-007",
+    name: "Nebulizer Machine with Masks",
+    image: "/src/assets/nebulizer.jpg",
+    currentPrice: 79.99,
+    originalPrice: 99.99,
+    rating: 4.7,
+    reviewCount: 87,
+    isFsaEligible: true,
+    brand: "Drive Medical",
+    category: "FSA/HSA Products",
+    subcategory: "respiratory-care",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "fsa-008",
+    name: "Standard Wheelchair - FSA Eligible",
+    image: "/src/assets/standard-wheelchair.jpg",
+    currentPrice: 299.99,
+    originalPrice: 349.99,
+    rating: 4.5,
+    reviewCount: 67,
+    isFsaEligible: true,
+    brand: "Drive Medical",
+    category: "FSA/HSA Products",
+    subcategory: "mobility-aids",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "fsa-009",
+    name: "Sexual Wellness Lubricant",
+    image: "/src/assets/sexual-wellness.jpg",
+    currentPrice: 16.99,
+    rating: 4.3,
+    reviewCount: 234,
+    isFsaEligible: true,
+    brand: "Durex",
+    category: "FSA/HSA Products",
+    subcategory: "sexual-health",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "fsa-010",
+    name: "Hospital Bed Full Electric - FSA Eligible",
+    image: "/src/assets/electric-hospital-bed.jpg",
+    currentPrice: 1899.99,
+    originalPrice: 2199.99,
+    rating: 4.9,
+    reviewCount: 45,
+    isFsaEligible: true,
+    brand: "Med-Mizer",
+    category: "FSA/HSA Products",
+    subcategory: "medical-equipment",
+    inStock: true,
+    freeShipping: false
+  }
+];
+
+// Brand-specific product arrays
+export const driveMedicalProducts: Product[] = [
+  {
+    id: "drive-001",
+    name: "Drive Medical Standard Wheelchair",
+    image: "/src/assets/standard-wheelchair.jpg",
+    currentPrice: 299.99,
+    originalPrice: 349.99,
+    rating: 4.5,
+    reviewCount: 167,
+    brand: "Drive Medical",
+    category: "Brands",
+    subcategory: "drive-medical",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "drive-002",
+    name: "Drive Medical Rollator Walker",
+    image: "/src/assets/rollator-walker.jpg",
+    currentPrice: 149.99,
+    rating: 4.6,
+    reviewCount: 89,
+    brand: "Drive Medical",
+    category: "Brands",
+    subcategory: "drive-medical",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "drive-003",
+    name: "Drive Medical Shower Chair",
+    image: "/src/assets/shower-chair.jpg",
+    currentPrice: 79.99,
+    originalPrice: 94.99,
+    rating: 4.4,
+    reviewCount: 123,
+    brand: "Drive Medical",
+    category: "Brands",
+    subcategory: "drive-medical",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "drive-004",
+    name: "Drive Medical Nebulizer",
+    image: "/src/assets/nebulizer.jpg",
+    currentPrice: 79.99,
+    rating: 4.7,
+    reviewCount: 56,
+    isFsaEligible: true,
+    brand: "Drive Medical",
+    category: "Brands",
+    subcategory: "drive-medical",
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: "drive-005",
+    name: "Drive Medical Changing Table",
+    image: "/src/assets/changing-table.png",
+    currentPrice: 124.99,
+    rating: 4.4,
+    reviewCount: 34,
+    brand: "Drive Medical",
+    category: "Brands",
+    subcategory: "drive-medical",
+    inStock: true,
+    freeShipping: false
+  }
+];
+
+export const invacareProducts: Product[] = [
+  {
+    id: "invacare-001",
+    name: "Invacare Transport Wheelchair",
+    image: "/src/assets/transport-wheelchair.jpg",
+    currentPrice: 189.99,
+    originalPrice: 219.99,
+    rating: 4.6,
+    reviewCount: 134,
+    brand: "Invacare",
+    category: "Brands",
+    subcategory: "invacare",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "invacare-002",
+    name: "Invacare Hospital Bed Frame",
+    image: "/src/assets/hospital-bed.jpg",
+    currentPrice: 899.99,
+    rating: 4.8,
+    reviewCount: 67,
+    brand: "Invacare",
+    category: "Brands",
+    subcategory: "invacare",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "invacare-003",
+    name: "Invacare Oxygen Concentrator",
+    image: "/src/assets/oxygen-concentrator.jpg",
+    currentPrice: 449.99,
+    originalPrice: 519.99,
+    rating: 4.7,
+    reviewCount: 89,
+    isFsaEligible: true,
+    brand: "Invacare",
+    category: "Brands",
+    subcategory: "invacare",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "invacare-004",
+    name: "Invacare Mobility Scooter",
+    image: "/src/assets/mobility-scooter.jpg",
+    currentPrice: 1299.99,
+    rating: 4.5,
+    reviewCount: 23,
+    brand: "Invacare",
+    category: "Brands",
+    subcategory: "invacare",
+    inStock: true,
+    freeShipping: false
+  },
+  {
+    id: "invacare-005",
+    name: "Invacare CPAP Machine",
+    image: "/src/assets/cpap-machine.jpg",
+    currentPrice: 599.99,
+    originalPrice: 699.99,
+    rating: 4.6,
+    reviewCount: 78,
+    isFsaEligible: true,
+    brand: "Invacare",
+    category: "Brands",
+    subcategory: "invacare",
+    inStock: true,
+    freeShipping: false
+  }
+];
+
 export const allProducts: Product[] = [
   ...wellnessProducts,
   ...hospitalBedsProducts,
@@ -2744,5 +3180,9 @@ export const allProducts: Product[] = [
   ...sexualWellnessProducts,
   ...mobilityScooterProducts,
   ...canesCrutchesProducts,
-  ...medicinesProducts
+  ...medicinesProducts,
+  ...babyChildrenProducts,
+  ...fsaEligibleProducts,
+  ...driveMedicalProducts,
+  ...invacareProducts
 ];
