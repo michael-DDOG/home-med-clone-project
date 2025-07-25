@@ -2,7 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, ShoppingCart, User, Menu } from "lucide-react";
 
-export const Header = () => {
+interface HeaderProps {
+  onCategorySelect: (category: string) => void;
+}
+
+export const Header = ({ onCategorySelect }: HeaderProps) => {
   return (
     <header className="border-b bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -62,22 +66,22 @@ export const Header = () => {
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-8 py-4 border-t">
-          <Button variant="ghost" className="font-medium">
+          <Button variant="ghost" className="font-medium" onClick={() => onCategorySelect('all')}>
             Shop All
           </Button>
-          <Button variant="ghost" className="font-medium text-primary bg-medical-light">
+          <Button variant="ghost" className="font-medium" onClick={() => onCategorySelect('wellness')}>
             Wellness Collection
           </Button>
-          <Button variant="ghost" className="font-medium">
+          <Button variant="ghost" className="font-medium" onClick={() => onCategorySelect('hospital-beds')}>
             Hospital Beds
           </Button>
-          <Button variant="ghost" className="font-medium">
+          <Button variant="ghost" className="font-medium" onClick={() => onCategorySelect('mobility')}>
             Mobility Aids
           </Button>
-          <Button variant="ghost" className="font-medium">
+          <Button variant="ghost" className="font-medium" onClick={() => onCategorySelect('respiratory')}>
             Respiratory
           </Button>
-          <Button variant="ghost" className="font-medium">
+          <Button variant="ghost" className="font-medium" onClick={() => onCategorySelect('bathroom-safety')}>
             Bathroom Safety
           </Button>
         </nav>

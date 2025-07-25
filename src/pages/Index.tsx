@@ -37,9 +37,10 @@ const Index = () => {
   };
 
   const currentProducts = getProductsByCategory();
+  
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onCategorySelect={setSelectedCategory} />
       
       {/* Hero Section */}
       <section className="bg-medical-light py-12">
