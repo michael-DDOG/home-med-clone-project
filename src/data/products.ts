@@ -2900,3 +2900,36 @@ export const allProducts: Product[] = [
   ...medicinesProducts,
   ...babyChildrenProducts
 ];
+
+// Brand-Specific Product Categories
+export const driveMedicalProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === 'Drive Medical')
+];
+
+export const proHealProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === 'ProHeal')
+];
+
+export const invacareProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === 'Invacare')
+];
+
+export const littmannProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === '3M Littmann' || p.brand?.includes('Littmann'))
+];
+
+export const johnsonProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === 'Johnson & Johnson')
+];
+
+export const omronProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === 'Omron')
+];
+
+export const braunProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === 'Braun')
+];
+
+export const babyganicsProducts: Product[] = [
+  ...allProducts.filter(p => p.brand === 'Babyganics')
+];

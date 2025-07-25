@@ -37,7 +37,15 @@ import {
   fsaEligibleProducts,
   fsaMedicalEquipmentProducts,
   fsaPainReliefProducts,
-  fsaMobilityProducts
+  fsaMobilityProducts,
+  driveMedicalProducts,
+  proHealProducts,
+  invacareProducts,
+  littmannProducts,
+  johnsonProducts,
+  omronProducts,
+  braunProducts,
+  babyganicsProducts
 } from "@/data/products";
 
 interface ComprehensiveFilterState {
@@ -140,6 +148,14 @@ const ProductCategory = () => {
       case 'fsa-medical-equipment': return fsaMedicalEquipmentProducts;
       case 'fsa-pain-relief': return fsaPainReliefProducts;
       case 'fsa-mobility': return fsaMobilityProducts;
+      case 'brand-drive-medical': return driveMedicalProducts;
+      case 'brand-proheal': return proHealProducts;
+      case 'brand-invacare': return invacareProducts;
+      case 'brand-littmann': return littmannProducts;
+      case 'brand-johnson': return johnsonProducts;
+      case 'brand-omron': return omronProducts;
+      case 'brand-braun': return braunProducts;
+      case 'brand-babyganics': return babyganicsProducts;
       default: return allProducts;
     }
   };
@@ -195,6 +211,14 @@ const ProductCategory = () => {
       case 'fsa-medical-equipment': return 'FSA/HSA Medical Equipment';
       case 'fsa-pain-relief': return 'FSA/HSA Pain Relief';
       case 'fsa-mobility': return 'FSA/HSA Mobility Aids';
+      case 'brand-drive-medical': return 'Drive Medical Products';
+      case 'brand-proheal': return 'ProHeal Products';
+      case 'brand-invacare': return 'Invacare Products';
+      case 'brand-littmann': return '3M Littmann Products';
+      case 'brand-johnson': return 'Johnson & Johnson Products';
+      case 'brand-omron': return 'Omron Products';
+      case 'brand-braun': return 'Braun Products';
+      case 'brand-babyganics': return 'Babyganics Products';
       default: return 'All Products';
     }
   };
