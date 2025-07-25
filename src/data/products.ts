@@ -21,6 +21,20 @@ import diabeticFootwearImg from '@/assets/diabetic-footwear.jpg';
 import contactLensImg from '@/assets/contact-lens.jpg';
 import hearingAidImg from '@/assets/hearing-aid.jpg';
 
+// New specific product images
+import diabeticWalkingShoesImg from '@/assets/diabetic-walking-shoes.jpg';
+import orthopedicSlippersImg from '@/assets/orthopedic-slippers.jpg';
+import postSurgeryShoesImg from '@/assets/post-surgery-shoes.jpg';
+import archSupportInsolesImg from '@/assets/arch-support-insoles.jpg';
+import multifocalLensesImg from '@/assets/multifocal-lenses.jpg';
+import lensCleaningSolutionImg from '@/assets/lens-cleaning-solution.jpg';
+import toricLensesImg from '@/assets/toric-lenses.jpg';
+import lensTravelCaseImg from '@/assets/lens-travel-case.jpg';
+import invisibleHearingAidImg from '@/assets/invisible-hearing-aid.jpg';
+import bluetoothHearingAidImg from '@/assets/bluetooth-hearing-aid.jpg';
+import hearingAidCleaningKitImg from '@/assets/hearing-aid-cleaning-kit.jpg';
+import hearingAidBatteriesImg from '@/assets/hearing-aid-batteries.jpg';
+
 export interface Product {
   id: string;
   name: string;
@@ -899,7 +913,7 @@ export const footwearProducts: Product[] = [
   {
     id: 'footwear-1',
     name: 'Diabetic Walking Shoes - Therapeutic Comfort Design',
-    image: diabeticFootwearImg,
+    image: diabeticWalkingShoesImg,
     originalPrice: 129.99,
     currentPrice: 99.99,
     rating: 4.6,
@@ -915,7 +929,7 @@ export const footwearProducts: Product[] = [
   {
     id: 'footwear-2',
     name: 'Orthopedic Support Slippers - Memory Foam',
-    image: diabeticFootwearImg,
+    image: orthopedicSlippersImg,
     originalPrice: 79.99,
     currentPrice: 59.99,
     rating: 4.4,
@@ -947,7 +961,7 @@ export const footwearProducts: Product[] = [
   {
     id: 'footwear-4',
     name: 'Post-Surgery Recovery Shoes - Adjustable Velcro',
-    image: compressionSocksImg,
+    image: postSurgeryShoesImg,
     originalPrice: 89.99,
     currentPrice: 69.99,
     rating: 4.5,
@@ -963,7 +977,7 @@ export const footwearProducts: Product[] = [
   {
     id: 'footwear-5',
     name: 'Orthopedic Arch Support Insoles',
-    image: compressionSocksImg,
+    image: archSupportInsolesImg,
     originalPrice: 39.99,
     currentPrice: 29.99,
     rating: 4.3,
@@ -998,7 +1012,7 @@ export const contactLensProducts: Product[] = [
   {
     id: 'lens-2',
     name: 'Multifocal Contact Lenses - Monthly Pack',
-    image: pulseOximeterImg,
+    image: multifocalLensesImg,
     originalPrice: 89.99,
     currentPrice: 74.99,
     rating: 4.4,
@@ -1013,7 +1027,7 @@ export const contactLensProducts: Product[] = [
   {
     id: 'lens-3',
     name: 'Contact Lens Cleaning Solution - 12oz',
-    image: pulseOximeterImg,
+    image: lensCleaningSolutionImg,
     originalPrice: 19.99,
     currentPrice: 14.99,
     rating: 4.8,
@@ -1028,7 +1042,7 @@ export const contactLensProducts: Product[] = [
   {
     id: 'lens-4',
     name: 'Toric Contact Lenses for Astigmatism - 6 Pack',
-    image: pulseOximeterImg,
+    image: toricLensesImg,
     originalPrice: 79.99,
     currentPrice: 64.99,
     rating: 4.5,
@@ -1043,7 +1057,7 @@ export const contactLensProducts: Product[] = [
   {
     id: 'lens-5',
     name: 'Contact Lens Travel Case with Mirror',
-    image: pulseOximeterImg,
+    image: lensTravelCaseImg,
     originalPrice: 12.99,
     currentPrice: 8.99,
     rating: 4.3,
@@ -1078,7 +1092,7 @@ export const hearingAidsProducts: Product[] = [
   {
     id: 'hearing-2',
     name: 'Invisible In-Ear Hearing Amplifier',
-    image: pulseOximeterImg,
+    image: invisibleHearingAidImg,
     originalPrice: 149.99,
     currentPrice: 99.99,
     rating: 4.3,
@@ -1094,7 +1108,7 @@ export const hearingAidsProducts: Product[] = [
   {
     id: 'hearing-3',
     name: 'Bluetooth Hearing Aid with App Control',
-    image: pulseOximeterImg,
+    image: bluetoothHearingAidImg,
     originalPrice: 499.99,
     currentPrice: 349.99,
     rating: 4.7,
@@ -1110,7 +1124,7 @@ export const hearingAidsProducts: Product[] = [
   {
     id: 'hearing-4',
     name: 'Hearing Aid Cleaning Kit with Brush',
-    image: pulseOximeterImg,
+    image: hearingAidCleaningKitImg,
     originalPrice: 29.99,
     currentPrice: 19.99,
     rating: 4.6,
@@ -1125,7 +1139,7 @@ export const hearingAidsProducts: Product[] = [
   {
     id: 'hearing-5',
     name: 'Hearing Aid Batteries - Size 312 (60 Pack)',
-    image: pulseOximeterImg,
+    image: hearingAidBatteriesImg,
     originalPrice: 24.99,
     currentPrice: 17.99,
     rating: 4.4,
