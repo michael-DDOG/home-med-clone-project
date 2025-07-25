@@ -29,6 +29,27 @@ export interface Product {
   isFsaEligible?: boolean;
   badges?: string[];
   category: string;
+  // Enhanced metadata for comprehensive filtering
+  brand?: string;
+  patientProfile?: string[];
+  weightCapacity?: string;
+  bedWidth?: string;
+  bedLength?: string;
+  mattressType?: string;
+  mobilityFeatures?: string[];
+  powerFeatures?: string[];
+  certifications?: string[];
+  materials?: string[];
+  roomLocation?: string[];
+  conditionsHelped?: string[];
+  inStock?: boolean;
+  freeShipping?: boolean;
+  dimensions?: {
+    width?: string;
+    length?: string;
+    height?: string;
+    weight?: string;
+  };
 }
 
 // Import the comprehensive product generator
@@ -50,7 +71,17 @@ const baseWellnessProducts: Product[] = [
     isStaffPick: true,
     isFsaEligible: true,
     badges: ['Best Seller'],
-    category: 'Monitoring'
+    category: 'Monitoring',
+    brand: 'ProHeal',
+    patientProfile: ['Standard', 'Elderly Care'],
+    powerFeatures: ['Battery Powered', 'Low Battery Indicator'],
+    certifications: ['FDA Cleared', 'CE Marked'],
+    materials: ['Plastic', 'Latex-Free'],
+    roomLocation: ['Bedroom', 'Living Room', 'Portable'],
+    conditionsHelped: ['Respiratory Issues', 'Recovery'],
+    inStock: true,
+    freeShipping: true,
+    dimensions: { width: '2.4"', length: '1.4"', height: '1.2"', weight: '2 oz' }
   },
   {
     id: 'bp-monitor-1',
@@ -62,7 +93,17 @@ const baseWellnessProducts: Product[] = [
     reviewCount: 892,
     isFsaEligible: true,
     badges: ['Clinically Validated'],
-    category: 'Monitoring'
+    category: 'Monitoring',
+    brand: 'Drive Medical',
+    patientProfile: ['Standard', 'Elderly Care', 'Hypertension'],
+    powerFeatures: ['AC Adapter', 'Battery Powered'],
+    certifications: ['FDA Approved', 'Clinically Validated'],
+    materials: ['Plastic', 'Fabric Cuff'],
+    roomLocation: ['Bedroom', 'Living Room'],
+    conditionsHelped: ['Hypertension', 'Heart Disease', 'Recovery'],
+    inStock: true,
+    freeShipping: true,
+    dimensions: { width: '7.1"', length: '5.7"', height: '3.4"', weight: '1.8 lbs' }
   },
   {
     id: 'tens-1',
@@ -74,7 +115,17 @@ const baseWellnessProducts: Product[] = [
     reviewCount: 634,
     isFsaEligible: true,
     badges: ['FDA Cleared'],
-    category: 'Pain Relief'
+    category: 'Pain Relief',
+    brand: 'ProHeal',
+    patientProfile: ['Pain Management', 'Recovery', 'Arthritis'],
+    powerFeatures: ['Rechargeable', 'Low Battery Indicator'],
+    certifications: ['FDA Cleared', 'Medical Grade'],
+    materials: ['Plastic', 'Silicone Pads'],
+    roomLocation: ['Bedroom', 'Living Room', 'Portable'],
+    conditionsHelped: ['Back Pain', 'Joint Pain', 'Arthritis', 'Recovery'],
+    inStock: true,
+    freeShipping: true,
+    dimensions: { width: '4.2"', length: '3.1"', height: '1.2"', weight: '6 oz' }
   },
   {
     id: 'thermometer-1',

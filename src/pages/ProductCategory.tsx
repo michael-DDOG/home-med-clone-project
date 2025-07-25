@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/ProductCard";
-import { ProductFilters } from "@/components/ProductFilters";
+import { ComprehensiveProductFilters } from "@/components/ComprehensiveProductFilters";
 import { Button } from "@/components/ui/button";
 import { Filter, SortAsc, ArrowLeft } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
@@ -21,26 +21,50 @@ import {
   disposableProducts
 } from "@/data/products";
 
-interface FilterState {
+interface ComprehensiveFilterState {
   priceRange: [number, number];
   brand: string;
+  patientProfile: string[];
+  weightCapacity: string;
   bedWidth: string;
-  bedType: string;
+  bedLength: string;
+  mattressType: string;
+  mobilityFeatures: string[];
+  powerFeatures: string[];
+  certifications: string[];
+  materials: string[];
+  roomLocation: string[];
+  conditionsHelped: string[];
+  minRating: number;
   fsaEligible: boolean;
-  features: string[];
+  inStock: boolean;
+  freeShipping: boolean;
+  availability: string[];
 }
 
 const ProductCategory = () => {
   const { category } = useParams<{ category: string }>();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [filters, setFilters] = useState<FilterState>({
+  const [filters, setFilters] = useState<ComprehensiveFilterState>({
     priceRange: [0, 2000],
     brand: '',
+    patientProfile: [],
+    weightCapacity: '',
     bedWidth: '',
-    bedType: '',
+    bedLength: '',
+    mattressType: '',
+    mobilityFeatures: [],
+    powerFeatures: [],
+    certifications: [],
+    materials: [],
+    roomLocation: [],
+    conditionsHelped: [],
+    minRating: 0,
     fsaEligible: false,
-    features: []
+    inStock: false,
+    freeShipping: false,
+    availability: []
   });
   const itemsPerPage = 21;
 
@@ -82,7 +106,7 @@ const ProductCategory = () => {
 
   const allCategoryProducts = getProductsByCategory();
   
-  // Apply filters to products
+  // Apply comprehensive filters to products
   const filteredProducts = useMemo(() => {
     return allCategoryProducts.filter(product => {
       // Price filter
@@ -91,7 +115,12 @@ const ProductCategory = () => {
       }
       
       // Brand filter
-      if (filters.brand && !product.name.toLowerCase().includes(filters.brand.toLowerCase())) {
+      if (filters.brand && product.brand && product.brand !== filters.brand) {
+        return false;
+      }
+      
+      // Rating filter
+      if (filters.minRating > 0 && product.rating < filters.minRating) {
         return false;
       }
       
@@ -100,66 +129,72 @@ const ProductCategory = () => {
         return false;
       }
       
-      // Bed width filter (simulate based on product name)
-      if (filters.bedWidth) {
-        const widthKeywords = {
-          '36 inches': ['36', '36"'],
-          '42 inches': ['42', '42"'],
-          '48 inches': ['48', '48"'],
-          'Bariatric': ['bariatric', 'heavy duty', 'wide'],
-          'Standard': ['standard']
-        };
-        
-        const keywords = widthKeywords[filters.bedWidth as keyof typeof widthKeywords] || [];
-        const hasWidth = keywords.some(keyword => 
-          product.name.toLowerCase().includes(keyword.toLowerCase())
-        );
-        
-        if (!hasWidth) return false;
+      // In Stock filter
+      if (filters.inStock && !product.inStock) {
+        return false;
       }
       
-      // Bed type filter
-      if (filters.bedType) {
-        const typeKeywords = {
-          'Full Electric': ['full electric', 'electric'],
-          'Semi Electric': ['semi electric', 'semi-electric'],
-          'Manual': ['manual'],
-          'Ultra Low': ['ultra low', 'low'],
-          'Bariatric': ['bariatric'],
-          'Adjustable': ['adjustable'],
-          'Bed Package': ['package', 'set', 'complete']
-        };
-        
-        const keywords = typeKeywords[filters.bedType as keyof typeof typeKeywords] || [];
-        const hasType = keywords.some(keyword => 
-          product.name.toLowerCase().includes(keyword.toLowerCase())
-        );
-        
-        if (!hasType) return false;
+      // Free Shipping filter
+      if (filters.freeShipping && !product.freeShipping) {
+        return false;
       }
       
-      // Features filter
-      if (filters.features.length > 0) {
-        const featureKeywords = {
-          'Side Rails': ['rail', 'side rail'],
-          'Adjustable Height': ['adjustable', 'height'],
-          'Pressure Relief': ['pressure', 'relief'],
-          'Foam Mattress': ['foam', 'mattress'],
-          'Low Height': ['low', 'low height'],
-          'Trendelenburg': ['trendelenburg'],
-          'Reverse Trendelenburg': ['reverse'],
-          'Head/Foot Controls': ['head', 'foot', 'control']
-        };
-        
-        const hasAllFeatures = filters.features.every(feature => {
-          const keywords = featureKeywords[feature as keyof typeof featureKeywords] || [];
-          return keywords.some(keyword => 
-            product.name.toLowerCase().includes(keyword.toLowerCase()) ||
-            product.badges?.some(badge => badge.toLowerCase().includes(keyword.toLowerCase()))
-          );
-        });
-        
-        if (!hasAllFeatures) return false;
+      // Patient Profile filter
+      if (filters.patientProfile.length > 0 && product.patientProfile) {
+        const hasProfile = filters.patientProfile.some(profile => 
+          product.patientProfile?.includes(profile)
+        );
+        if (!hasProfile) return false;
+      }
+      
+      // Weight Capacity filter
+      if (filters.weightCapacity && product.weightCapacity !== filters.weightCapacity) {
+        return false;
+      }
+      
+      // Bed Width filter
+      if (filters.bedWidth && product.bedWidth !== filters.bedWidth) {
+        return false;
+      }
+      
+      // Mobility Features filter
+      if (filters.mobilityFeatures.length > 0 && product.mobilityFeatures) {
+        const hasFeatures = filters.mobilityFeatures.every(feature => 
+          product.mobilityFeatures?.includes(feature)
+        );
+        if (!hasFeatures) return false;
+      }
+      
+      // Certifications filter
+      if (filters.certifications.length > 0 && product.certifications) {
+        const hasCertifications = filters.certifications.some(cert => 
+          product.certifications?.includes(cert)
+        );
+        if (!hasCertifications) return false;
+      }
+      
+      // Materials filter
+      if (filters.materials.length > 0 && product.materials) {
+        const hasMaterials = filters.materials.some(material => 
+          product.materials?.includes(material)
+        );
+        if (!hasMaterials) return false;
+      }
+      
+      // Room Location filter
+      if (filters.roomLocation.length > 0 && product.roomLocation) {
+        const hasLocation = filters.roomLocation.some(location => 
+          product.roomLocation?.includes(location)
+        );
+        if (!hasLocation) return false;
+      }
+      
+      // Conditions Helped filter
+      if (filters.conditionsHelped.length > 0 && product.conditionsHelped) {
+        const hasConditions = filters.conditionsHelped.some(condition => 
+          product.conditionsHelped?.includes(condition)
+        );
+        if (!hasConditions) return false;
       }
       
       return true;
@@ -245,10 +280,10 @@ const ProductCategory = () => {
         </div>
       </section>
 
-      {/* Filters Section */}
+      {/* Comprehensive Filters Section */}
       <section className="py-6 bg-gray-50">
         <div className="container mx-auto px-4">
-          <ProductFilters onFilterChange={setFilters} />
+          <ComprehensiveProductFilters onFilterChange={setFilters} />
         </div>
       </section>
 
