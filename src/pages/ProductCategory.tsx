@@ -22,7 +22,11 @@ import {
   dailyLivingAidsProducts,
   footwearProducts,
   contactLensProducts,
-  hearingAidsProducts
+  hearingAidsProducts,
+  wheelchairProducts,
+  patientLiftProducts,
+  walkerProducts,
+  vitaminsProducts
 } from "@/data/products";
 
 interface ComprehensiveFilterState {
@@ -90,6 +94,17 @@ const ProductCategory = () => {
       case 'diabetic-footwear': return footwearProducts;
       case 'contact-lens': return contactLensProducts;
       case 'hearing-aids': return hearingAidsProducts;
+      case 'wheelchairs': return wheelchairProducts;
+      case 'patient-lifts': return patientLiftProducts;
+      case 'walkers': return walkerProducts;
+      case 'vitamins': return vitaminsProducts;
+      case 'sexual-wellness': return personalCareProducts;
+      case 'medicines': return personalCareProducts;
+      case 'household': return personalCareProducts;
+      case 'home-health': return personalCareProducts;
+      case 'fitness': return personalCareProducts;
+      case 'caregiver': return personalCareProducts;
+      case 'exam-rooms': return stethoscopeProducts;
       default: return allProducts;
     }
   };
@@ -112,6 +127,17 @@ const ProductCategory = () => {
       case 'diabetic-footwear': return 'Diabetic & Orthopedic Footwear';
       case 'contact-lens': return 'Contact Lens';
       case 'hearing-aids': return 'Hearing Aids';
+      case 'wheelchairs': return 'Wheelchairs & Transport Chairs';
+      case 'patient-lifts': return 'Patient Lifts & Slings';
+      case 'walkers': return 'Walkers & Rollator';
+      case 'vitamins': return 'Vitamins & Supplements';
+      case 'sexual-wellness': return 'Sexual Wellness';
+      case 'medicines': return 'Medicines & Treatments';
+      case 'household': return 'Household & Pet Essentials';
+      case 'home-health': return 'Home Health Care Solutions';
+      case 'fitness': return 'Fitness & Recovery';
+      case 'caregiver': return 'Caregiver Essentials';
+      case 'exam-rooms': return 'Exam Rooms';
       default: return 'All Products';
     }
   };
