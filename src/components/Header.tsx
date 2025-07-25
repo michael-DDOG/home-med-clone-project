@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, User, Menu } from "lucide-react";
+import { User, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import MainNavigation from "./MainNavigation";
 import { SearchBar } from "./SearchBar";
+import { CartSidebar } from "./CartSidebar";
 
 interface HeaderProps {
   onCategorySelect: (category: string) => void;
@@ -53,12 +54,7 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
               <User className="h-5 w-5" />
             </Button>
             
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart className="h-5 w-5" />
-              <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary text-xs">
-                0
-              </Badge>
-            </Button>
+            <CartSidebar />
 
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />
