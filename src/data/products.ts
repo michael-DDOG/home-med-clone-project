@@ -2933,3 +2933,78 @@ export const braunProducts: Product[] = [
 export const babyganicsProducts: Product[] = [
   ...allProducts.filter(p => p.brand === 'Babyganics')
 ];
+
+// Additional Specialty Categories
+
+// Wound Care & Bandages
+export const woundCareProducts: Product[] = [
+  ...disposableProducts.filter(p => p.name.toLowerCase().includes('bandage') || p.name.toLowerCase().includes('wound')),
+  ...personalCareProducts.filter(p => p.conditionsHelped?.includes('Wound Care'))
+];
+
+// Diabetic Care Supplies
+export const diabeticSuppliesProducts: Product[] = [
+  ...diabeticCareProducts,
+  ...footwearProducts.filter(p => p.category === 'Diabetic Care'),
+  ...wellnessProducts.filter(p => p.category === 'Diabetes Care')
+];
+
+// Blood Pressure Accessories
+export const bloodPressureAccessoriesProducts: Product[] = [
+  ...wellnessProducts.filter(p => p.category === 'Monitoring' && p.name.toLowerCase().includes('blood pressure'))
+];
+
+// Respiratory Accessories
+export const respiratoryAccessoriesProducts: Product[] = [
+  ...respiratoryProducts.filter(p => p.name.toLowerCase().includes('mask') || p.name.toLowerCase().includes('tube')),
+  ...personalCareProducts.filter(p => p.conditionsHelped?.includes('Respiratory'))
+];
+
+// Physical Therapy Equipment
+export const physicalTherapyProducts: Product[] = [
+  ...orthopedicProducts.filter(p => p.conditionsHelped?.includes('Recovery') || p.conditionsHelped?.includes('Therapy')),
+  ...personalCareProducts.filter(p => p.category === 'Pain Relief'),
+  ...positioningProducts
+];
+
+// Baby Bath & Safety
+export const babyBathSafetyProducts: Product[] = [
+  ...babyChildrenProducts.filter(p => p.name.toLowerCase().includes('safety') || p.name.toLowerCase().includes('bath')),
+  {
+    id: 'baby-bath-1',
+    name: 'Baby Bath Thermometer - Digital Water Temperature Monitor',
+    image: thermometerImg,
+    originalPrice: 19.99,
+    currentPrice: 14.99,
+    rating: 4.5,
+    reviewCount: 234,
+    isFsaEligible: true,
+    category: 'Baby & Children',
+    brand: 'Safety 1st',
+    patientProfile: ['Infant', 'Toddler'],
+    conditionsHelped: ['Safe Bathing'],
+    inStock: true,
+    freeShipping: false
+  }
+];
+
+// Baby Feeding & Nutrition
+export const babyFeedingProducts: Product[] = [
+  ...babyChildrenProducts.filter(p => p.name.toLowerCase().includes('medicine') || p.name.toLowerCase().includes('dispenser')),
+  {
+    id: 'baby-feeding-1',
+    name: 'Baby Vitamin D Drops - Pediatric Supplement',
+    image: vitaminsSupplementsImg,
+    originalPrice: 24.99,
+    currentPrice: 19.99,
+    rating: 4.6,
+    reviewCount: 156,
+    isFsaEligible: true,
+    category: 'Baby & Children',
+    brand: 'Enfamil',
+    patientProfile: ['Infant'],
+    conditionsHelped: ['Nutritional Support'],
+    inStock: true,
+    freeShipping: true
+  }
+];

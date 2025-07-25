@@ -45,7 +45,14 @@ import {
   johnsonProducts,
   omronProducts,
   braunProducts,
-  babyganicsProducts
+  babyganicsProducts,
+  woundCareProducts,
+  diabeticSuppliesProducts,
+  bloodPressureAccessoriesProducts,
+  respiratoryAccessoriesProducts,
+  physicalTherapyProducts,
+  babyBathSafetyProducts,
+  babyFeedingProducts
 } from "@/data/products";
 
 interface ComprehensiveFilterState {
@@ -156,6 +163,13 @@ const ProductCategory = () => {
       case 'brand-omron': return omronProducts;
       case 'brand-braun': return braunProducts;
       case 'brand-babyganics': return babyganicsProducts;
+      case 'wound-care': return woundCareProducts;
+      case 'diabetic-supplies': return diabeticSuppliesProducts;
+      case 'blood-pressure-accessories': return bloodPressureAccessoriesProducts;
+      case 'respiratory-accessories': return respiratoryAccessoriesProducts;
+      case 'physical-therapy-equipment': return physicalTherapyProducts;
+      case 'baby-bath-safety': return babyBathSafetyProducts;
+      case 'baby-feeding': return babyFeedingProducts;
       default: return allProducts;
     }
   };
@@ -219,6 +233,13 @@ const ProductCategory = () => {
       case 'brand-omron': return 'Omron Products';
       case 'brand-braun': return 'Braun Products';
       case 'brand-babyganics': return 'Babyganics Products';
+      case 'wound-care': return 'Wound Care & Bandages';
+      case 'diabetic-supplies': return 'Diabetic Care Supplies';
+      case 'blood-pressure-accessories': return 'Blood Pressure Accessories';
+      case 'respiratory-accessories': return 'Respiratory Accessories';
+      case 'physical-therapy-equipment': return 'Physical Therapy Equipment';
+      case 'baby-bath-safety': return 'Baby Bath & Safety';
+      case 'baby-feeding': return 'Baby Feeding & Nutrition';
       default: return 'All Products';
     }
   };
