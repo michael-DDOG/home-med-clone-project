@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cart_items: {
+        Row: {
+          created_at: string
+          current_price: number
+          id: string
+          original_price: number | null
+          product_id: string
+          product_image: string | null
+          product_name: string
+          quantity: number
+          session_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_price: number
+          id?: string
+          original_price?: number | null
+          product_id: string
+          product_image?: string | null
+          product_name: string
+          quantity?: number
+          session_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_price?: number
+          id?: string
+          original_price?: number | null
+          product_id?: string
+          product_image?: string | null
+          product_name?: string
+          quantity?: number
+          session_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
