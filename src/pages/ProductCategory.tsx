@@ -26,7 +26,13 @@ import {
   wheelchairProducts,
   patientLiftProducts,
   walkerProducts,
-  vitaminsProducts
+  vitaminsProducts,
+  electricHospitalBedsProducts,
+  semiElectricBedsProducts,
+  sexualWellnessProducts,
+  mobilityScooterProducts,
+  canesCrutchesProducts,
+  medicinesProducts
 } from "@/data/products";
 
 interface ComprehensiveFilterState {
@@ -80,7 +86,10 @@ const ProductCategory = () => {
     switch (category) {
       case 'wellness': return wellnessProducts;
       case 'hospital-beds': return hospitalBedsProducts;
+      case 'electric-hospital-beds': return electricHospitalBedsProducts;
+      case 'semi-electric-beds': return semiElectricBedsProducts;
       case 'mobility': return mobilityProducts;
+      case 'mobility-scooters': return mobilityScooterProducts;
       case 'bathroom-safety': return bathroomSafetyProducts;
       case 'respiratory': return respiratoryProducts;
       case 'compression': return compressionProducts;
@@ -97,14 +106,30 @@ const ProductCategory = () => {
       case 'wheelchairs': return wheelchairProducts;
       case 'patient-lifts': return patientLiftProducts;
       case 'walkers': return walkerProducts;
+      case 'canes-crutches': return canesCrutchesProducts;
       case 'vitamins': return vitaminsProducts;
-      case 'sexual-wellness': return personalCareProducts;
-      case 'medicines': return personalCareProducts;
+      case 'sexual-wellness': return sexualWellnessProducts;
+      case 'medicines': return medicinesProducts;
       case 'household': return personalCareProducts;
       case 'home-health': return personalCareProducts;
       case 'fitness': return personalCareProducts;
       case 'caregiver': return personalCareProducts;
       case 'exam-rooms': return stethoscopeProducts;
+      // Additional bed categories that map to existing products
+      case 'adjustable-beds': return hospitalBedsProducts;
+      case 'rotating-beds': return hospitalBedsProducts;
+      case 'low-hospital-beds': return hospitalBedsProducts;
+      case 'bariatric-beds': return hospitalBedsProducts;
+      case 'bed-mattresses': return hospitalBedsProducts;
+      case 'bed-rails': return hospitalBedsProducts;
+      case 'hospital-bedding': return hospitalBedsProducts;
+      case 'bed-pillows': return hospitalBedsProducts;
+      case 'bed-accessories': return hospitalBedsProducts;
+      case 'overbed-table': return dailyLivingAidsProducts;
+      case 'physical-therapy': return orthopedicProducts;
+      // Additional categories that use existing product arrays
+      case 'ramps': return mobilityProducts;
+      case 'stair-lift': return mobilityProducts;
       default: return allProducts;
     }
   };
@@ -113,7 +138,20 @@ const ProductCategory = () => {
     switch (category) {
       case 'wellness': return 'Wellness Collection';
       case 'hospital-beds': return 'Hospital Beds & Mattresses';
+      case 'electric-hospital-beds': return 'Electric Hospital Beds';
+      case 'semi-electric-beds': return 'Semi-Electric Hospital Beds';
+      case 'adjustable-beds': return 'Adjustable Beds for Seniors';
+      case 'rotating-beds': return 'Rotating Sit to Stand Hospital Bed';
+      case 'low-hospital-beds': return 'Low Hospital Beds';
+      case 'bariatric-beds': return 'Bariatric Hospital Bed';
+      case 'bed-mattresses': return 'Hospital Bed Mattresses';
+      case 'bed-rails': return 'Bed Rails';
+      case 'hospital-bedding': return 'Hospital Bedding';
+      case 'bed-pillows': return 'Bed Pillows';
+      case 'bed-accessories': return 'Bed Accessories';
+      case 'overbed-table': return 'Overbed Table';
       case 'mobility': return 'Mobility Products';
+      case 'mobility-scooters': return 'Mobility Scooters';
       case 'bathroom-safety': return 'Bathroom Safety';
       case 'respiratory': return 'Respiratory Equipment';
       case 'compression': return 'Compression Therapy';
@@ -130,6 +168,9 @@ const ProductCategory = () => {
       case 'wheelchairs': return 'Wheelchairs & Transport Chairs';
       case 'patient-lifts': return 'Patient Lifts & Slings';
       case 'walkers': return 'Walkers & Rollator';
+      case 'canes-crutches': return 'Canes & Crutches';
+      case 'ramps': return 'Multipurpose Ramps';
+      case 'stair-lift': return 'Stair Lift';
       case 'vitamins': return 'Vitamins & Supplements';
       case 'sexual-wellness': return 'Sexual Wellness';
       case 'medicines': return 'Medicines & Treatments';
@@ -138,6 +179,7 @@ const ProductCategory = () => {
       case 'fitness': return 'Fitness & Recovery';
       case 'caregiver': return 'Caregiver Essentials';
       case 'exam-rooms': return 'Exam Rooms';
+      case 'physical-therapy': return 'Physical Therapy';
       default: return 'All Products';
     }
   };
