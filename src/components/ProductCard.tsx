@@ -32,33 +32,34 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const navigate = useNavigate();
   
-  // Get addToCart function with fallback
-  const getAddToCart = () => {
-    try {
-      const cart = useCart();
-      return cart.addToCart;
-    } catch (error) {
-      console.error('Cart context not available in ProductCard:', error);
-      // Return fallback function
-      return async () => {
-        toast.success(`${name} would be added to cart (cart not ready)`);
-      };
-    }
-  };
+  // Use cart context directly - no masking
+  const { addToCart, isLoading } = useCart();
   
   const discount = originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent navigation when clicking add to cart
-    const addToCart = getAddToCart();
-    await addToCart({
-      productId: id,
-      productName: name,
-      productImage: image,
-      currentPrice: currentPrice,
-      originalPrice: originalPrice,
-      quantity: 1
-    });
+    
+    if (isLoading) {
+      toast.error("Cart is still loading, please wait...");
+      return;
+    }
+    
+    console.log('Adding to cart:', { productId: id, name, currentPrice });
+    
+    try {
+      await addToCart({
+        productId: id,
+        productName: name,
+        productImage: image,
+        currentPrice: currentPrice,
+        originalPrice: originalPrice,
+        quantity: 1
+      });
+    } catch (error) {
+      console.error('Failed to add item to cart:', error);
+      toast.error("Failed to add item to cart. Please try again.");
+    }
   };
 
   const handleCardClick = () => {

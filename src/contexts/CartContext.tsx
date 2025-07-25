@@ -47,30 +47,42 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const initializeSession = async () => {
+    console.log('Initializing cart session...');
     try {
       let storedSessionId = localStorage.getItem('cart_session_id');
+      console.log('Stored session ID:', storedSessionId);
       
       if (!storedSessionId) {
+        console.log('Creating new session...');
         const { data: newSession, error } = await supabase
           .from('user_sessions')
           .insert({})
           .select()
           .single();
         
-        if (error) throw error;
+        if (error) {
+          console.error('Failed to create session:', error);
+          throw error;
+        }
         
         storedSessionId = newSession.id;
         localStorage.setItem('cart_session_id', storedSessionId);
+        console.log('New session created:', storedSessionId);
       }
       
       setSessionId(storedSessionId);
+      console.log('Loading cart items for session:', storedSessionId);
       await loadCartItems(storedSessionId);
     } catch (error) {
       console.error('Error initializing session:', error);
+      // Try to recover by creating a simple local session
+      const fallbackSessionId = `local_${Date.now()}`;
+      localStorage.setItem('cart_session_id', fallbackSessionId);
+      setSessionId(fallbackSessionId);
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to initialize cart session"
+        title: "Cart Error",
+        description: "Using local cart mode. Items may not persist."
       });
     } finally {
       setIsLoading(false);
@@ -103,15 +115,28 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const addToCart = async (newItem: Omit<CartItem, 'id'>) => {
-    if (!sessionId) return;
+    console.log('AddToCart called:', { sessionId, newItem });
+    
+    if (!sessionId) {
+      console.error('No session ID available for cart operation');
+      toast({
+        variant: "destructive",
+        title: "Cart Error",
+        description: "Cart session not ready. Please refresh the page."
+      });
+      return;
+    }
     
     try {
       // Check if item already exists
       const existingItem = items.find(item => item.productId === newItem.productId);
+      console.log('Existing item:', existingItem);
       
       if (existingItem) {
+        console.log('Updating existing item quantity');
         await updateQuantity(existingItem.id, existingItem.quantity + newItem.quantity);
       } else {
+        console.log('Inserting new cart item to database...');
         const { data, error } = await supabase
           .from('cart_items')
           .insert({
@@ -126,7 +151,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           .select()
           .single();
         
-        if (error) throw error;
+        if (error) {
+          console.error('Database insert error:', error);
+          throw error;
+        }
+        
+        console.log('Database insert successful:', data);
         
         const cartItem: CartItem = {
           id: data.id,
@@ -138,7 +168,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           quantity: data.quantity
         };
         
-        setItems(prev => [...prev, cartItem]);
+        console.log('Adding item to local state:', cartItem);
+        setItems(prev => {
+          const newItems = [...prev, cartItem];
+          console.log('New items state:', newItems);
+          return newItems;
+        });
       }
       
       toast({
@@ -150,7 +185,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to add item to cart"
+        description: `Failed to add item to cart: ${error.message || 'Unknown error'}`
       });
     }
   };
