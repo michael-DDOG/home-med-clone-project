@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { CategoryCard } from "@/components/CategoryCard";
+import { ComprehensiveProductFilters } from "@/components/ComprehensiveProductFilters";
 import { ProductCard } from "@/components/ProductCard";
 import { allProducts } from "@/data/products";
 import { Badge } from "@/components/ui/badge";
@@ -125,6 +126,11 @@ const Index = () => {
             <p className="text-xl text-muted-foreground">
               Explore our most popular medical equipment and supplies
             </p>
+          </div>
+          
+          {/* Filter Bar */}
+          <div className="mb-8">
+            <ComprehensiveProductFilters onFilterChange={() => {}} />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
