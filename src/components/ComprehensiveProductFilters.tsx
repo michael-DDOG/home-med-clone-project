@@ -52,9 +52,9 @@ export const ComprehensiveProductFilters = ({ onFilterChange, className = "" }: 
   });
 
   return (
-    <div className={`${className}`}>
+    <div className={`w-full ${className}`}>
       {/* Horizontal Filter Bar */}
-      <div className="flex items-center gap-6 bg-white border border-gray-200 rounded-lg p-4">
+      <div className="flex items-center gap-6 bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4" />
           <span className="font-medium text-sm">Filters</span>
