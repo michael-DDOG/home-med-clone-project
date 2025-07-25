@@ -32,33 +32,33 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const navigate = useNavigate();
   
-  // Use try-catch to handle potential context issues
-  let addToCart;
-  try {
-    const cart = useCart();
-    addToCart = cart.addToCart;
-  } catch (error) {
-    console.error('Cart context not available in ProductCard:', error);
-    // Fallback function
-    addToCart = async () => {
-      toast.success(`${name} would be added to cart (cart not ready)`);
-    };
-  }
+  // Get addToCart function with fallback
+  const getAddToCart = () => {
+    try {
+      const cart = useCart();
+      return cart.addToCart;
+    } catch (error) {
+      console.error('Cart context not available in ProductCard:', error);
+      // Return fallback function
+      return async () => {
+        toast.success(`${name} would be added to cart (cart not ready)`);
+      };
+    }
+  };
   
   const discount = originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent navigation when clicking add to cart
-    if (addToCart) {
-      await addToCart({
-        productId: id,
-        productName: name,
-        productImage: image,
-        currentPrice: currentPrice,
-        originalPrice: originalPrice,
-        quantity: 1
-      });
-    }
+    const addToCart = getAddToCart();
+    await addToCart({
+      productId: id,
+      productName: name,
+      productImage: image,
+      currentPrice: currentPrice,
+      originalPrice: originalPrice,
+      quantity: 1
+    });
   };
 
   const handleCardClick = () => {
