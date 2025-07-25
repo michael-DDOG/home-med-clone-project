@@ -1,6 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   id: string;
@@ -16,6 +18,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({
+  id,
   name,
   image,
   originalPrice,
@@ -26,10 +29,23 @@ export const ProductCard = ({
   isFsaEligible = false,
   badges = []
 }: ProductCardProps) => {
+  const navigate = useNavigate();
   const discount = originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent navigation when clicking add to cart
+    toast.success(`Added ${name} to cart!`);
+  };
+
+  const handleCardClick = () => {
+    navigate(`/product/${id}`);
+  };
+
   return (
-    <Card className="group hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+    <Card 
+      className="group hover:shadow-lg transition-shadow duration-300 overflow-hidden cursor-pointer"
+      onClick={handleCardClick}
+    >
       <CardContent className="p-0">
         <div className="relative">
           <img 
@@ -99,7 +115,10 @@ export const ProductCard = ({
             </span>
           </div>
 
-          <Button className="w-full bg-primary hover:bg-primary/90">
+          <Button 
+            className="w-full bg-primary hover:bg-primary/90"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </Button>
         </div>
