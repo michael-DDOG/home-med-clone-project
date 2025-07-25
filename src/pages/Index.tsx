@@ -16,6 +16,10 @@ import grabBarImg from '@/assets/grab-bar.jpg';
 import oxygenConcentratorImg from '@/assets/oxygen-concentrator.jpg';
 import pulseOximeterImg from '@/assets/pulse-oximeter.jpg';
 import compressionSocksImg from '@/assets/compression-socks.jpg';
+import dailyLivingAidsImg from '@/assets/daily-living-aids.jpg';
+import diabeticFootwearImg from '@/assets/diabetic-footwear.jpg';
+import contactLensImg from '@/assets/contact-lens.jpg';
+import hearingAidImg from '@/assets/hearing-aid.jpg';
 
 // Add filter interface
 interface ComprehensiveFilterState {
@@ -101,6 +105,30 @@ const Index = () => {
       title: 'Compression Therapy',
       image: compressionSocksImg,
       description: 'Medical compression socks and therapeutic wear'
+    },
+    {
+      id: 'daily-living-aids',
+      title: 'Daily Living Aids',
+      image: dailyLivingAidsImg,
+      description: 'Hospital beds, overbed tables, and essential daily living assistance'
+    },
+    {
+      id: 'diabetic-footwear',
+      title: 'Diabetic & Orthopedic Footwear',
+      image: diabeticFootwearImg,
+      description: 'Therapeutic shoes, diabetic socks, and orthopedic footwear'
+    },
+    {
+      id: 'contact-lens',
+      title: 'Contact Lens',
+      image: contactLensImg,
+      description: 'Daily, monthly contact lenses and cleaning solutions'
+    },
+    {
+      id: 'hearing-aids',
+      title: 'Hearing Aids',
+      image: hearingAidImg,
+      description: 'Digital hearing aids, amplifiers, and hearing assistance devices'
     }
   ];
 

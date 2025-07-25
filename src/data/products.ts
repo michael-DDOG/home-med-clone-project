@@ -16,6 +16,10 @@ import caneImg from '@/assets/cane.jpg';
 import bedsideCommodeImg from '@/assets/bedside-commode.jpg';
 import showerChairImg from '@/assets/shower-chair.jpg';
 import medicalMattressImg from '@/assets/medical-mattress.jpg';
+import dailyLivingAidsImg from '@/assets/daily-living-aids.jpg';
+import diabeticFootwearImg from '@/assets/diabetic-footwear.jpg';
+import contactLensImg from '@/assets/contact-lens.jpg';
+import hearingAidImg from '@/assets/hearing-aid.jpg';
 
 export interface Product {
   id: string;
@@ -647,6 +651,494 @@ export const batteryProducts: Product[] = [
   }
 ];
 
+// New Daily Living Aids Products (copied from website)
+export const dailyLivingAidsProducts: Product[] = [
+  {
+    id: 'dla-1',
+    name: 'Drive Medical Hospital Bed Bedding in a Box',
+    image: hospitalBedImg,
+    originalPrice: 66.45,
+    currentPrice: 39.99,
+    rating: 4.4,
+    reviewCount: 5,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-2',
+    name: 'Invacare Full Electric Hospital Bed Package',
+    image: hospitalBedImg,
+    currentPrice: 789.99,
+    rating: 4.49,
+    reviewCount: 45,
+    isStaffPick: true,
+    isFsaEligible: true,
+    badges: ['TOP SELLER'],
+    category: 'Daily Living Aids',
+    brand: 'Invacare',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-3',
+    name: 'Medical Overbed Table with Wheels for Home and Hospital Use - Cherry',
+    image: dailyLivingAidsImg,
+    currentPrice: 64.98,
+    rating: 4.87,
+    reviewCount: 31,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'ProHeal',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-4',
+    name: 'Full Electric Hospital Bed with Foam Mattress - Half Rails - Adjustable Height',
+    image: hospitalBedImg,
+    currentPrice: 778.17,
+    rating: 4.84,
+    reviewCount: 91,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'ProHeal',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-5',
+    name: 'Universal Q-Bar Assist Rail',
+    image: grabBarImg,
+    currentPrice: 135.22,
+    rating: 4.5,
+    reviewCount: 23,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-6',
+    name: 'Proactive Medical Protekt Dash Standing Transfer Patient Lift',
+    image: hospitalBedImg,
+    originalPrice: 899.90,
+    currentPrice: 665.99,
+    rating: 4.83,
+    reviewCount: 6,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Proactive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-7',
+    name: 'Drive Medical Silver Sport 1 Wheelchair',
+    image: wheelchairImg,
+    currentPrice: 174.62,
+    rating: 5.0,
+    reviewCount: 4,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-8',
+    name: 'Drive Medical Lightweight Expedition Transport Wheelchair with Brakes',
+    image: wheelchairImg,
+    currentPrice: 220.21,
+    rating: 3.75,
+    reviewCount: 4,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-9',
+    name: 'Drive Medical PreserveTech Raised Toilet Seat with Bidet',
+    image: toiletSafetyFrameImg,
+    currentPrice: 115.70,
+    rating: 5.0,
+    reviewCount: 2,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-10',
+    name: 'Drive Medical Nitro Rollator Rolling Walker Cup Holder Attachment',
+    image: walkerImg,
+    currentPrice: 23.56,
+    rating: 4.0,
+    reviewCount: 8,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-11',
+    name: 'Medical Overbed Table with Wheels for Home and Hospital Use - Mahogany',
+    image: hospitalBedImg,
+    originalPrice: 69.68,
+    currentPrice: 49.99,
+    rating: 4.87,
+    reviewCount: 31,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'ProHeal',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-12',
+    name: 'Universal Sit to Stand Lift Sling',
+    image: hospitalBedImg,
+    currentPrice: 56.98,
+    rating: 5.0,
+    reviewCount: 2,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'ProHeal',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-13',
+    name: 'Drive Medical Nitro Duet Transport Chair and Rollator Walker',
+    image: wheelchairImg,
+    currentPrice: 399.00,
+    rating: 4.33,
+    reviewCount: 3,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-14',
+    name: 'Drive Medical Fly Lite Ultra Lightweight Transport Wheelchair',
+    image: wheelchairImg,
+    currentPrice: 225.78,
+    rating: 4.5,
+    reviewCount: 2,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-15',
+    name: 'Metro Mobility Battery Pack',
+    image: oxygenConcentratorImg,
+    currentPrice: 120.00,
+    rating: 4.0,
+    reviewCount: 12,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Metro Mobility',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-16',
+    name: 'Drive Medical Comfort Touch Cooling Sensation Seat Cushion',
+    image: medicalMattressImg,
+    currentPrice: 42.35,
+    rating: 4.67,
+    reviewCount: 3,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-17',
+    name: 'Drive Medical Premium Series Shower Chair with Back and Arms',
+    image: showerChairImg,
+    currentPrice: 72.60,
+    rating: 4.5,
+    reviewCount: 8,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'dla-18',
+    name: 'Drive Medical Rollator Walker with Folding Back Support & Padded Seat',
+    image: walkerImg,
+    currentPrice: 123.00,
+    rating: 5.0,
+    reviewCount: 3,
+    isFsaEligible: true,
+    category: 'Daily Living Aids',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true
+  }
+];
+
+// Diabetic & Orthopedic Footwear Products
+export const footwearProducts: Product[] = [
+  {
+    id: 'footwear-1',
+    name: 'Diabetic Walking Shoes - Therapeutic Comfort Design',
+    image: diabeticFootwearImg,
+    originalPrice: 129.99,
+    currentPrice: 99.99,
+    rating: 4.6,
+    reviewCount: 234,
+    isFsaEligible: true,
+    badges: ['Diabetic Approved', 'Therapeutic'],
+    category: 'Diabetic & Orthopedic Footwear',
+    brand: 'ProHeal',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Diabetes', 'Foot Pain', 'Circulation Issues']
+  },
+  {
+    id: 'footwear-2',
+    name: 'Orthopedic Support Slippers - Memory Foam',
+    image: diabeticFootwearImg,
+    originalPrice: 79.99,
+    currentPrice: 59.99,
+    rating: 4.4,
+    reviewCount: 156,
+    isFsaEligible: true,
+    badges: ['Memory Foam', 'Arch Support'],
+    category: 'Diabetic & Orthopedic Footwear',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Plantar Fasciitis', 'Foot Pain', 'Arthritis']
+  },
+  {
+    id: 'footwear-3',
+    name: 'Diabetic Socks - Seamless Construction',
+    image: compressionSocksImg,
+    originalPrice: 24.99,
+    currentPrice: 19.99,
+    rating: 4.7,
+    reviewCount: 445,
+    isFsaEligible: true,
+    badges: ['Seamless', 'Moisture Wicking'],
+    category: 'Diabetic & Orthopedic Footwear',
+    brand: 'ProHeal',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Diabetes', 'Circulation Issues', 'Neuropathy']
+  },
+  {
+    id: 'footwear-4',
+    name: 'Post-Surgery Recovery Shoes - Adjustable Velcro',
+    image: compressionSocksImg,
+    originalPrice: 89.99,
+    currentPrice: 69.99,
+    rating: 4.5,
+    reviewCount: 89,
+    isFsaEligible: true,
+    badges: ['Post-Surgery', 'Adjustable'],
+    category: 'Diabetic & Orthopedic Footwear',
+    brand: 'Sammons Preston',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Post-Surgery', 'Foot Pain', 'Swelling']
+  },
+  {
+    id: 'footwear-5',
+    name: 'Orthopedic Arch Support Insoles',
+    image: compressionSocksImg,
+    originalPrice: 39.99,
+    currentPrice: 29.99,
+    rating: 4.3,
+    reviewCount: 278,
+    isFsaEligible: true,
+    badges: ['Custom Fit', 'Gel Support'],
+    category: 'Diabetic & Orthopedic Footwear',
+    brand: 'Drive Medical',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Plantar Fasciitis', 'Flat Feet', 'Heel Pain']
+  }
+];
+
+// Contact Lens Products
+export const contactLensProducts: Product[] = [
+  {
+    id: 'lens-1',
+    name: 'Daily Disposable Contact Lenses - 30 Pack',
+    image: contactLensImg,
+    originalPrice: 49.99,
+    currentPrice: 39.99,
+    rating: 4.6,
+    reviewCount: 567,
+    isFsaEligible: true,
+    badges: ['Daily Disposable', 'UV Protection'],
+    category: 'Contact Lens',
+    brand: 'ProVision',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'lens-2',
+    name: 'Multifocal Contact Lenses - Monthly Pack',
+    image: pulseOximeterImg,
+    originalPrice: 89.99,
+    currentPrice: 74.99,
+    rating: 4.4,
+    reviewCount: 234,
+    isFsaEligible: true,
+    badges: ['Multifocal', 'Monthly'],
+    category: 'Contact Lens',
+    brand: 'ProVision',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'lens-3',
+    name: 'Contact Lens Cleaning Solution - 12oz',
+    image: pulseOximeterImg,
+    originalPrice: 19.99,
+    currentPrice: 14.99,
+    rating: 4.8,
+    reviewCount: 445,
+    isFsaEligible: true,
+    badges: ['Multi-Purpose', 'Preservative Free'],
+    category: 'Contact Lens',
+    brand: 'EyeCare',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'lens-4',
+    name: 'Toric Contact Lenses for Astigmatism - 6 Pack',
+    image: pulseOximeterImg,
+    originalPrice: 79.99,
+    currentPrice: 64.99,
+    rating: 4.5,
+    reviewCount: 156,
+    isFsaEligible: true,
+    badges: ['Toric', 'Astigmatism'],
+    category: 'Contact Lens',
+    brand: 'ProVision',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'lens-5',
+    name: 'Contact Lens Travel Case with Mirror',
+    image: pulseOximeterImg,
+    originalPrice: 12.99,
+    currentPrice: 8.99,
+    rating: 4.3,
+    reviewCount: 89,
+    isFsaEligible: true,
+    badges: ['Travel Case', 'Mirror Included'],
+    category: 'Contact Lens',
+    brand: 'EyeCare',
+    inStock: true,
+    freeShipping: true
+  }
+];
+
+// Hearing Aids Products
+export const hearingAidsProducts: Product[] = [
+  {
+    id: 'hearing-1',
+    name: 'Rechargeable Digital Hearing Aid - Behind the Ear',
+    image: hearingAidImg,
+    originalPrice: 299.99,
+    currentPrice: 199.99,
+    rating: 4.5,
+    reviewCount: 234,
+    isFsaEligible: true,
+    badges: ['Rechargeable', 'Digital'],
+    category: 'Hearing Aids',
+    brand: 'Audien Hearing',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Hearing Loss', 'Tinnitus']
+  },
+  {
+    id: 'hearing-2',
+    name: 'Invisible In-Ear Hearing Amplifier',
+    image: pulseOximeterImg,
+    originalPrice: 149.99,
+    currentPrice: 99.99,
+    rating: 4.3,
+    reviewCount: 156,
+    isFsaEligible: true,
+    badges: ['Invisible', 'In-Ear'],
+    category: 'Hearing Aids',
+    brand: 'Audien Hearing',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Mild Hearing Loss']
+  },
+  {
+    id: 'hearing-3',
+    name: 'Bluetooth Hearing Aid with App Control',
+    image: pulseOximeterImg,
+    originalPrice: 499.99,
+    currentPrice: 349.99,
+    rating: 4.7,
+    reviewCount: 89,
+    isFsaEligible: true,
+    badges: ['Bluetooth', 'App Control'],
+    category: 'Hearing Aids',
+    brand: 'Audien Hearing',
+    inStock: true,
+    freeShipping: true,
+    conditionsHelped: ['Hearing Loss', 'Tinnitus']
+  },
+  {
+    id: 'hearing-4',
+    name: 'Hearing Aid Cleaning Kit with Brush',
+    image: pulseOximeterImg,
+    originalPrice: 29.99,
+    currentPrice: 19.99,
+    rating: 4.6,
+    reviewCount: 278,
+    isFsaEligible: true,
+    badges: ['Cleaning Kit', 'Professional Grade'],
+    category: 'Hearing Aids',
+    brand: 'Audien Hearing',
+    inStock: true,
+    freeShipping: true
+  },
+  {
+    id: 'hearing-5',
+    name: 'Hearing Aid Batteries - Size 312 (60 Pack)',
+    image: pulseOximeterImg,
+    originalPrice: 24.99,
+    currentPrice: 17.99,
+    rating: 4.4,
+    reviewCount: 345,
+    isFsaEligible: true,
+    badges: ['Size 312', '60 Pack'],
+    category: 'Hearing Aids',
+    brand: 'PowerCell',
+    inStock: true,
+    freeShipping: true
+  }
+];
+
 export const allProducts: Product[] = [
   ...wellnessProducts,
   ...hospitalBedsProducts,
@@ -668,5 +1160,9 @@ export const allProducts: Product[] = [
   ...supplementProducts,
   ...walkerAccessories,
   ...clinicalEquipment,
-  ...batteryProducts
+  ...batteryProducts,
+  ...dailyLivingAidsProducts,
+  ...footwearProducts,
+  ...contactLensProducts,
+  ...hearingAidsProducts
 ];
