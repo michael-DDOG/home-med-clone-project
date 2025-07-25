@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   id: string;
@@ -30,10 +31,17 @@ export const ProductCard = ({
   badges = []
 }: ProductCardProps) => {
   const navigate = useNavigate();
+  const { addItem } = useCart();
   const discount = originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent navigation when clicking add to cart
+    addItem({
+      id,
+      name,
+      price: currentPrice,
+      image
+    });
     toast.success(`Added ${name} to cart!`);
   };
 
