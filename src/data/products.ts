@@ -31,7 +31,14 @@ export interface Product {
   category: string;
 }
 
-export const wellnessProducts: Product[] = [
+// Import the comprehensive product generator
+import { generateComprehensiveCatalog } from '@/utils/productGenerator';
+
+// Generate 100+ products for each category
+const generatedCatalog = generateComprehensiveCatalog();
+
+// Base wellness products
+const baseWellnessProducts: Product[] = [
   {
     id: 'pulse-ox-1',
     name: 'Digital Fingertip Pulse Oximeter - SpO2 & Heart Rate Monitor',
@@ -107,6 +114,12 @@ export const wellnessProducts: Product[] = [
   }
 ];
 
+// Expanded product categories with 100+ products each
+export const wellnessProducts: Product[] = [
+  ...baseWellnessProducts,
+  ...generatedCatalog.wellness
+];
+
 export const hospitalBedsProducts: Product[] = [
   {
     id: 'hospital-bed-1',
@@ -132,7 +145,8 @@ export const hospitalBedsProducts: Product[] = [
     isFsaEligible: true,
     badges: ['CertiPUR-US Certified'],
     category: 'Hospital Beds'
-  }
+  },
+  ...generatedCatalog.hospitalBeds
 ];
 
 export const mobilityProducts: Product[] = [
@@ -170,7 +184,8 @@ export const mobilityProducts: Product[] = [
     reviewCount: 445,
     isFsaEligible: true,
     category: 'Mobility'
-  }
+  },
+  ...generatedCatalog.mobility
 ];
 
 export const bathroomSafetyProducts: Product[] = [
@@ -221,7 +236,8 @@ export const bathroomSafetyProducts: Product[] = [
     isFsaEligible: true,
     badges: ['Easy Clean'],
     category: 'Bathroom Safety'
-  }
+  },
+  ...generatedCatalog.bathroomSafety
 ];
 
 export const respiratoryProducts: Product[] = [
@@ -248,7 +264,8 @@ export const respiratoryProducts: Product[] = [
     isFsaEligible: true,
     badges: ['Auto-Adjusting'],
     category: 'Respiratory'
-  }
+  },
+  ...generatedCatalog.respiratory
 ];
 
 export const compressionProducts: Product[] = [
@@ -263,11 +280,168 @@ export const compressionProducts: Product[] = [
     isFsaEligible: true,
     badges: ['Moisture Wicking'],
     category: 'Compression'
-  }
+  },
+  ...generatedCatalog.compression
 ];
 
-// Extensive product catalog from Shop Home Med
+export const stethoscopeProducts: Product[] = [
+  {
+    id: 'stethoscope-1',
+    name: '3M Healthcare Littmann Master Cardiology Stethoscope',
+    image: pulseOximeterImg,
+    originalPrice: 349.99,
+    currentPrice: 299.99,
+    rating: 4.9,
+    reviewCount: 567,
+    isStaffPick: true,
+    isFsaEligible: true,
+    badges: ['3M Littmann', 'Professional Grade'],
+    category: 'Diagnostics'
+  },
+  {
+    id: 'stethoscope-2',
+    name: '3M Littmann Lightweight II S.E. Stethoscope',
+    image: pulseOximeterImg,
+    originalPrice: 149.99,
+    currentPrice: 129.99,
+    rating: 4.7,
+    reviewCount: 234,
+    isFsaEligible: true,
+    badges: ['Black Tube', 'Lightweight'],
+    category: 'Diagnostics'
+  },
+  ...generatedCatalog.diagnostics
+];
 
+export const pediatricProducts: Product[] = [
+  {
+    id: 'pediatric-1',
+    name: 'Smilez Pediatric Wheelchair - Lightweight Kids Wheelchair',
+    image: wheelchairImg,
+    originalPrice: 599.99,
+    currentPrice: 499.99,
+    rating: 4.8,
+    reviewCount: 67,
+    isFsaEligible: true,
+    badges: ['Anti-Tippers', 'Cushion Seat'],
+    category: 'Pediatric'
+  },
+  {
+    id: 'pediatric-2',
+    name: 'Inspired by Drive Trotter Pediatric Specialty Stroller',
+    image: wheelchairImg,
+    originalPrice: 899.99,
+    currentPrice: 799.99,
+    rating: 4.6,
+    reviewCount: 34,
+    isFsaEligible: true,
+    badges: ['Footrest Included', 'Specialty Design'],
+    category: 'Pediatric'
+  },
+  ...generatedCatalog.pediatric
+];
+
+export const orthopedicProducts: Product[] = [
+  {
+    id: 'orthopedic-1',
+    name: '360 Air Walker Boot',
+    image: compressionSocksImg,
+    originalPrice: 159.99,
+    currentPrice: 129.99,
+    rating: 4.3,
+    reviewCount: 89,
+    isFsaEligible: true,
+    badges: ['Sammons Preston', 'Air Technology'],
+    category: 'Orthopedic'
+  },
+  {
+    id: 'orthopedic-2',
+    name: 'Abduction Pillow - Regular Foam',
+    image: medicalMattressImg,
+    originalPrice: 79.99,
+    currentPrice: 64.99,
+    rating: 4.4,
+    reviewCount: 67,
+    isFsaEligible: true,
+    badges: ['Rolyan Brand', 'Regular Foam'],
+    category: 'Orthopedic'
+  },
+  ...generatedCatalog.orthopedic
+];
+
+export const positioningProducts: Product[] = [
+  {
+    id: 'positioning-1',
+    name: '30-Degree Bed Positioning Wedge',
+    image: medicalMattressImg,
+    originalPrice: 89.99,
+    currentPrice: 74.99,
+    rating: 4.4,
+    reviewCount: 156,
+    isFsaEligible: true,
+    badges: ['Pressure Relief', 'Skil-Care'],
+    category: 'Positioning'
+  },
+  {
+    id: 'positioning-2',
+    name: '45-Degree Positioning Wedge - Pair',
+    image: medicalMattressImg,
+    originalPrice: 119.99,
+    currentPrice: 99.99,
+    rating: 4.5,
+    reviewCount: 78,
+    isFsaEligible: true,
+    badges: ['Pair Included', 'Ergonomic'],
+    category: 'Positioning'
+  },
+  ...generatedCatalog.positioning
+];
+
+export const personalCareProducts: Product[] = [
+  {
+    id: 'personal-care-1',
+    name: 'HotShotz 10" Round Reusable Heat Pack',
+    image: tensUnitImg,
+    originalPrice: 39.99,
+    currentPrice: 29.99,
+    rating: 4.8,
+    reviewCount: 234,
+    isFsaEligible: true,
+    badges: ['Reusable', 'Long-Lasting'],
+    category: 'Pain Relief'
+  },
+  {
+    id: 'personal-care-2',
+    name: 'HotShotz 3x5 Reusable Hand Warmer & Cold Pack',
+    image: tensUnitImg,
+    originalPrice: 24.99,
+    currentPrice: 19.99,
+    rating: 4.7,
+    reviewCount: 156,
+    isFsaEligible: true,
+    badges: ['Dual Purpose', 'Compact'],
+    category: 'Pain Relief'
+  },
+  ...generatedCatalog.personalCare
+];
+
+export const disposableProducts: Product[] = [
+  {
+    id: 'disposable-1',
+    name: 'ProCure Nitrile Gloves (Powder Free)',
+    image: compressionSocksImg,
+    originalPrice: 34.99,
+    currentPrice: 27.99,
+    rating: 4.6,
+    reviewCount: 567,
+    isFsaEligible: true,
+    badges: ['Powder Free', 'Nitrile'],
+    category: 'Disposables'
+  },
+  ...generatedCatalog.disposables
+];
+
+// Smaller categories from the original site
 export const bathLiftProducts: Product[] = [
   {
     id: 'bath-lift-1',
@@ -309,85 +483,6 @@ export const geriChairProducts: Product[] = [
   }
 ];
 
-export const stethoscopeProducts: Product[] = [
-  {
-    id: 'stethoscope-1',
-    name: '3M Healthcare Littmann Master Cardiology Stethoscope',
-    image: pulseOximeterImg,
-    originalPrice: 349.99,
-    currentPrice: 299.99,
-    rating: 4.9,
-    reviewCount: 567,
-    isStaffPick: true,
-    isFsaEligible: true,
-    badges: ['3M Littmann', 'Professional Grade'],
-    category: 'Diagnostics'
-  },
-  {
-    id: 'stethoscope-2',
-    name: '3M Littmann Lightweight II S.E. Stethoscope',
-    image: pulseOximeterImg,
-    originalPrice: 149.99,
-    currentPrice: 129.99,
-    rating: 4.7,
-    reviewCount: 234,
-    isFsaEligible: true,
-    badges: ['Black Tube', 'Lightweight'],
-    category: 'Diagnostics'
-  }
-];
-
-export const positioningProducts: Product[] = [
-  {
-    id: 'positioning-1',
-    name: '30-Degree Bed Positioning Wedge',
-    image: medicalMattressImg,
-    originalPrice: 89.99,
-    currentPrice: 74.99,
-    rating: 4.4,
-    reviewCount: 156,
-    isFsaEligible: true,
-    badges: ['Pressure Relief', 'Skil-Care'],
-    category: 'Positioning'
-  },
-  {
-    id: 'positioning-2',
-    name: '45-Degree Positioning Wedge - Pair',
-    image: medicalMattressImg,
-    originalPrice: 119.99,
-    currentPrice: 99.99,
-    rating: 4.5,
-    reviewCount: 78,
-    isFsaEligible: true,
-    badges: ['Pair Included', 'Ergonomic'],
-    category: 'Positioning'
-  },
-  {
-    id: 'positioning-3',
-    name: '30-Degree Full Body Bed Support System with 4 Attached Bolsters',
-    image: medicalMattressImg,
-    originalPrice: 199.99,
-    currentPrice: 169.99,
-    rating: 4.6,
-    reviewCount: 45,
-    isFsaEligible: true,
-    badges: ['Full Body Support', '4 Bolsters'],
-    category: 'Positioning'
-  },
-  {
-    id: 'positioning-4',
-    name: '30º Bed System with Slider Sheet and Two Wedges',
-    image: medicalMattressImg,
-    originalPrice: 159.99,
-    currentPrice: 134.99,
-    rating: 4.5,
-    reviewCount: 67,
-    isFsaEligible: true,
-    badges: ['Slider Sheet', 'Two Wedges'],
-    category: 'Positioning'
-  }
-];
-
 export const diabeticCareProducts: Product[] = [
   {
     id: 'diabetic-1',
@@ -403,33 +498,6 @@ export const diabeticCareProducts: Product[] = [
   }
 ];
 
-export const pediatricProducts: Product[] = [
-  {
-    id: 'pediatric-1',
-    name: 'Smilez Pediatric Wheelchair - Lightweight Kids Wheelchair',
-    image: wheelchairImg,
-    originalPrice: 599.99,
-    currentPrice: 499.99,
-    rating: 4.8,
-    reviewCount: 67,
-    isFsaEligible: true,
-    badges: ['Anti-Tippers', 'Cushion Seat'],
-    category: 'Pediatric'
-  },
-  {
-    id: 'pediatric-2',
-    name: 'Inspired by Drive Trotter Pediatric Specialty Stroller',
-    image: wheelchairImg,
-    originalPrice: 899.99,
-    currentPrice: 799.99,
-    rating: 4.6,
-    reviewCount: 34,
-    isFsaEligible: true,
-    badges: ['Footrest Included', 'Specialty Design'],
-    category: 'Pediatric'
-  }
-];
-
 export const scooterProducts: Product[] = [
   {
     id: 'scooter-1',
@@ -442,110 +510,6 @@ export const scooterProducts: Product[] = [
     isFsaEligible: true,
     badges: ['Only 27 lbs', 'Foldable'],
     category: 'Mobility'
-  }
-];
-
-export const orthopedicProducts: Product[] = [
-  {
-    id: 'orthopedic-1',
-    name: '360 Air Walker Boot',
-    image: compressionSocksImg,
-    originalPrice: 159.99,
-    currentPrice: 129.99,
-    rating: 4.3,
-    reviewCount: 89,
-    isFsaEligible: true,
-    badges: ['Sammons Preston', 'Air Technology'],
-    category: 'Orthopedic'
-  },
-  {
-    id: 'orthopedic-2',
-    name: 'Abduction Pillow - Regular Foam',
-    image: medicalMattressImg,
-    originalPrice: 79.99,
-    currentPrice: 64.99,
-    rating: 4.4,
-    reviewCount: 67,
-    isFsaEligible: true,
-    badges: ['Rolyan Brand', 'Regular Foam'],
-    category: 'Orthopedic'
-  },
-  {
-    id: 'orthopedic-3',
-    name: 'Abductor/Contracture Cushion',
-    image: medicalMattressImg,
-    originalPrice: 99.99,
-    currentPrice: 84.99,
-    rating: 4.2,
-    reviewCount: 34,
-    isFsaEligible: true,
-    badges: ['10 x 14 x 13', 'Skil-Care'],
-    category: 'Orthopedic'
-  }
-];
-
-export const personalCareProducts: Product[] = [
-  {
-    id: 'personal-care-1',
-    name: 'HotShotz 10" Round Reusable Heat Pack',
-    image: tensUnitImg,
-    originalPrice: 39.99,
-    currentPrice: 29.99,
-    rating: 4.8,
-    reviewCount: 234,
-    isFsaEligible: true,
-    badges: ['Reusable', 'Long-Lasting'],
-    category: 'Pain Relief'
-  },
-  {
-    id: 'personal-care-2',
-    name: 'HotShotz 3x5 Reusable Hand Warmer & Cold Pack',
-    image: tensUnitImg,
-    originalPrice: 24.99,
-    currentPrice: 19.99,
-    rating: 4.7,
-    reviewCount: 156,
-    isFsaEligible: true,
-    badges: ['Dual Purpose', 'Compact'],
-    category: 'Pain Relief'
-  },
-  {
-    id: 'personal-care-3',
-    name: 'Dr. Scholl\'s Hard Skin Remover Glass Foot File',
-    image: compressionSocksImg,
-    originalPrice: 29.99,
-    currentPrice: 24.99,
-    rating: 4.9,
-    reviewCount: 178,
-    isFsaEligible: true,
-    badges: ['Glass File', 'Dr. Scholl\'s'],
-    category: 'Personal Care'
-  }
-];
-
-export const disposableProducts: Product[] = [
-  {
-    id: 'disposable-1',
-    name: 'ProCure Nitrile Gloves (Powder Free)',
-    image: compressionSocksImg,
-    originalPrice: 34.99,
-    currentPrice: 27.99,
-    rating: 4.6,
-    reviewCount: 567,
-    isFsaEligible: true,
-    badges: ['Powder Free', 'Nitrile'],
-    category: 'Disposables'
-  },
-  {
-    id: 'disposable-2',
-    name: '7-10 Gallon Clear Trash Bags, 100 Count',
-    image: compressionSocksImg,
-    originalPrice: 19.99,
-    currentPrice: 16.99,
-    rating: 4.3,
-    reviewCount: 89,
-    badges: ['100 Count', 'High Density'],
-    category: 'Disposables'
   }
 ];
 
