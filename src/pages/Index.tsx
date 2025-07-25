@@ -1,11 +1,27 @@
 import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/ProductCard";
-import { wellnessProducts } from "@/data/products";
+import { allProducts, wellnessProducts, hospitalBedsProducts, mobilityProducts, bathroomSafetyProducts, respiratoryProducts, compressionProducts } from "@/data/products";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Filter, SortAsc } from "lucide-react";
+import { useState } from "react";
 
 const Index = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  
+  const getProductsByCategory = () => {
+    switch (selectedCategory) {
+      case 'wellness': return wellnessProducts;
+      case 'hospital-beds': return hospitalBedsProducts;
+      case 'mobility': return mobilityProducts;
+      case 'bathroom-safety': return bathroomSafetyProducts;
+      case 'respiratory': return respiratoryProducts;
+      case 'compression': return compressionProducts;
+      default: return allProducts;
+    }
+  };
+
+  const currentProducts = getProductsByCategory();
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -15,10 +31,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl font-bold text-primary mb-4">
-              Shop Home Med Wellness Collection
+              Shop Home Med - Complete Medical Supply Store
             </h1>
             <p className="text-xl text-muted-foreground mb-6">
-              High-quality, affordable medical products that prioritize comfort and care
+              High-quality, affordable medical products from wellness devices to hospital equipment
             </p>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <Badge variant="outline" className="text-medical-blue border-medical-blue">
@@ -35,13 +51,73 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Filter Bar */}
+      {/* Category Filter Bar */}
       <section className="border-b bg-white py-4">
         <div className="container mx-auto px-4">
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <Button 
+              variant={selectedCategory === 'all' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('all')}
+            >
+              All Products ({allProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'wellness' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('wellness')}
+            >
+              Wellness ({wellnessProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'hospital-beds' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('hospital-beds')}
+            >
+              Hospital Beds ({hospitalBedsProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'mobility' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('mobility')}
+            >
+              Mobility Aids ({mobilityProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'bathroom-safety' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('bathroom-safety')}
+            >
+              Bathroom Safety ({bathroomSafetyProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'respiratory' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('respiratory')}
+            >
+              Respiratory ({respiratoryProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'compression' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('compression')}
+            >
+              Compression ({compressionProducts.length})
+            </Button>
+          </div>
+          
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h2 className="text-lg font-semibold">Wellness Products</h2>
-              <span className="text-muted-foreground">({wellnessProducts.length} items)</span>
+              <h2 className="text-lg font-semibold">
+                {selectedCategory === 'all' ? 'All Products' : 
+                 selectedCategory === 'wellness' ? 'Wellness Collection' :
+                 selectedCategory === 'hospital-beds' ? 'Hospital Beds & Mattresses' :
+                 selectedCategory === 'mobility' ? 'Mobility Aids' :
+                 selectedCategory === 'bathroom-safety' ? 'Bathroom Safety' :
+                 selectedCategory === 'respiratory' ? 'Respiratory Equipment' :
+                 selectedCategory === 'compression' ? 'Compression Therapy' : 'Products'}
+              </h2>
+              <span className="text-muted-foreground">({currentProducts.length} items)</span>
             </div>
             
             <div className="flex items-center gap-4">
@@ -61,8 +137,8 @@ const Index = () => {
       {/* Products Grid */}
       <section className="py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {wellnessProducts.map((product) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {currentProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 {...product}
