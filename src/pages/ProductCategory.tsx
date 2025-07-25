@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductFilters } from "@/components/ProductFilters";
 import { Button } from "@/components/ui/button";
 import { Filter, SortAsc, ArrowLeft } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { 
   allProducts, 
   wellnessProducts, 
@@ -20,10 +21,27 @@ import {
   disposableProducts
 } from "@/data/products";
 
+interface FilterState {
+  priceRange: [number, number];
+  brand: string;
+  bedWidth: string;
+  bedType: string;
+  fsaEligible: boolean;
+  features: string[];
+}
+
 const ProductCategory = () => {
   const { category } = useParams<{ category: string }>();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filters, setFilters] = useState<FilterState>({
+    priceRange: [0, 2000],
+    brand: '',
+    bedWidth: '',
+    bedType: '',
+    fsaEligible: false,
+    features: []
+  });
   const itemsPerPage = 21;
 
   const getProductsByCategory = () => {
@@ -62,15 +80,100 @@ const ProductCategory = () => {
     }
   };
 
-  const currentProducts = getProductsByCategory();
-  const totalPages = Math.ceil(currentProducts.length / itemsPerPage);
+  const allCategoryProducts = getProductsByCategory();
+  
+  // Apply filters to products
+  const filteredProducts = useMemo(() => {
+    return allCategoryProducts.filter(product => {
+      // Price filter
+      if (product.currentPrice < filters.priceRange[0] || product.currentPrice > filters.priceRange[1]) {
+        return false;
+      }
+      
+      // Brand filter
+      if (filters.brand && !product.name.toLowerCase().includes(filters.brand.toLowerCase())) {
+        return false;
+      }
+      
+      // FSA/HSA filter
+      if (filters.fsaEligible && !product.isFsaEligible) {
+        return false;
+      }
+      
+      // Bed width filter (simulate based on product name)
+      if (filters.bedWidth) {
+        const widthKeywords = {
+          '36 inches': ['36', '36"'],
+          '42 inches': ['42', '42"'],
+          '48 inches': ['48', '48"'],
+          'Bariatric': ['bariatric', 'heavy duty', 'wide'],
+          'Standard': ['standard']
+        };
+        
+        const keywords = widthKeywords[filters.bedWidth as keyof typeof widthKeywords] || [];
+        const hasWidth = keywords.some(keyword => 
+          product.name.toLowerCase().includes(keyword.toLowerCase())
+        );
+        
+        if (!hasWidth) return false;
+      }
+      
+      // Bed type filter
+      if (filters.bedType) {
+        const typeKeywords = {
+          'Full Electric': ['full electric', 'electric'],
+          'Semi Electric': ['semi electric', 'semi-electric'],
+          'Manual': ['manual'],
+          'Ultra Low': ['ultra low', 'low'],
+          'Bariatric': ['bariatric'],
+          'Adjustable': ['adjustable'],
+          'Bed Package': ['package', 'set', 'complete']
+        };
+        
+        const keywords = typeKeywords[filters.bedType as keyof typeof typeKeywords] || [];
+        const hasType = keywords.some(keyword => 
+          product.name.toLowerCase().includes(keyword.toLowerCase())
+        );
+        
+        if (!hasType) return false;
+      }
+      
+      // Features filter
+      if (filters.features.length > 0) {
+        const featureKeywords = {
+          'Side Rails': ['rail', 'side rail'],
+          'Adjustable Height': ['adjustable', 'height'],
+          'Pressure Relief': ['pressure', 'relief'],
+          'Foam Mattress': ['foam', 'mattress'],
+          'Low Height': ['low', 'low height'],
+          'Trendelenburg': ['trendelenburg'],
+          'Reverse Trendelenburg': ['reverse'],
+          'Head/Foot Controls': ['head', 'foot', 'control']
+        };
+        
+        const hasAllFeatures = filters.features.every(feature => {
+          const keywords = featureKeywords[feature as keyof typeof featureKeywords] || [];
+          return keywords.some(keyword => 
+            product.name.toLowerCase().includes(keyword.toLowerCase()) ||
+            product.badges?.some(badge => badge.toLowerCase().includes(keyword.toLowerCase()))
+          );
+        });
+        
+        if (!hasAllFeatures) return false;
+      }
+      
+      return true;
+    });
+  }, [allCategoryProducts, filters]);
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedProducts = currentProducts.slice(startIndex, endIndex);
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [category]);
+  }, [category, filters]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -126,23 +229,26 @@ const ProductCategory = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <h2 className="text-lg font-semibold">{getCategoryTitle()}</h2>
-              <span className="text-muted-foreground">({currentProducts.length} items)</span>
+              <span className="text-muted-foreground">({filteredProducts.length} items)</span>
             </div>
             
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">
-                Showing {startIndex + 1}-{Math.min(endIndex, currentProducts.length)} of {currentProducts.length} products
+                Showing {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length} products
               </span>
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
               <Button variant="outline" size="sm">
                 <SortAsc className="h-4 w-4 mr-2" />
                 Sort by: Featured
               </Button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Filters Section */}
+      <section className="py-6 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <ProductFilters onFilterChange={setFilters} />
         </div>
       </section>
 
