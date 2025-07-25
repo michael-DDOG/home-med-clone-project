@@ -32,13 +32,28 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const navigate = useNavigate();
   
-  // Use cart context directly - no masking
-  const { addToCart, isLoading } = useCart();
+  // Safe cart context usage with proper error handling
+  const getCartContext = () => {
+    try {
+      return useCart();
+    } catch (error) {
+      console.warn('ProductCard: Cart context not available:', error);
+      return null;
+    }
+  };
+  
+  const cartContext = getCartContext();
+  const { addToCart, isLoading } = cartContext || { addToCart: null, isLoading: false };
   
   const discount = originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent navigation when clicking add to cart
+    
+    if (!addToCart) {
+      toast.error("Cart is not available. Please refresh the page.");
+      return;
+    }
     
     if (isLoading) {
       toast.error("Cart is still loading, please wait...");
