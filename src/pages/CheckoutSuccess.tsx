@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle, Package, Truck, CreditCard } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useCart } from '@/contexts/CartContext';
+import { useCart } from '@/contexts/CartContextFallback';
 
 const CheckoutSuccess = () => {
   const navigate = useNavigate();

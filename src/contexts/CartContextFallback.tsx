@@ -111,12 +111,16 @@ interface CartProviderProps {
 }
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+  console.log('CartProvider is initializing...');
+  
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     total: 0,
     itemCount: 0,
     isLoading: false,
   });
+
+  console.log('Cart state:', state);
 
   // Simple localStorage-based cart (fallback for when Supabase isn't configured)
   const syncCart = async () => {
@@ -179,6 +183,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     clearCart,
     syncCart,
   };
+
+  console.log('CartProvider value:', value);
 
   return (
     <CartContext.Provider value={value}>

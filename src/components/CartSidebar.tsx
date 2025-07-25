@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { useCart } from '@/contexts/CartContext';
+import { useCart } from '@/contexts/CartContextFallback';
 import { ShoppingCart, Minus, Plus, X, CreditCard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
