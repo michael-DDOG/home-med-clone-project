@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useCart } from "@/contexts/CartContextFallback";
 
 interface ProductCardProps {
   id: string;
@@ -16,7 +15,6 @@ interface ProductCardProps {
   isStaffPick?: boolean;
   isFsaEligible?: boolean;
   badges?: string[];
-  brand?: string;
 }
 
 export const ProductCard = ({
@@ -29,24 +27,13 @@ export const ProductCard = ({
   reviewCount,
   isStaffPick = false,
   isFsaEligible = false,
-  badges = [],
-  brand
+  badges = []
 }: ProductCardProps) => {
   const navigate = useNavigate();
-  const { addItem } = useCart();
   const discount = originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent navigation when clicking add to cart
-    addItem({
-      id,
-      name,
-      image,
-      currentPrice,
-      originalPrice,
-      brand,
-      isFsaEligible
-    });
     toast.success(`Added ${name} to cart!`);
   };
 
