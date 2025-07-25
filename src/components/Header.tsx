@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, ShoppingCart, User, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import MainNavigation from "./MainNavigation";
 
 interface HeaderProps {
   onCategorySelect: (category: string) => void;
@@ -91,6 +92,9 @@ export const Header = ({ onCategorySelect }: HeaderProps) => {
           </Button>
         </nav>
       </div>
+      
+      {/* Main Navigation */}
+      <MainNavigation />
     </header>
   );
 };
