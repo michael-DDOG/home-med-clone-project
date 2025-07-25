@@ -89,6 +89,24 @@ const Index = () => {
       description: 'Grab bars, shower chairs, toilet safety frames, and bath accessories'
     },
     {
+      id: 'hearing-aids',
+      title: 'Hearing Aids',
+      image: hearingAidImg,
+      description: 'Digital hearing aids, amplifiers, and hearing assistance devices'
+    },
+    {
+      id: 'contact-lens',
+      title: 'Contact Lens',
+      image: contactLensImg,
+      description: 'Daily, monthly contact lenses and cleaning solutions'
+    },
+    {
+      id: 'diabetic-footwear',
+      title: 'Diabetic & Orthopedic Footwear',
+      image: diabeticFootwearImg,
+      description: 'Therapeutic shoes, diabetic socks, and orthopedic footwear'
+    },
+    {
       id: 'respiratory',
       title: 'Respiratory Equipment',
       image: oxygenConcentratorImg,
@@ -111,24 +129,6 @@ const Index = () => {
       title: 'Daily Living Aids',
       image: dailyLivingAidsImg,
       description: 'Hospital beds, overbed tables, and essential daily living assistance'
-    },
-    {
-      id: 'diabetic-footwear',
-      title: 'Diabetic & Orthopedic Footwear',
-      image: diabeticFootwearImg,
-      description: 'Therapeutic shoes, diabetic socks, and orthopedic footwear'
-    },
-    {
-      id: 'contact-lens',
-      title: 'Contact Lens',
-      image: contactLensImg,
-      description: 'Daily, monthly contact lenses and cleaning solutions'
-    },
-    {
-      id: 'hearing-aids',
-      title: 'Hearing Aids',
-      image: hearingAidImg,
-      description: 'Digital hearing aids, amplifiers, and hearing assistance devices'
     }
   ];
 
