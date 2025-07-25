@@ -2843,6 +2843,8 @@ export const babyChildrenProducts: Product[] = [
     inStock: true,
     freeShipping: true
   }
+];
+
 // Additional categories for missing navigation items
 export const babyChildrenProducts: Product[] = [
   {
@@ -2866,53 +2868,47 @@ export const babyChildrenProducts: Product[] = [
 export const fsaEligibleProducts: Product[] = allProducts.filter(product => product.isFsaEligible);
 export const driveMedicalProducts: Product[] = allProducts.filter(product => product.brand === "Drive Medical");
 export const invacareProducts: Product[] = allProducts.filter(product => product.brand === "Invacare");
-  {
-    id: "fsa-002",
-    name: "Electric Thermometer",
-    image: "/src/assets/thermometer.jpg",
-    currentPrice: 24.99,
-    rating: 4.6,
-    reviewCount: 189,
-    isFsaEligible: true,
-    brand: "Braun",
-    category: "FSA/HSA Products",
-    subcategory: "health-monitors",
-    inStock: true,
-    freeShipping: true
-  },
-  {
-    id: "fsa-003",
-    name: "Compression Socks - Graduated 20-30mmHg",
-    image: "/src/assets/compression-socks.jpg",
-    currentPrice: 19.99,
-    originalPrice: 24.99,
-    rating: 4.5,
-    reviewCount: 156,
-    isFsaEligible: true,
-    brand: "Jobst",
-    category: "FSA/HSA Products",
-    subcategory: "compression-products",
-    inStock: true,
-    freeShipping: true
-  },
-  {
-    id: "fsa-004",
-    name: "TENS Unit for Pain Relief",
-    image: "/src/assets/tens-unit.jpg",
-    currentPrice: 89.99,
-    originalPrice: 109.99,
-    rating: 4.4,
-    reviewCount: 98,
-    isFsaEligible: true,
-    brand: "HotShotz",
-    category: "FSA/HSA Products",
-    subcategory: "pain-relief",
-    inStock: true,
-    freeShipping: true
-  },
+// All products array combining all categories for search and comprehensive listing
+export const allProducts: Product[] = [
+  ...wellnessProducts,
+  ...hospitalBedsProducts,
+  ...mobilityProducts,
+  ...bathroomSafetyProducts,
+  ...respiratoryProducts,
+  ...compressionProducts,
+  ...bathLiftProducts,
+  ...geriChairProducts,
+  ...stethoscopeProducts,
+  ...positioningProducts,
+  ...diabeticCareProducts,
+  ...pediatricProducts,
+  ...scooterProducts,
+  ...orthopedicProducts,
+  ...personalCareProducts,
+  ...disposableProducts,
+  ...sunscreenProducts,
+  ...supplementProducts,
+  ...walkerAccessories,
+  ...clinicalEquipment,
+  ...batteryProducts,
+  ...dailyLivingAidsProducts,
+  ...footwearProducts,
+  ...contactLensProducts,
+  ...hearingAidsProducts,
+  ...wheelchairProducts,
+  ...patientLiftProducts,
+  ...walkerProducts,
+  ...vitaminsProducts,
+  ...electricHospitalBedsProducts,
+  ...semiElectricBedsProducts,
+  ...sexualWellnessProducts,
+  ...mobilityScooterProducts,
+  ...canesCrutchesProducts,
+  ...medicinesProducts,
+  ...babyChildrenProducts
+];
   {
     id: "fsa-005",
-    name: "Glucose Test Strips - 50 Count",
     image: "/src/assets/glucose-meter.jpg",
     currentPrice: 29.99,
     rating: 4.8,
