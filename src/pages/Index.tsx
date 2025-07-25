@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/ProductCard";
-import { allProducts, wellnessProducts, hospitalBedsProducts, mobilityProducts, bathroomSafetyProducts, respiratoryProducts, compressionProducts } from "@/data/products";
+import { allProducts, wellnessProducts, hospitalBedsProducts, mobilityProducts, bathroomSafetyProducts, respiratoryProducts, compressionProducts, bathLiftProducts, geriChairProducts, stethoscopeProducts, positioningProducts, diabeticCareProducts, pediatricProducts, scooterProducts, orthopedicProducts, personalCareProducts } from "@/data/products";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Filter, SortAsc } from "lucide-react";
@@ -17,6 +17,15 @@ const Index = () => {
       case 'bathroom-safety': return bathroomSafetyProducts;
       case 'respiratory': return respiratoryProducts;
       case 'compression': return compressionProducts;
+      case 'bath-lifts': return bathLiftProducts;
+      case 'seating': return geriChairProducts;
+      case 'diagnostics': return stethoscopeProducts;
+      case 'positioning': return positioningProducts;
+      case 'diabetic-care': return diabeticCareProducts;
+      case 'pediatric': return pediatricProducts;
+      case 'scooters': return scooterProducts;
+      case 'orthopedic': return orthopedicProducts;
+      case 'personal-care': return personalCareProducts;
       default: return allProducts;
     }
   };
@@ -104,6 +113,34 @@ const Index = () => {
             >
               Compression ({compressionProducts.length})
             </Button>
+            <Button 
+              variant={selectedCategory === 'diagnostics' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('diagnostics')}
+            >
+              Diagnostics ({stethoscopeProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'pediatric' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('pediatric')}
+            >
+              Pediatric ({pediatricProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'orthopedic' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('orthopedic')}
+            >
+              Orthopedic ({orthopedicProducts.length})
+            </Button>
+            <Button 
+              variant={selectedCategory === 'positioning' ? 'default' : 'outline'} 
+              size="sm"
+              onClick={() => setSelectedCategory('positioning')}
+            >
+              Positioning ({positioningProducts.length})
+            </Button>
           </div>
           
           <div className="flex items-center justify-between">
@@ -115,7 +152,11 @@ const Index = () => {
                  selectedCategory === 'mobility' ? 'Mobility Aids' :
                  selectedCategory === 'bathroom-safety' ? 'Bathroom Safety' :
                  selectedCategory === 'respiratory' ? 'Respiratory Equipment' :
-                 selectedCategory === 'compression' ? 'Compression Therapy' : 'Products'}
+                 selectedCategory === 'compression' ? 'Compression Therapy' :
+                 selectedCategory === 'diagnostics' ? 'Diagnostic Equipment' :
+                 selectedCategory === 'pediatric' ? 'Pediatric Products' :
+                 selectedCategory === 'orthopedic' ? 'Orthopedic Supports' :
+                 selectedCategory === 'positioning' ? 'Positioning & Support' : 'Products'}
               </h2>
               <span className="text-muted-foreground">({currentProducts.length} items)</span>
             </div>
