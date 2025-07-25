@@ -2825,6 +2825,43 @@ export const babyChildrenProducts: Product[] = [
   }
 ];
 
+// FSA/HSA Eligible Products - Filter from existing products
+export const fsaEligibleProducts: Product[] = [
+  ...wellnessProducts.filter(p => p.isFsaEligible),
+  ...hospitalBedsProducts.filter(p => p.isFsaEligible),
+  ...mobilityProducts.filter(p => p.isFsaEligible),
+  ...bathroomSafetyProducts.filter(p => p.isFsaEligible),
+  ...respiratoryProducts.filter(p => p.isFsaEligible),
+  ...compressionProducts.filter(p => p.isFsaEligible),
+  ...stethoscopeProducts.filter(p => p.isFsaEligible),
+  ...pediatricProducts.filter(p => p.isFsaEligible),
+  ...orthopedicProducts.filter(p => p.isFsaEligible),
+  ...positioningProducts.filter(p => p.isFsaEligible),
+  ...personalCareProducts.filter(p => p.isFsaEligible),
+  ...babyChildrenProducts.filter(p => p.isFsaEligible)
+];
+
+// FSA/HSA Medical Equipment Subcategory
+export const fsaMedicalEquipmentProducts: Product[] = [
+  ...wellnessProducts.filter(p => p.isFsaEligible && (p.category === 'Monitoring' || p.category === 'Diagnostics')),
+  ...hospitalBedsProducts.filter(p => p.isFsaEligible),
+  ...respiratoryProducts.filter(p => p.isFsaEligible),
+  ...stethoscopeProducts.filter(p => p.isFsaEligible)
+];
+
+// FSA/HSA Pain Relief Subcategory
+export const fsaPainReliefProducts: Product[] = [
+  ...wellnessProducts.filter(p => p.isFsaEligible && p.category === 'Pain Relief'),
+  ...personalCareProducts.filter(p => p.isFsaEligible),
+  ...orthopedicProducts.filter(p => p.isFsaEligible)
+];
+
+// FSA/HSA Mobility Aids Subcategory
+export const fsaMobilityProducts: Product[] = [
+  ...mobilityProducts.filter(p => p.isFsaEligible),
+  ...bathroomSafetyProducts.filter(p => p.isFsaEligible)
+];
+
 export const allProducts: Product[] = [
   ...wellnessProducts,
   ...hospitalBedsProducts,

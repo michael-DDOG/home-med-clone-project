@@ -33,7 +33,11 @@ import {
   sexualWellnessProducts,
   mobilityScooterProducts,
   canesCrutchesProducts,
-  medicinesProducts
+  medicinesProducts,
+  fsaEligibleProducts,
+  fsaMedicalEquipmentProducts,
+  fsaPainReliefProducts,
+  fsaMobilityProducts
 } from "@/data/products";
 
 interface ComprehensiveFilterState {
@@ -132,6 +136,10 @@ const ProductCategory = () => {
       // Additional categories that use existing product arrays
       case 'ramps': return mobilityProducts;
       case 'stair-lift': return mobilityProducts;
+      case 'fsa-eligible': return fsaEligibleProducts;
+      case 'fsa-medical-equipment': return fsaMedicalEquipmentProducts;
+      case 'fsa-pain-relief': return fsaPainReliefProducts;
+      case 'fsa-mobility': return fsaMobilityProducts;
       default: return allProducts;
     }
   };
@@ -183,6 +191,10 @@ const ProductCategory = () => {
       case 'caregiver': return 'Caregiver Essentials';
       case 'exam-rooms': return 'Exam Rooms';
       case 'physical-therapy': return 'Physical Therapy';
+      case 'fsa-eligible': return 'FSA/HSA Eligible Products';
+      case 'fsa-medical-equipment': return 'FSA/HSA Medical Equipment';
+      case 'fsa-pain-relief': return 'FSA/HSA Pain Relief';
+      case 'fsa-mobility': return 'FSA/HSA Mobility Aids';
       default: return 'All Products';
     }
   };
