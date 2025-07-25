@@ -95,17 +95,29 @@ const MainNavigation = () => {
       title: 'BRANDS',
       id: 'brands',
       subcategories: [
-        { name: 'Drive Medical', path: '/category/drive-medical' },
-        { name: 'Invacare', path: '/category/invacare' },
-        { name: 'ProHeal', path: '/category/proheal' },
-        { name: 'Sammons Preston', path: '/category/sammons-preston' },
+        { name: 'Drive Medical', path: '/category/brand-drive-medical' },
+        { name: 'ProHeal', path: '/category/brand-proheal' },
+        { name: 'Invacare', path: '/category/brand-invacare' },
+        { name: '3M Littmann', path: '/category/brand-3m-littmann' },
+        { name: 'Johnson & Johnson', path: '/category/brand-johnson' },
+        { name: 'Omron', path: '/category/brand-omron' },
+        { name: 'Braun', path: '/category/brand-braun' },
+        { name: 'Babyganics', path: '/category/brand-babyganics' },
         { name: 'APEX medtech', path: '/category/apex-medtech' },
-        { name: 'Med-Mizer', path: '/category/med-mizer' },
-        { name: 'StarSleep', path: '/category/starsleep' },
-        { name: 'Graham Field', path: '/category/graham-field' },
-        { name: 'Proactive Medical', path: '/category/proactive-medical' },
-        { name: 'Circle Specialty', path: '/category/circle-specialty' },
         { name: 'All Brands', path: '/category/all-brands' }
+      ]
+    },
+    {
+      title: 'SPECIALTY CARE',
+      id: 'specialty-care',
+      subcategories: [
+        { name: 'Wound Care & Bandages', path: '/category/wound-care' },
+        { name: 'Diabetic Care Supplies', path: '/category/diabetic-supplies' },
+        { name: 'Blood Pressure Accessories', path: '/category/blood-pressure-accessories' },
+        { name: 'Respiratory Accessories', path: '/category/respiratory-accessories' },
+        { name: 'Physical Therapy Equipment', path: '/category/physical-therapy-equipment' },
+        { name: 'Baby Bath & Safety', path: '/category/baby-bath-safety' },
+        { name: 'Baby Feeding & Nutrition', path: '/category/baby-feeding' }
       ]
     }
   ];

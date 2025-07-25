@@ -238,6 +238,61 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Featured Brands & Specialty Categories */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Featured Brands */}
+            <div>
+              <h2 className="text-2xl font-bold text-primary mb-6">Shop by Brand</h2>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { name: 'Drive Medical', path: '/category/brand-drive-medical', products: '2500+ Products' },
+                  { name: 'Omron', path: '/category/brand-omron', products: 'Health Monitors' },
+                  { name: '3M Littmann', path: '/category/brand-3m-littmann', products: 'Stethoscopes' },
+                  { name: 'Johnson & Johnson', path: '/category/brand-johnson', products: 'First Aid' },
+                  { name: 'Braun', path: '/category/brand-braun', products: 'Thermometers' },
+                  { name: 'Babyganics', path: '/category/brand-babyganics', products: 'Baby Care' }
+                ].map((brand) => (
+                  <div
+                    key={brand.name}
+                    onClick={() => navigate(brand.path)}
+                    className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-gray-200 hover:border-primary"
+                  >
+                    <h3 className="font-semibold text-primary mb-1">{brand.name}</h3>
+                    <p className="text-sm text-muted-foreground">{brand.products}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Specialty Categories */}
+            <div>
+              <h2 className="text-2xl font-bold text-primary mb-6">Specialty Care</h2>
+              <div className="space-y-3">
+                {[
+                  { name: 'Wound Care & Bandages', path: '/category/wound-care', icon: '🩹' },
+                  { name: 'Diabetic Care Supplies', path: '/category/diabetic-supplies', icon: '💉' },
+                  { name: 'Physical Therapy Equipment', path: '/category/physical-therapy-equipment', icon: '🏃‍♂️' },
+                  { name: 'Baby Bath & Safety', path: '/category/baby-bath-safety', icon: '🛁' },
+                  { name: 'Baby Feeding & Nutrition', path: '/category/baby-feeding', icon: '🍼' },
+                  { name: 'Respiratory Accessories', path: '/category/respiratory-accessories', icon: '😤' }
+                ].map((specialty) => (
+                  <div
+                    key={specialty.name}
+                    onClick={() => navigate(specialty.path)}
+                    className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-gray-200 hover:border-primary flex items-center gap-3"
+                  >
+                    <span className="text-2xl">{specialty.icon}</span>
+                    <h3 className="font-medium text-primary">{specialty.name}</h3>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
