@@ -6,7 +6,7 @@ import { allProducts } from "@/data/products";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Filter, SortAsc } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Import category images
@@ -17,9 +17,51 @@ import oxygenConcentratorImg from '@/assets/oxygen-concentrator.jpg';
 import pulseOximeterImg from '@/assets/pulse-oximeter.jpg';
 import compressionSocksImg from '@/assets/compression-socks.jpg';
 
+// Add filter interface
+interface ComprehensiveFilterState {
+  priceRange: [number, number];
+  brand: string;
+  patientProfile: string[];
+  weightCapacity: string;
+  bedWidth: string;
+  bedLength: string;
+  mattressType: string;
+  mobilityFeatures: string[];
+  powerFeatures: string[];
+  certifications: string[];
+  materials: string[];
+  roomLocation: string[];
+  conditionsHelped: string[];
+  minRating: number;
+  fsaEligible: boolean;
+  inStock: boolean;
+  freeShipping: boolean;
+  availability: string[];
+}
+
 const Index = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filters, setFilters] = useState<ComprehensiveFilterState>({
+    priceRange: [0, 2000],
+    brand: '',
+    patientProfile: [],
+    weightCapacity: '',
+    bedWidth: '',
+    bedLength: '',
+    mattressType: '',
+    mobilityFeatures: [],
+    powerFeatures: [],
+    certifications: [],
+    materials: [],
+    roomLocation: [],
+    conditionsHelped: [],
+    minRating: 0,
+    fsaEligible: false,
+    inStock: false,
+    freeShipping: false,
+    availability: []
+  });
   const itemsPerPage = 21;
   
   // Category data for beautiful display cards
@@ -62,8 +104,48 @@ const Index = () => {
     }
   ];
 
+  // Apply filters to featured products
+  const filteredProducts = useMemo(() => {
+    return allProducts.filter(product => {
+      // Price filter
+      if (product.currentPrice < filters.priceRange[0] || product.currentPrice > filters.priceRange[1]) {
+        return false;
+      }
+      
+      // Brand filter
+      if (filters.brand && product.brand && product.brand !== filters.brand) {
+        return false;
+      }
+      
+      // FSA/HSA filter
+      if (filters.fsaEligible && !product.isFsaEligible) {
+        return false;
+      }
+      
+      // In Stock filter
+      if (filters.inStock && !product.inStock) {
+        return false;
+      }
+      
+      // Free Shipping filter
+      if (filters.freeShipping && !product.freeShipping) {
+        return false;
+      }
+      
+      // Conditions Helped filter
+      if (filters.conditionsHelped.length > 0 && product.conditionsHelped) {
+        const hasConditions = filters.conditionsHelped.some(condition => 
+          product.conditionsHelped?.includes(condition)
+        );
+        if (!hasConditions) return false;
+      }
+      
+      return true;
+    });
+  }, [filters]);
+
   // Featured products for homepage
-  const featuredProducts = allProducts.slice(0, itemsPerPage);
+  const featuredProducts = filteredProducts.slice(0, itemsPerPage);
   
   return (
     <div className="min-h-screen bg-background">
@@ -130,7 +212,7 @@ const Index = () => {
           
           {/* Filter Bar */}
           <div className="mb-8">
-            <ComprehensiveProductFilters onFilterChange={() => {}} />
+            <ComprehensiveProductFilters onFilterChange={setFilters} />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
