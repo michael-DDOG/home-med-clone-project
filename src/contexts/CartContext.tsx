@@ -7,7 +7,7 @@ export interface CartItem {
   productId: string;
   productName: string;
   productImage?: string;
-  currentPrice: number;
+  currentPrice?: number;
   originalPrice?: number;
   quantity: number;
 }
@@ -19,7 +19,7 @@ interface CartContextType {
   addToCart: (product: {
     id: string;
     name: string;
-    currentPrice: number;
+    currentPrice?: number;
     originalPrice?: number;
     image?: string;
   }) => Promise<void>;

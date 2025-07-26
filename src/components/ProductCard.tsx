@@ -10,7 +10,7 @@ interface ProductCardProps {
   name: string;
   image: string;
   originalPrice?: number;
-  currentPrice: number;
+  currentPrice?: number;
   rating: number;
   reviewCount: number;
   isStaffPick?: boolean;
@@ -45,7 +45,7 @@ export const ProductCard = ({
   const cartContext = getCartContext();
   const { addToCart, isLoading } = cartContext || { addToCart: null, isLoading: false };
   
-  const discount = originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
+  const discount = originalPrice && currentPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent navigation when clicking add to cart
@@ -143,16 +143,18 @@ export const ProductCard = ({
             </span>
           </div>
 
-          <div className="flex items-center gap-2 mb-4">
-            {originalPrice && (
-              <span className="text-sm text-muted-foreground line-through">
-                ${originalPrice.toFixed(2)}
+          {currentPrice && (
+            <div className="flex items-center gap-2 mb-4">
+              {originalPrice && (
+                <span className="text-sm text-muted-foreground line-through">
+                  ${originalPrice.toFixed(2)}
+                </span>
+              )}
+              <span className="text-xl font-bold text-primary">
+                ${currentPrice.toFixed(2)}
               </span>
-            )}
-            <span className="text-xl font-bold text-primary">
-              ${currentPrice.toFixed(2)}
-            </span>
-          </div>
+            </div>
+          )}
 
           <Button 
             className="w-full bg-primary hover:bg-primary/90"

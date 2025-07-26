@@ -125,11 +125,6 @@ export function generateProductsForCategory(
     const template = templates[templateIndex];
     const variation = Math.floor(i / templates.length) + 1;
     
-    const basePrice = Math.random() * 800 + 50; // $50-$850 range
-    const discount = Math.random() * 0.3; // 0-30% discount
-    const originalPrice = basePrice;
-    const currentPrice = basePrice * (1 - discount);
-    
     const rating = 4.0 + Math.random() * 1.0; // 4.0-5.0 rating
     const reviewCount = Math.floor(Math.random() * 1000) + 50; // 50-1050 reviews
     
@@ -137,8 +132,6 @@ export function generateProductsForCategory(
       id: `${categoryName.toLowerCase()}-${i + 1}`,
       name: variation > 1 ? `${template} - Model ${variation}` : template,
       image: baseImage,
-      originalPrice: Math.round(originalPrice * 100) / 100,
-      currentPrice: Math.round(currentPrice * 100) / 100,
       rating: Math.round(rating * 10) / 10,
       reviewCount,
       isStaffPick: Math.random() > 0.8, // 20% chance

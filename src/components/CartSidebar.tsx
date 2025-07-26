@@ -39,7 +39,8 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ children }) => {
   
   const { items, itemCount, isLoading, updateQuantity, removeFromCart, clearCart } = cartData;
 
-  const total = items.reduce((sum, item) => sum + (item.currentPrice * item.quantity), 0);
+  const total = items.reduce((sum, item) => sum + ((item.currentPrice || 0) * item.quantity), 0);
+  const hasItemsWithPrices = items.some(item => item.currentPrice);
 
   const handleCheckout = async () => {
     if (items.length === 0) {
@@ -143,16 +144,18 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ children }) => {
                     <h4 className="font-medium text-sm line-clamp-2">
                       {item.productName}
                     </h4>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="font-semibold text-primary">
-                        ${item.currentPrice.toFixed(2)}
-                      </span>
-                      {item.originalPrice && item.originalPrice > item.currentPrice && (
-                        <span className="text-sm text-muted-foreground line-through">
-                          ${item.originalPrice.toFixed(2)}
-                        </span>
-                      )}
-                    </div>
+                     {item.currentPrice && (
+                       <div className="flex items-center gap-2 mt-1">
+                         <span className="font-semibold text-primary">
+                           ${item.currentPrice.toFixed(2)}
+                         </span>
+                         {item.originalPrice && item.originalPrice > item.currentPrice && (
+                           <span className="text-sm text-muted-foreground line-through">
+                             ${item.originalPrice.toFixed(2)}
+                           </span>
+                         )}
+                       </div>
+                     )}
                     <div className="flex items-center gap-2 mt-2">
                       <div className="flex items-center border rounded-md">
                         <Button
@@ -193,10 +196,12 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ children }) => {
 
         {items.length > 0 && (
           <div className="border-t pt-4 mt-4 space-y-4">
-            <div className="flex justify-between items-center text-lg font-semibold">
-              <span>Total:</span>
-              <span className="text-primary">${total.toFixed(2)}</span>
-            </div>
+            {hasItemsWithPrices && (
+              <div className="flex justify-between items-center text-lg font-semibold">
+                <span>Total:</span>
+                <span className="text-primary">${total.toFixed(2)}</span>
+              </div>
+            )}
             <div className="space-y-2">
               <Button 
                 className="w-full" 
@@ -205,7 +210,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ children }) => {
                 disabled={isLoading}
               >
                 <CreditCard className="h-4 w-4 mr-2" />
-                Checkout (${total.toFixed(2)})
+                {hasItemsWithPrices ? `Checkout ($${total.toFixed(2)})` : 'Checkout'}
               </Button>
               <Button
                 variant="outline"

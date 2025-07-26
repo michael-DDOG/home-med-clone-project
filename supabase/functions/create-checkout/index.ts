@@ -29,7 +29,7 @@ serve(async (req) => {
       apiVersion: '2023-10-16',
     });
 
-    // Create line items for Stripe
+    // Create line items for Stripe - use $1.00 default for items without prices
     const lineItems = items.map((item: any) => ({
       price_data: {
         currency: 'usd',
@@ -37,7 +37,7 @@ serve(async (req) => {
           name: item.productName,
           images: item.productImage ? [item.productImage] : [],
         },
-        unit_amount: Math.round(item.currentPrice * 100), // Convert to cents
+        unit_amount: Math.round((item.currentPrice || 1.00) * 100), // Convert to cents, default $1.00
       },
       quantity: item.quantity,
     }));

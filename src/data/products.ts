@@ -59,7 +59,7 @@ export interface Product {
   name: string;
   image: string;
   originalPrice?: number;
-  currentPrice: number;
+  currentPrice?: number;
   rating: number;
   reviewCount: number;
   isStaffPick?: boolean;
@@ -101,8 +101,6 @@ const baseWellnessProducts: Product[] = [
     id: 'pulse-ox-1',
     name: 'Digital Fingertip Pulse Oximeter - SpO2 & Heart Rate Monitor',
     image: pulseOximeterImg,
-    originalPrice: 79.99,
-    currentPrice: 49.99,
     rating: 4.8,
     reviewCount: 1247,
     isStaffPick: true,
@@ -124,8 +122,6 @@ const baseWellnessProducts: Product[] = [
     id: 'bp-monitor-1',
     name: 'Automatic Upper Arm Blood Pressure Monitor with Large Display',
     image: bloodPressureImg,
-    originalPrice: 89.99,
-    currentPrice: 59.99,
     rating: 4.6,
     reviewCount: 892,
     isFsaEligible: true,
@@ -146,8 +142,6 @@ const baseWellnessProducts: Product[] = [
     id: 'tens-1',
     name: 'TENS Unit for Pain Relief - 12 Modes Therapy Device',
     image: tensUnitImg,
-    originalPrice: 129.99,
-    currentPrice: 89.99,
     rating: 4.5,
     reviewCount: 634,
     isFsaEligible: true,
@@ -168,8 +162,6 @@ const baseWellnessProducts: Product[] = [
     id: 'thermometer-1',
     name: 'Non-Contact Infrared Forehead Thermometer',
     image: thermometerImg,
-    originalPrice: 59.99,
-    currentPrice: 39.99,
     rating: 4.7,
     reviewCount: 1156,
     isStaffPick: true,
@@ -180,8 +172,6 @@ const baseWellnessProducts: Product[] = [
     id: 'nebulizer-1',
     name: 'Compressor Nebulizer Machine with Adult & Child Masks',
     image: nebulizerImg,
-    originalPrice: 199.99,
-    currentPrice: 149.99,
     rating: 4.4,
     reviewCount: 456,
     isFsaEligible: true,
@@ -192,8 +182,6 @@ const baseWellnessProducts: Product[] = [
     id: 'glucose-1',
     name: 'Blood Glucose Monitoring System Starter Kit',
     image: glucoseMeterImg,
-    originalPrice: 49.99,
-    currentPrice: 29.99,
     rating: 4.6,
     reviewCount: 789,
     isFsaEligible: true,
