@@ -6,137 +6,58 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
 import { 
   Star, 
-  Shield, 
-  Truck, 
   Heart, 
   Minus, 
   Plus, 
   ShoppingCart,
   ArrowLeft,
   Share2,
+  Truck,
+  Shield,
   Check
 } from 'lucide-react';
 import { allProducts } from '@/data/products';
 import { toast } from 'sonner';
 
 const ProductDetail = () => {
-  console.log('🚨 ProductDetail component is rendering!');
-  
-  // Safely get URL parameters
-  const params = useParams();
-  const productId = params.productId;
+  const { productId } = useParams();
   const navigate = useNavigate();
   
-  console.log('🔗 Raw params:', params);
-  console.log('🔗 Product ID from URL:', productId);
-  console.log('📊 All products array length:', allProducts.length);
-
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
-  // CRITICAL FIX: Add error boundaries and detailed logging
+  // Find the product
   const product = useMemo(() => {
-    try {
-      console.log('🔍 Starting product lookup...');
-      console.log('🔍 Looking for product with ID:', productId);
-      console.log('🔍 ProductId type:', typeof productId);
-      
-      if (!productId) {
-        console.log('❌ No productId provided in URL params');
-        return null;
-      }
-      
-      if (!allProducts || !Array.isArray(allProducts)) {
-        console.log('❌ allProducts is not a valid array:', allProducts);
-        return null;
-      }
-      
-      console.log('🔍 Total products available:', allProducts.length);
-      
-      if (allProducts.length > 0) {
-        console.log('🔍 First 10 product IDs:', allProducts.slice(0, 10).map(p => p.id));
-        console.log('🔍 Sample product structure:', {
-          id: allProducts[0].id,
-          name: allProducts[0].name,
-          keys: Object.keys(allProducts[0])
-        });
-      } else {
-        console.log('❌ No products found in allProducts array!');
-        return null;
-      }
-      
-      // Search for exact match
-      const foundProduct = allProducts.find(p => p.id === productId);
-      console.log('🔍 Found exact match:', foundProduct ? 'YES' : 'NO');
-      
-      if (foundProduct) {
-        console.log('✅ Product details:', {
-          id: foundProduct.id,
-          name: foundProduct.name,
-          category: foundProduct.category
-        });
-      } else {
-        console.log('❌ Product not found. Searching for similar IDs...');
-        const similarIds = allProducts
-          .map(p => p.id)
-          .filter(id => id.includes(productId) || productId.includes(id))
-          .slice(0, 5);
-        console.log('🔍 Similar product IDs found:', similarIds);
-      }
-      
-      return foundProduct || null;
-      
-    } catch (error) {
-      console.error('💥 Error in product lookup:', error);
-      return null;
-    }
+    if (!productId || !allProducts.length) return null;
+    return allProducts.find(p => p.id === productId) || null;
   }, [productId]);
 
-  // Get related products safely
+  // Get related products
   const relatedProducts = useMemo(() => {
-    try {
-      if (!product || !allProducts || allProducts.length === 0) return [];
-      
-      return allProducts
-        .filter(p => 
-          p.id !== product.id && 
-          (p.category === product.category || p.brand === product.brand)
-        )
-        .slice(0, 4);
-    } catch (error) {
-      console.error('Error getting related products:', error);
-      return [];
-    }
+    if (!product) return [];
+    return allProducts
+      .filter(p => p.id !== product.id && p.category === product.category)
+      .slice(0, 4);
   }, [product]);
 
-  // If no product found, show 404 with debugging info
+  // Handle case where product is not found
   if (!product) {
-    console.log('🚨 Rendering NotFound - Product is null/undefined');
     return (
       <div className="min-h-screen bg-background">
         <Header onCategorySelect={(category) => navigate(category === 'all' ? '/' : `/category/${category}`)} />
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
           <p className="text-muted-foreground mb-6">
-            The product with ID "{productId}" doesn't exist.
+            The product you're looking for doesn't exist.
           </p>
-          <div className="text-sm text-muted-foreground mb-6">
-            <p>Debug Info:</p>
-            <p>Product ID: {productId}</p>
-            <p>Total Products: {allProducts?.length || 0}</p>
-            <p>URL Params: {JSON.stringify(params)}</p>
-          </div>
           <Button onClick={() => navigate('/')}>Return to Home</Button>
         </div>
       </div>
     );
   }
-
-  console.log('✅ Rendering product details for:', product.name);
 
   const handleQuantityChange = (change: number) => {
     setQuantity(prev => Math.max(1, prev + change));
@@ -156,40 +77,13 @@ const ProductDetail = () => {
     toast.success('Product link copied to clipboard!');
   };
 
-  // Generate additional product images (for demo purposes)
-  const productImages = [
-    product.image,
-    product.image, // In real app, these would be different angles
-    product.image,
-    product.image
-  ];
+  // Generate product images (demo purposes)
+  const productImages = [product.image, product.image, product.image, product.image];
 
-  const reviews = [
-    {
-      id: 1,
-      author: "Sarah M.",
-      rating: 5,
-      date: "2024-01-15",
-      title: "Excellent quality and fast delivery",
-      content: "This product exceeded my expectations. Great build quality and exactly as described."
-    },
-    {
-      id: 2,
-      author: "Robert K.",
-      rating: 4,
-      date: "2024-01-10", 
-      title: "Good value for money",
-      content: "Works well for my needs. Shipping was quick and packaging was secure."
-    },
-    {
-      id: 3,
-      author: "Maria L.",
-      rating: 5,
-      date: "2024-01-05",
-      title: "Highly recommended",
-      content: "Perfect for my daily use. The customer service was also very helpful."
-    }
-  ];
+  // Generate pricing data
+  const basePrice = Math.floor(Math.random() * 500) + 50;
+  const discountPercent = Math.floor(Math.random() * 30) + 10;
+  const currentPrice = basePrice * (1 - discountPercent / 100);
 
   return (
     <div className="min-h-screen bg-background">
@@ -228,7 +122,7 @@ const ProductDetail = () => {
                 <button
                   key={index}
                   className={`aspect-square rounded-lg overflow-hidden border-2 ${
-                    selectedImageIndex === index ? 'border-primary' : 'border-gray-200'
+                    selectedImageIndex === index ? 'border-primary' : 'border-muted'
                   }`}
                   onClick={() => setSelectedImageIndex(index)}
                 >
@@ -254,7 +148,7 @@ const ProductDetail = () => {
                     <Star
                       key={i}
                       className={`h-4 w-4 ${
-                        i < product.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                        i < product.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
                       }`}
                     />
                   ))}
@@ -264,27 +158,21 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-              {(product.currentPrice || product.originalPrice) && (
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="text-3xl font-bold text-primary">
-                    ${product.currentPrice ? product.currentPrice.toFixed(2) : '1.00'}
-                  </span>
-                  {product.originalPrice && product.originalPrice > (product.currentPrice || 0) && (
-                    <>
-                      <span className="text-lg text-muted-foreground line-through">
-                        ${product.originalPrice.toFixed(2)}
-                      </span>
-                      <Badge variant="secondary">
-                        Save ${((product.originalPrice - (product.currentPrice || 0))).toFixed(2)}
-                      </Badge>
-                    </>
-                  )}
-                </div>
-              )}
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-3xl font-bold text-primary">
+                  ${currentPrice.toFixed(2)}
+                </span>
+                <span className="text-lg text-muted-foreground line-through">
+                  ${basePrice.toFixed(2)}
+                </span>
+                <Badge variant="secondary">
+                  Save ${(basePrice - currentPrice).toFixed(2)}
+                </Badge>
+              </div>
 
               <div className="flex gap-2 mb-6">
                 {product.isFsaEligible && (
-                  <Badge className="bg-medical-blue text-white">FSA/HSA Eligible</Badge>
+                  <Badge className="bg-primary text-primary-foreground">FSA/HSA Eligible</Badge>
                 )}
                 {product.freeShipping && (
                   <Badge variant="outline">Free Shipping</Badge>
@@ -444,7 +332,7 @@ const ProductDetail = () => {
                           <Star
                             key={i}
                             className={`h-4 w-4 ${
-                              i < product.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                              i < product.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
                             }`}
                           />
                         ))}
@@ -455,29 +343,42 @@ const ProductDetail = () => {
                     </div>
                   </div>
                   
-                  <Separator />
-                  
-                  <div className="space-y-6">
-                    {reviews.map((review) => (
-                      <div key={review.id} className="space-y-2">
-                        <div className="flex items-center gap-4">
-                          <div className="flex items-center">
+                  <div className="space-y-4">
+                    {[
+                      {
+                        id: 1,
+                        author: "Sarah M.",
+                        rating: 5,
+                        date: "2024-01-15",
+                        title: "Excellent quality and fast delivery",
+                        content: "This product exceeded my expectations. Great build quality and exactly as described."
+                      },
+                      {
+                        id: 2,
+                        author: "Robert K.",
+                        rating: 4,
+                        date: "2024-01-10", 
+                        title: "Good value for money",
+                        content: "Works well for my needs. Shipping was quick and packaging was secure."
+                      }
+                    ].map((review) => (
+                      <div key={review.id} className="border-b pb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="flex">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
                                 className={`h-4 w-4 ${
-                                  i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                  i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
                                 }`}
                               />
                             ))}
                           </div>
-                          <span className="font-medium">{review.title}</span>
+                          <span className="font-medium">{review.author}</span>
+                          <span className="text-sm text-muted-foreground">{review.date}</span>
                         </div>
-                        <div className="text-sm text-muted-foreground">
-                          By {review.author} on {new Date(review.date).toLocaleDateString()}
-                        </div>
-                        <p className="text-sm">{review.content}</p>
-                        <Separator />
+                        <h5 className="font-medium mb-1">{review.title}</h5>
+                        <p className="text-muted-foreground">{review.content}</p>
                       </div>
                     ))}
                   </div>
@@ -493,7 +394,19 @@ const ProductDetail = () => {
             <h2 className="text-2xl font-bold mb-6">Related Products</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
-                <ProductCard key={relatedProduct.id} {...relatedProduct} />
+                <ProductCard
+                  key={relatedProduct.id}
+                  id={relatedProduct.id}
+                  name={relatedProduct.name}
+                  image={relatedProduct.image}
+                  originalPrice={relatedProduct.originalPrice}
+                  currentPrice={relatedProduct.currentPrice}
+                  rating={relatedProduct.rating}
+                  reviewCount={relatedProduct.reviewCount}
+                  isStaffPick={relatedProduct.isStaffPick}
+                  isFsaEligible={relatedProduct.isFsaEligible}
+                  badges={relatedProduct.badges}
+                />
               ))}
             </div>
           </div>
