@@ -31,8 +31,19 @@ const ProductDetail = () => {
 
   // Find the product
   const product = useMemo(() => {
-    if (!productId || !allProducts.length) return null;
-    return allProducts.find(p => p.id === productId) || null;
+    console.log('ProductDetail: Looking for productId:', productId);
+    console.log('ProductDetail: allProducts length:', allProducts.length);
+    console.log('ProductDetail: Sample product IDs:', allProducts.slice(0, 5).map(p => p.id));
+    
+    if (!productId || !allProducts.length) {
+      console.log('ProductDetail: No productId or empty allProducts');
+      return null;
+    }
+    
+    const foundProduct = allProducts.find(p => p.id === productId);
+    console.log('ProductDetail: Found product:', foundProduct ? foundProduct.name : 'NOT FOUND');
+    
+    return foundProduct || null;
   }, [productId]);
 
   // Get related products
