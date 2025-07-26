@@ -23,19 +23,32 @@ import { allProducts } from '@/data/products';
 import { toast } from 'sonner';
 
 const ProductDetail = () => {
+  console.log('🚨 ProductDetail component is rendering!');
   const { productId } = useParams();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
+  console.log('🔗 Product ID from URL:', productId);
+  console.log('📊 All products array length:', allProducts.length);
+
   const product = useMemo(() => {
     console.log('🔍 Looking for product with ID:', productId);
     console.log('🔍 Total products available:', allProducts.length);
-    console.log('🔍 First few product IDs:', allProducts.slice(0, 5).map(p => p.id));
+    
+    if (allProducts.length > 0) {
+      console.log('🔍 First few product IDs:', allProducts.slice(0, 10).map(p => p.id));
+      console.log('🔍 Sample product:', allProducts[0]);
+    } else {
+      console.log('❌ No products found in allProducts array!');
+    }
     
     const foundProduct = allProducts.find(p => p.id === productId);
     console.log('🔍 Found product:', foundProduct ? 'YES' : 'NO');
+    if (foundProduct) {
+      console.log('✅ Product details:', foundProduct.name);
+    }
     
     return foundProduct;
   }, [productId]);
