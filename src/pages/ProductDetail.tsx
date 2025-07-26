@@ -30,7 +30,14 @@ const ProductDetail = () => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   const product = useMemo(() => {
-    return allProducts.find(p => p.id === productId);
+    console.log('🔍 Looking for product with ID:', productId);
+    console.log('🔍 Total products available:', allProducts.length);
+    console.log('🔍 First few product IDs:', allProducts.slice(0, 5).map(p => p.id));
+    
+    const foundProduct = allProducts.find(p => p.id === productId);
+    console.log('🔍 Found product:', foundProduct ? 'YES' : 'NO');
+    
+    return foundProduct;
   }, [productId]);
 
   const relatedProducts = useMemo(() => {
