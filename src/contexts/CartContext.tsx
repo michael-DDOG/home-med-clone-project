@@ -32,28 +32,34 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const useCart = () => {
   const context = useContext(CartContext);
+  console.log('🛒 useCart called, context available:', !!context);
   if (context === undefined) {
+    console.error('❌ useCart called outside CartProvider!');
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
 };
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  console.log('🛒 CartProvider rendering');
   const [items, setItems] = useState<CartItem[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log('🛒 CartProvider useEffect triggered');
     initializeSession();
   }, []);
 
   const initializeSession = async () => {
+    console.log('🛒 STARTING cart initialization...');
     try {
       setIsLoading(true);
-      console.log('🛒 Initializing cart session...');
+      console.log('🛒 Set loading to true');
       
       let sessionId = localStorage.getItem('cart_session_id');
+      console.log('🛒 Retrieved sessionId from localStorage:', sessionId);
       
       if (!sessionId) {
         console.log('🆕 Creating new local session...');
@@ -66,6 +72,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       
       setSessionId(sessionId);
+      console.log('🛒 Set sessionId state to:', sessionId);
       await loadCartItems(sessionId);
       console.log('🎉 Cart session initialized successfully');
       
@@ -76,12 +83,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSessionId(emergencySession);
       localStorage.setItem('cart_session_id', emergencySession);
       setItems([]);
+      console.log('🚨 Using emergency session:', emergencySession);
       toast({
         variant: "destructive",
         title: "Cart Notice",
         description: "Cart initialized in local mode."
       });
     } finally {
+      console.log('🛒 Setting loading to false');
       setIsLoading(false);
     }
   };
