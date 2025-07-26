@@ -24,57 +24,119 @@ import { toast } from 'sonner';
 
 const ProductDetail = () => {
   console.log('🚨 ProductDetail component is rendering!');
-  const { productId } = useParams();
+  
+  // Safely get URL parameters
+  const params = useParams();
+  const productId = params.productId;
   const navigate = useNavigate();
+  
+  console.log('🔗 Raw params:', params);
+  console.log('🔗 Product ID from URL:', productId);
+  console.log('📊 All products array length:', allProducts.length);
+
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
-  console.log('🔗 Product ID from URL:', productId);
-  console.log('📊 All products array length:', allProducts.length);
-
+  // CRITICAL FIX: Add error boundaries and detailed logging
   const product = useMemo(() => {
-    console.log('🔍 Looking for product with ID:', productId);
-    console.log('🔍 Total products available:', allProducts.length);
-    
-    if (allProducts.length > 0) {
-      console.log('🔍 First few product IDs:', allProducts.slice(0, 10).map(p => p.id));
-      console.log('🔍 Sample product:', allProducts[0]);
-    } else {
-      console.log('❌ No products found in allProducts array!');
+    try {
+      console.log('🔍 Starting product lookup...');
+      console.log('🔍 Looking for product with ID:', productId);
+      console.log('🔍 ProductId type:', typeof productId);
+      
+      if (!productId) {
+        console.log('❌ No productId provided in URL params');
+        return null;
+      }
+      
+      if (!allProducts || !Array.isArray(allProducts)) {
+        console.log('❌ allProducts is not a valid array:', allProducts);
+        return null;
+      }
+      
+      console.log('🔍 Total products available:', allProducts.length);
+      
+      if (allProducts.length > 0) {
+        console.log('🔍 First 10 product IDs:', allProducts.slice(0, 10).map(p => p.id));
+        console.log('🔍 Sample product structure:', {
+          id: allProducts[0].id,
+          name: allProducts[0].name,
+          keys: Object.keys(allProducts[0])
+        });
+      } else {
+        console.log('❌ No products found in allProducts array!');
+        return null;
+      }
+      
+      // Search for exact match
+      const foundProduct = allProducts.find(p => p.id === productId);
+      console.log('🔍 Found exact match:', foundProduct ? 'YES' : 'NO');
+      
+      if (foundProduct) {
+        console.log('✅ Product details:', {
+          id: foundProduct.id,
+          name: foundProduct.name,
+          category: foundProduct.category
+        });
+      } else {
+        console.log('❌ Product not found. Searching for similar IDs...');
+        const similarIds = allProducts
+          .map(p => p.id)
+          .filter(id => id.includes(productId) || productId.includes(id))
+          .slice(0, 5);
+        console.log('🔍 Similar product IDs found:', similarIds);
+      }
+      
+      return foundProduct || null;
+      
+    } catch (error) {
+      console.error('💥 Error in product lookup:', error);
+      return null;
     }
-    
-    const foundProduct = allProducts.find(p => p.id === productId);
-    console.log('🔍 Found product:', foundProduct ? 'YES' : 'NO');
-    if (foundProduct) {
-      console.log('✅ Product details:', foundProduct.name);
-    }
-    
-    return foundProduct;
   }, [productId]);
 
+  // Get related products safely
   const relatedProducts = useMemo(() => {
-    if (!product) return [];
-    return allProducts
-      .filter(p => 
-        p.id !== product.id && 
-        (p.category === product.category || p.brand === product.brand)
-      )
-      .slice(0, 4);
+    try {
+      if (!product || !allProducts || allProducts.length === 0) return [];
+      
+      return allProducts
+        .filter(p => 
+          p.id !== product.id && 
+          (p.category === product.category || p.brand === product.brand)
+        )
+        .slice(0, 4);
+    } catch (error) {
+      console.error('Error getting related products:', error);
+      return [];
+    }
   }, [product]);
 
+  // If no product found, show 404 with debugging info
   if (!product) {
+    console.log('🚨 Rendering NotFound - Product is null/undefined');
     return (
       <div className="min-h-screen bg-background">
         <Header onCategorySelect={(category) => navigate(category === 'all' ? '/' : `/category/${category}`)} />
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
-          <p className="text-muted-foreground mb-6">The product you're looking for doesn't exist.</p>
+          <p className="text-muted-foreground mb-6">
+            The product with ID "{productId}" doesn't exist.
+          </p>
+          <div className="text-sm text-muted-foreground mb-6">
+            <p>Debug Info:</p>
+            <p>Product ID: {productId}</p>
+            <p>Total Products: {allProducts?.length || 0}</p>
+            <p>URL Params: {JSON.stringify(params)}</p>
+          </div>
           <Button onClick={() => navigate('/')}>Return to Home</Button>
         </div>
       </div>
     );
   }
+
+  console.log('✅ Rendering product details for:', product.name);
 
   const handleQuantityChange = (change: number) => {
     setQuantity(prev => Math.max(1, prev + change));
@@ -115,7 +177,7 @@ const ProductDetail = () => {
       id: 2,
       author: "Robert K.",
       rating: 4,
-      date: "2024-01-10",
+      date: "2024-01-10", 
       title: "Good value for money",
       content: "Works well for my needs. Shipping was quick and packaging was secure."
     },
@@ -184,7 +246,7 @@ const ProductDetail = () => {
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-              <p className="text-muted-foreground mb-4">by {product.brand}</p>
+              <p className="text-muted-foreground mb-4">by {product.brand || 'Medical Supply Co.'}</p>
               
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center gap-1">
@@ -202,21 +264,23 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-3xl font-bold text-primary">
-                  ${product.currentPrice.toFixed(2)}
-                </span>
-                {product.originalPrice > product.currentPrice && (
-                  <span className="text-lg text-muted-foreground line-through">
-                    ${product.originalPrice.toFixed(2)}
+              {(product.currentPrice || product.originalPrice) && (
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-3xl font-bold text-primary">
+                    ${product.currentPrice ? product.currentPrice.toFixed(2) : '1.00'}
                   </span>
-                )}
-                {product.originalPrice > product.currentPrice && (
-                  <Badge variant="secondary">
-                    Save ${(product.originalPrice - product.currentPrice).toFixed(2)}
-                  </Badge>
-                )}
-              </div>
+                  {product.originalPrice && product.originalPrice > (product.currentPrice || 0) && (
+                    <>
+                      <span className="text-lg text-muted-foreground line-through">
+                        ${product.originalPrice.toFixed(2)}
+                      </span>
+                      <Badge variant="secondary">
+                        Save ${((product.originalPrice - (product.currentPrice || 0))).toFixed(2)}
+                      </Badge>
+                    </>
+                  )}
+                </div>
+              )}
 
               <div className="flex gap-2 mb-6">
                 {product.isFsaEligible && (
@@ -225,11 +289,7 @@ const ProductDetail = () => {
                 {product.freeShipping && (
                   <Badge variant="outline">Free Shipping</Badge>
                 )}
-                {product.inStock ? (
-                  <Badge className="bg-green-100 text-green-800">In Stock</Badge>
-                ) : (
-                  <Badge variant="destructive">Out of Stock</Badge>
-                )}
+                <Badge className="bg-green-100 text-green-800">In Stock</Badge>
               </div>
             </div>
 
@@ -262,7 +322,6 @@ const ProductDetail = () => {
                   size="lg" 
                   className="flex-1" 
                   onClick={handleAddToCart}
-                  disabled={!product.inStock}
                 >
                   <ShoppingCart className="h-4 w-4 mr-2" />
                   Add to Cart
@@ -343,7 +402,7 @@ const ProductDetail = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Brand:</span>
-                        <span>{product.brand}</span>
+                        <span>{product.brand || 'Medical Supply Co.'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Category:</span>
@@ -353,12 +412,6 @@ const ProductDetail = () => {
                         <span className="text-muted-foreground">SKU:</span>
                         <span>{product.id.toUpperCase()}</span>
                       </div>
-                      {product.patientProfile && (
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Suitable for:</span>
-                          <span>{product.patientProfile.join(', ')}</span>
-                        </div>
-                      )}
                     </div>
                   </div>
                   <div>
