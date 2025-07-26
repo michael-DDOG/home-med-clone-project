@@ -2,9 +2,11 @@ import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Plus, Minus, Trash2 } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2, CreditCard } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { Skeleton } from '@/components/ui/skeleton';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface CartSidebarProps {
   children: React.ReactNode;
@@ -38,6 +40,40 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ children }) => {
   const { items, itemCount, isLoading, updateQuantity, removeFromCart, clearCart } = cartData;
 
   const total = items.reduce((sum, item) => sum + (item.currentPrice * item.quantity), 0);
+
+  const handleCheckout = async () => {
+    if (items.length === 0) {
+      toast.error('Your cart is empty');
+      return;
+    }
+
+    try {
+      console.log('🛒 Starting checkout process...');
+      toast.success('Redirecting to checkout...');
+      
+      const sessionId = localStorage.getItem('cart_session_id');
+      
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          items: items,
+          sessionId: sessionId,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        console.log('✅ Redirecting to Stripe checkout...');
+        window.open(data.url, '_blank');
+      } else {
+        throw new Error('No checkout URL received');
+      }
+      
+    } catch (error) {
+      console.error('❌ Checkout failed:', error);
+      toast.error('Checkout failed. Please try again.');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -162,7 +198,13 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ children }) => {
               <span className="text-primary">${total.toFixed(2)}</span>
             </div>
             <div className="space-y-2">
-              <Button className="w-full" size="lg">
+              <Button 
+                className="w-full" 
+                size="lg"
+                onClick={handleCheckout}
+                disabled={isLoading}
+              >
+                <CreditCard className="h-4 w-4 mr-2" />
                 Checkout (${total.toFixed(2)})
               </Button>
               <Button
