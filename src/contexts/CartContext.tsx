@@ -147,7 +147,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const addToCart = async (product: {
     id: string;
     name: string;
-    currentPrice: number;
+    currentPrice?: number;
     originalPrice?: number;
     image?: string;
   }) => {
@@ -162,6 +162,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     console.log('🛒 Adding to cart:', product.name);
+    
+    // Use default price of $1.00 if not provided
+    const priceToUse = product.currentPrice ?? 1.00;
+    console.log('💰 Using price:', priceToUse);
+    
     const existingItem = items.find(item => item.productId === product.id);
     
     if (existingItem) {
@@ -177,7 +182,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           productId: product.id,
           productName: product.name,
           productImage: product.image,
-          currentPrice: product.currentPrice,
+          currentPrice: priceToUse,
           originalPrice: product.originalPrice,
           quantity: 1
         };
@@ -201,7 +206,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           product_id: product.id,
           product_name: product.name,
           product_image: product.image,
-          current_price: product.currentPrice,
+          current_price: priceToUse,
           original_price: product.originalPrice,
           quantity: 1
         })
@@ -216,7 +221,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           productId: product.id,
           productName: product.name,
           productImage: product.image,
-          currentPrice: product.currentPrice,
+          currentPrice: priceToUse,
           originalPrice: product.originalPrice,
           quantity: 1
         };
