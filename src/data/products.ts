@@ -101,6 +101,8 @@ const baseWellnessProducts: Product[] = [
     id: 'pulse-ox-1',
     name: 'Digital Fingertip Pulse Oximeter - SpO2 & Heart Rate Monitor',
     image: pulseOximeterImg,
+    originalPrice: 39.99,
+    currentPrice: 24.99,
     rating: 4.8,
     reviewCount: 1247,
     isStaffPick: true,
