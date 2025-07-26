@@ -56,25 +56,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       let sessionId = localStorage.getItem('cart_session_id');
       
       if (!sessionId) {
-        console.log('🆕 Creating new session...');
-        
-        // Try to create session in database first
-        const { data, error } = await supabase
-          .from('user_sessions')
-          .insert({})
-          .select('id')
-          .single();
-        
-        if (error) {
-          console.warn('⚠️ Database session creation failed:', error.message);
-          // Use local session as fallback
-          sessionId = `local_${crypto.randomUUID()}`;
-          console.log('🔄 Using local session fallback:', sessionId);
-        } else {
-          sessionId = data.id;
-          console.log('✅ Database session created:', sessionId);
-        }
-        
+        console.log('🆕 Creating new local session...');
+        // Always use local session for simplicity
+        sessionId = `local_${crypto.randomUUID()}`;
+        console.log('✅ Local session created:', sessionId);
         localStorage.setItem('cart_session_id', sessionId);
       } else {
         console.log('🔍 Using existing session:', sessionId);
@@ -87,14 +72,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       console.error('❌ Session initialization failed:', error);
       // Create emergency local session
-      const emergencySession = `emergency_${crypto.randomUUID()}`;
+      const emergencySession = `local_${crypto.randomUUID()}`;
       setSessionId(emergencySession);
       localStorage.setItem('cart_session_id', emergencySession);
       setItems([]);
       toast({
         variant: "destructive",
-        title: "Cart Error",
-        description: "Using offline cart mode. Items will be saved locally."
+        title: "Cart Notice",
+        description: "Cart initialized in local mode."
       });
     } finally {
       setIsLoading(false);
@@ -105,39 +90,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log('📦 Loading cart items for session:', sessionId);
       
-      // Skip database operations for local sessions
-      if (sessionId.startsWith('local_') || sessionId.startsWith('emergency_')) {
-        console.log('🏠 Local session detected, using local storage');
-        const localCart = localStorage.getItem(`cart_items_${sessionId}`);
-        const items = localCart ? JSON.parse(localCart) : [];
-        setItems(items);
-        return;
-      }
+      // Always use local storage for cart items
+      const localCart = localStorage.getItem(`cart_items_${sessionId}`);
+      const items = localCart ? JSON.parse(localCart) : [];
+      console.log('✅ Loaded cart items from local storage:', items.length, 'items');
+      setItems(items);
       
-      const { data, error } = await supabase
-        .from('cart_items')
-        .select('*')
-        .eq('session_id', sessionId);
-
-      if (error) {
-        console.warn('⚠️ Failed to load from database:', error.message);
-        // Try to load from local storage as fallback
-        const localCart = localStorage.getItem(`cart_items_${sessionId}`);
-        const items = localCart ? JSON.parse(localCart) : [];
-        setItems(items);
-      } else {
-        console.log('✅ Loaded cart items from database:', data?.length || 0, 'items');
-        const cartItems: CartItem[] = data.map(item => ({
-          id: item.id,
-          productId: item.product_id,
-          productName: item.product_name,
-          productImage: item.product_image,
-          currentPrice: parseFloat(item.current_price.toString()),
-          originalPrice: item.original_price ? parseFloat(item.original_price.toString()) : undefined,
-          quantity: item.quantity
-        }));
-        setItems(cartItems);
-      }
     } catch (err) {
       console.error('❌ Error loading cart items:', err);
       setItems([]);
@@ -175,82 +133,25 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      // Handle local sessions
-      if (sessionId.startsWith('local_') || sessionId.startsWith('emergency_')) {
-        const localItem: CartItem = {
-          id: crypto.randomUUID(),
-          productId: product.id,
-          productName: product.name,
-          productImage: product.image,
-          currentPrice: priceToUse,
-          originalPrice: product.originalPrice,
-          quantity: 1
-        };
-        
-        const updatedItems = [...items, localItem];
-        setItems(updatedItems);
-        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
-        toast({
-          title: "Added to cart",
-          description: `${product.name} added to cart!`
-        });
-        console.log('✅ Added to local cart:', product.name);
-        return;
-      }
-
-      // Try database first
-      const { data, error } = await supabase
-        .from('cart_items')
-        .insert({
-          session_id: sessionId,
-          product_id: product.id,
-          product_name: product.name,
-          product_image: product.image,
-          current_price: priceToUse,
-          original_price: product.originalPrice,
-          quantity: 1
-        })
-        .select()
-        .single();
-
-      if (error) {
-        console.warn('⚠️ Database insert failed, using local fallback:', error.message);
-        // Fallback to local storage
-        const localItem: CartItem = {
-          id: crypto.randomUUID(),
-          productId: product.id,
-          productName: product.name,
-          productImage: product.image,
-          currentPrice: priceToUse,
-          originalPrice: product.originalPrice,
-          quantity: 1
-        };
-        
-        const updatedItems = [...items, localItem];
-        setItems(updatedItems);
-        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
-        toast({
-          title: "Added to cart",
-          description: `${product.name} added to cart!`
-        });
-        return;
-      }
-
-      console.log('✅ Added to database cart:', product.name);
-      const cartItem: CartItem = {
-        id: data.id,
-        productId: data.product_id,
-        productName: data.product_name,
-        productImage: data.product_image,
-        currentPrice: parseFloat(data.current_price.toString()),
-        originalPrice: data.original_price ? parseFloat(data.original_price.toString()) : undefined,
-        quantity: data.quantity
+      // Always use local storage for cart operations
+      const localItem: CartItem = {
+        id: crypto.randomUUID(),
+        productId: product.id,
+        productName: product.name,
+        productImage: product.image,
+        currentPrice: priceToUse,
+        originalPrice: product.originalPrice,
+        quantity: 1
       };
-      setItems(prevItems => [...prevItems, cartItem]);
+      
+      const updatedItems = [...items, localItem];
+      setItems(updatedItems);
+      localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
       toast({
         title: "Added to cart",
         description: `${product.name} added to cart!`
       });
+      console.log('✅ Added to cart:', product.name);
       
     } catch (err) {
       console.error('❌ Failed to add to cart:', err);
@@ -269,37 +170,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      // Handle local sessions
-      if (sessionId?.startsWith('local_') || sessionId?.startsWith('emergency_')) {
-        const updatedItems = items.map(item => 
-          item.id === itemId ? { ...item, quantity: newQuantity } : item
-        );
-        setItems(updatedItems);
-        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
-        return;
-      }
-
-      const { error } = await supabase
-        .from('cart_items')
-        .update({ quantity: newQuantity })
-        .eq('id', itemId);
-
-      if (error) {
-        console.warn('⚠️ Database update failed, using local fallback');
-        // Fallback to local update
-        const updatedItems = items.map(item => 
-          item.id === itemId ? { ...item, quantity: newQuantity } : item
-        );
-        setItems(updatedItems);
-        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
-        return;
-      }
-      
-      setItems(prevItems => 
-        prevItems.map(item => 
-          item.id === itemId ? { ...item, quantity: newQuantity } : item
-        )
+      // Always use local storage
+      const updatedItems = items.map(item => 
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
       );
+      setItems(updatedItems);
+      localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
       
     } catch (err) {
       console.error('❌ Failed to update quantity:', err);
@@ -313,37 +189,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const removeFromCart = async (itemId: string) => {
     try {
-      // Handle local sessions
-      if (sessionId?.startsWith('local_') || sessionId?.startsWith('emergency_')) {
-        const updatedItems = items.filter(item => item.id !== itemId);
-        setItems(updatedItems);
-        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
-        toast({
-          title: "Item removed",
-          description: "Item removed from cart"
-        });
-        return;
-      }
-
-      const { error } = await supabase
-        .from('cart_items')
-        .delete()
-        .eq('id', itemId);
-
-      if (error) {
-        console.warn('⚠️ Database delete failed, using local fallback');
-        // Fallback to local removal
-        const updatedItems = items.filter(item => item.id !== itemId);
-        setItems(updatedItems);
-        localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
-        toast({
-          title: "Item removed",
-          description: "Item removed from cart"
-        });
-        return;
-      }
-      
-      setItems(prevItems => prevItems.filter(item => item.id !== itemId));
+      // Always use local storage
+      const updatedItems = items.filter(item => item.id !== itemId);
+      setItems(updatedItems);
+      localStorage.setItem(`cart_items_${sessionId}`, JSON.stringify(updatedItems));
       toast({
         title: "Item removed",
         description: "Item removed from cart"
@@ -363,35 +212,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!sessionId) return;
 
     try {
-      // Handle local sessions
-      if (sessionId.startsWith('local_') || sessionId.startsWith('emergency_')) {
-        setItems([]);
-        localStorage.removeItem(`cart_items_${sessionId}`);
-        toast({
-          title: "Cart cleared",
-          description: "All items removed from cart"
-        });
-        return;
-      }
-
-      const { error } = await supabase
-        .from('cart_items')
-        .delete()
-        .eq('session_id', sessionId);
-
-      if (error) {
-        console.warn('⚠️ Database clear failed, using local fallback');
-        // Fallback to local clear
-        setItems([]);
-        localStorage.removeItem(`cart_items_${sessionId}`);
-        toast({
-          title: "Cart cleared",
-          description: "All items removed from cart"
-        });
-        return;
-      }
-      
+      // Always use local storage
       setItems([]);
+      localStorage.removeItem(`cart_items_${sessionId}`);
       toast({
         title: "Cart cleared",
         description: "All items removed from cart"
