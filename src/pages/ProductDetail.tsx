@@ -86,9 +86,16 @@ const ProductDetail = () => {
         }
 
         if (!productData) {
+          console.error('❌ Product not found with ID:', productId);
           setError('Product not found');
           setLoading(false);
           return;
+        }
+
+        // Validate product data
+        if (!productData.current_price || productData.current_price <= 0) {
+          console.warn('⚠️ Product has invalid price, using fallback:', productData.current_price);
+          productData.current_price = productData.original_price || 0;
         }
 
         setProduct(productData);
