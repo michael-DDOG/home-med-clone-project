@@ -67,6 +67,8 @@ const ProductDetail = () => {
       try {
         setLoading(true);
         
+        console.log('🔍 ProductDetail: Fetching product with ID:', productId);
+        
         // Fetch the specific product
         const { data: productData, error: productError } = await supabase
           .from('products')
@@ -74,8 +76,10 @@ const ProductDetail = () => {
           .eq('id', productId)
           .maybeSingle();
 
+        console.log('📦 ProductDetail: Supabase response:', { productData, productError });
+
         if (productError) {
-          console.error('Error fetching product:', productError);
+          console.error('❌ Error fetching product:', productError);
           setError('Failed to load product');
           setLoading(false);
           return;
