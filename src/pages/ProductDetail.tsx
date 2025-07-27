@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { ProductCard } from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
@@ -59,6 +59,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       if (!productId) {
+        console.error('❌ No product ID provided in URL');
         setError('No product ID provided');
         setLoading(false);
         return;
@@ -68,6 +69,13 @@ const ProductDetail = () => {
         setLoading(true);
         
         console.log('🔍 ProductDetail: Fetching product with ID:', productId);
+        
+        // Debug: Log all available product IDs for comparison
+        const { data: allProducts } = await supabase
+          .from('products')
+          .select('id, name')
+          .limit(10);
+        console.log('🗃️ Available product IDs sample:', allProducts?.map(p => p.id));
         
         // Fetch the specific product
         const { data: productData, error: productError } = await supabase
@@ -87,7 +95,8 @@ const ProductDetail = () => {
 
         if (!productData) {
           console.error('❌ Product not found with ID:', productId);
-          setError('Product not found');
+          console.log('🔄 Redirecting to 404 page...');
+          setError('404 - Product Not Found');
           setLoading(false);
           return;
         }
@@ -138,18 +147,19 @@ const ProductDetail = () => {
     );
   }
 
-  // Handle error or product not found
-  if (error || !product) {
+  // Handle error or product not found - redirect to NotFound
+  if (error === '404 - Product Not Found' || (!loading && !product)) {
+    return <Navigate to="/not-found" replace />;
+  }
+
+  // Handle other errors with inline display
+  if (error && error !== '404 - Product Not Found') {
     return (
       <div className="min-h-screen bg-background">
         <Header onCategorySelect={(category) => navigate(category === 'all' ? '/' : `/category/${category}`)} />
         <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            {error === 'Product not found' ? 'Product Not Found' : 'Error Loading Product'}
-          </h1>
-          <p className="text-muted-foreground mb-6">
-            {error || 'The product you\'re looking for doesn\'t exist.'}
-          </p>
+          <h1 className="text-2xl font-bold mb-4">Error Loading Product</h1>
+          <p className="text-muted-foreground mb-6">{error}</p>
           <Button onClick={() => navigate('/')}>Return to Home</Button>
         </div>
       </div>
