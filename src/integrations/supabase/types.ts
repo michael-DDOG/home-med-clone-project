@@ -53,6 +53,75 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          brand: string | null
+          category: string
+          created_at: string | null
+          current_price: number
+          description: string | null
+          discount_percentage: number | null
+          features: string[] | null
+          free_shipping: boolean | null
+          fsa_eligible: boolean | null
+          id: string
+          image: string | null
+          in_stock: boolean | null
+          name: string
+          original_price: number | null
+          patient_profile: string[] | null
+          rating: number | null
+          review_count: number | null
+          specifications: Json | null
+          subcategory: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          brand?: string | null
+          category: string
+          created_at?: string | null
+          current_price: number
+          description?: string | null
+          discount_percentage?: number | null
+          features?: string[] | null
+          free_shipping?: boolean | null
+          fsa_eligible?: boolean | null
+          id: string
+          image?: string | null
+          in_stock?: boolean | null
+          name: string
+          original_price?: number | null
+          patient_profile?: string[] | null
+          rating?: number | null
+          review_count?: number | null
+          specifications?: Json | null
+          subcategory?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          brand?: string | null
+          category?: string
+          created_at?: string | null
+          current_price?: number
+          description?: string | null
+          discount_percentage?: number | null
+          features?: string[] | null
+          free_shipping?: boolean | null
+          fsa_eligible?: boolean | null
+          id?: string
+          image?: string | null
+          in_stock?: boolean | null
+          name?: string
+          original_price?: number | null
+          patient_profile?: string[] | null
+          rating?: number | null
+          review_count?: number | null
+          specifications?: Json | null
+          subcategory?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_sessions: {
         Row: {
           created_at: string

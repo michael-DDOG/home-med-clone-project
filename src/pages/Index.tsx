@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { CategoryCard } from "@/components/CategoryCard";
 import { ComprehensiveProductFilters } from "@/components/ComprehensiveProductFilters";
 import { ProductCard } from "@/components/ProductCard";
+import DataMigration from "@/components/DataMigration";
 import { allProducts } from "@/data/products";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -326,6 +327,13 @@ const Index = () => {
               View All Products
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* Data Migration - Temporary */}
+      <section className="bg-blue-50 py-12">
+        <div className="container mx-auto px-4">
+          <DataMigration />
         </div>
       </section>
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { ProductCard } from '@/components/ProductCard';
@@ -16,10 +16,32 @@ import {
   Share2,
   Truck,
   Shield,
-  Check
+  Check,
+  Loader2
 } from 'lucide-react';
-import { allProducts } from '@/data/products';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+
+interface Product {
+  id: string;
+  name: string;
+  description?: string;
+  category: string;
+  subcategory?: string;
+  original_price?: number;
+  current_price: number;
+  discount_percentage?: number;
+  image?: string;
+  brand?: string;
+  rating?: number;
+  review_count?: number;
+  in_stock?: boolean;
+  free_shipping?: boolean;
+  fsa_eligible?: boolean;
+  patient_profile?: string[];
+  features?: string[];
+  specifications?: any;
+}
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -28,41 +50,94 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Find the product
-  const product = useMemo(() => {
-    console.log('ProductDetail: Looking for productId:', productId);
-    console.log('ProductDetail: allProducts length:', allProducts.length);
-    console.log('ProductDetail: Sample product IDs:', allProducts.slice(0, 5).map(p => p.id));
-    
-    if (!productId || !allProducts.length) {
-      console.log('ProductDetail: No productId or empty allProducts');
-      return null;
-    }
-    
-    const foundProduct = allProducts.find(p => p.id === productId);
-    console.log('ProductDetail: Found product:', foundProduct ? foundProduct.name : 'NOT FOUND');
-    
-    return foundProduct || null;
+  // Fetch product data from Supabase
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!productId) {
+        setError('No product ID provided');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        
+        // Fetch the specific product
+        const { data: productData, error: productError } = await supabase
+          .from('products')
+          .select('*')
+          .eq('id', productId)
+          .maybeSingle();
+
+        if (productError) {
+          console.error('Error fetching product:', productError);
+          setError('Failed to load product');
+          setLoading(false);
+          return;
+        }
+
+        if (!productData) {
+          setError('Product not found');
+          setLoading(false);
+          return;
+        }
+
+        setProduct(productData);
+
+        // Fetch related products from the same category
+        const { data: relatedData, error: relatedError } = await supabase
+          .from('products')
+          .select('*')
+          .eq('category', productData.category)
+          .neq('id', productId)
+          .limit(4);
+
+        if (relatedError) {
+          console.error('Error fetching related products:', relatedError);
+        } else {
+          setRelatedProducts(relatedData || []);
+        }
+
+      } catch (err) {
+        console.error('Unexpected error:', err);
+        setError('An unexpected error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
   }, [productId]);
 
-  // Get related products
-  const relatedProducts = useMemo(() => {
-    if (!product) return [];
-    return allProducts
-      .filter(p => p.id !== product.id && p.category === product.category)
-      .slice(0, 4);
-  }, [product]);
-
-  // Handle case where product is not found
-  if (!product) {
+  // Handle loading state
+  if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Header onCategorySelect={(category) => navigate(category === 'all' ? '/' : `/category/${category}`)} />
         <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading product...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle error or product not found
+  if (error || !product) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header onCategorySelect={(category) => navigate(category === 'all' ? '/' : `/category/${category}`)} />
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h1 className="text-2xl font-bold mb-4">
+            {error === 'Product not found' ? 'Product Not Found' : 'Error Loading Product'}
+          </h1>
           <p className="text-muted-foreground mb-6">
-            The product you're looking for doesn't exist.
+            {error || 'The product you\'re looking for doesn\'t exist.'}
           </p>
           <Button onClick={() => navigate('/')}>Return to Home</Button>
         </div>
@@ -91,10 +166,9 @@ const ProductDetail = () => {
   // Generate product images (demo purposes)
   const productImages = [product.image, product.image, product.image, product.image];
 
-  // Generate pricing data
-  const basePrice = Math.floor(Math.random() * 500) + 50;
-  const discountPercent = Math.floor(Math.random() * 30) + 10;
-  const currentPrice = basePrice * (1 - discountPercent / 100);
+  // Use actual pricing data from Supabase
+  const currentPrice = product.current_price;
+  const originalPrice = product.original_price || currentPrice;
 
   return (
     <div className="min-h-screen bg-background">
@@ -163,9 +237,9 @@ const ProductDetail = () => {
                       }`}
                     />
                   ))}
-                  <span className="ml-2 text-sm text-muted-foreground">
-                    ({product.reviewCount} reviews)
-                  </span>
+                   <span className="ml-2 text-sm text-muted-foreground">
+                     ({product.review_count || 0} reviews)
+                   </span>
                 </div>
               </div>
 
@@ -173,22 +247,28 @@ const ProductDetail = () => {
                 <span className="text-3xl font-bold text-primary">
                   ${currentPrice.toFixed(2)}
                 </span>
-                <span className="text-lg text-muted-foreground line-through">
-                  ${basePrice.toFixed(2)}
-                </span>
-                <Badge variant="secondary">
-                  Save ${(basePrice - currentPrice).toFixed(2)}
-                </Badge>
+                {originalPrice && originalPrice > currentPrice && (
+                  <>
+                    <span className="text-lg text-muted-foreground line-through">
+                      ${originalPrice.toFixed(2)}
+                    </span>
+                    <Badge variant="secondary">
+                      Save ${(originalPrice - currentPrice).toFixed(2)}
+                    </Badge>
+                  </>
+                )}
               </div>
 
               <div className="flex gap-2 mb-6">
-                {product.isFsaEligible && (
+                {product.fsa_eligible && (
                   <Badge className="bg-primary text-primary-foreground">FSA/HSA Eligible</Badge>
                 )}
-                {product.freeShipping && (
+                {product.free_shipping && (
                   <Badge variant="outline">Free Shipping</Badge>
                 )}
-                <Badge className="bg-green-100 text-green-800">In Stock</Badge>
+                <Badge className="bg-green-100 text-green-800">
+                  {product.in_stock ? 'In Stock' : 'Out of Stock'}
+                </Badge>
               </div>
             </div>
 
@@ -267,28 +347,36 @@ const ProductDetail = () => {
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="description">Description</TabsTrigger>
                 <TabsTrigger value="specifications">Specifications</TabsTrigger>
-                <TabsTrigger value="reviews">Reviews ({product.reviewCount})</TabsTrigger>
+                <TabsTrigger value="reviews">Reviews ({product.review_count || 0})</TabsTrigger>
               </TabsList>
               
               <TabsContent value="description" className="mt-6">
                 <div className="prose max-w-none">
                   <p className="mb-4">
-                    {product.name} is a high-quality medical device designed to provide comfort, 
+                    {product.description || `${product.name} is a high-quality medical device designed to provide comfort, 
                     safety, and reliability for patients and caregivers. This product meets all 
-                    FDA standards and is manufactured using premium materials.
+                    FDA standards and is manufactured using premium materials.`}
                   </p>
                   <h4 className="font-semibold mb-2">Key Features:</h4>
                   <ul className="list-disc list-inside space-y-1 mb-4">
-                    <li>Premium quality construction</li>
-                    <li>Easy to use and maintain</li>
-                    <li>Durable and long-lasting</li>
-                    <li>FDA approved and certified</li>
-                    {product.isFsaEligible && <li>FSA/HSA eligible purchase</li>}
+                    {product.features && product.features.length > 0 ? (
+                      product.features.map((feature, index) => (
+                        <li key={index}>{feature}</li>
+                      ))
+                    ) : (
+                      <>
+                        <li>Premium quality construction</li>
+                        <li>Easy to use and maintain</li>
+                        <li>Durable and long-lasting</li>
+                        <li>FDA approved and certified</li>
+                      </>
+                    )}
+                    {product.fsa_eligible && <li>FSA/HSA eligible purchase</li>}
                   </ul>
-                  {product.conditionsHelped && product.conditionsHelped.length > 0 && (
+                  {product.patient_profile && product.patient_profile.length > 0 && (
                     <>
-                      <h4 className="font-semibold mb-2">Helps with:</h4>
-                      <p>{product.conditionsHelped.join(', ')}</p>
+                      <h4 className="font-semibold mb-2">Recommended for:</h4>
+                      <p>{product.patient_profile.join(', ')}</p>
                     </>
                   )}
                 </div>
@@ -318,7 +406,7 @@ const ProductDetail = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Free Shipping:</span>
-                        <span>{product.freeShipping ? 'Yes' : 'On orders $99+'}</span>
+                        <span>{product.free_shipping ? 'Yes' : 'On orders $99+'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Return Policy:</span>
@@ -348,9 +436,9 @@ const ProductDetail = () => {
                           />
                         ))}
                       </div>
-                      <div className="text-sm text-muted-foreground mt-1">
-                        Based on {product.reviewCount} reviews
-                      </div>
+                       <div className="text-sm text-muted-foreground mt-1">
+                         Based on {product.review_count || 0} reviews
+                       </div>
                     </div>
                   </div>
                   
@@ -410,13 +498,13 @@ const ProductDetail = () => {
                   id={relatedProduct.id}
                   name={relatedProduct.name}
                   image={relatedProduct.image}
-                  originalPrice={relatedProduct.originalPrice}
-                  currentPrice={relatedProduct.currentPrice}
+                  originalPrice={relatedProduct.original_price}
+                  currentPrice={relatedProduct.current_price}
                   rating={relatedProduct.rating}
-                  reviewCount={relatedProduct.reviewCount}
-                  isStaffPick={relatedProduct.isStaffPick}
-                  isFsaEligible={relatedProduct.isFsaEligible}
-                  badges={relatedProduct.badges}
+                  reviewCount={relatedProduct.review_count}
+                  isStaffPick={false}
+                  isFsaEligible={relatedProduct.fsa_eligible}
+                  badges={[]}
                 />
               ))}
             </div>
