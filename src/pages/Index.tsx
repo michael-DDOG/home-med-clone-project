@@ -205,6 +205,17 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Data Migration - Temporary (Moved to top for visibility) */}
+      <section className="bg-blue-50 py-12 border-t-4 border-blue-500">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-blue-900 mb-2">🚀 Database Migration Required</h2>
+            <p className="text-blue-700">Please run this migration to enable Supabase product data</p>
+          </div>
+          <DataMigration />
+        </div>
+      </section>
+
       {/* Category Scroll Bar Section */}
       <section className="py-8 bg-white border-b">
         <div className="container mx-auto px-4">
@@ -327,13 +338,6 @@ const Index = () => {
               View All Products
             </Button>
           </div>
-        </div>
-      </section>
-
-      {/* Data Migration - Temporary */}
-      <section className="bg-blue-50 py-12">
-        <div className="container mx-auto px-4">
-          <DataMigration />
         </div>
       </section>
 
