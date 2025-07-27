@@ -28,11 +28,20 @@ export const migrateProductsToSupabase = async () => {
     console.log('Starting product migration to Supabase...');
     console.log(`Migrating ${allProducts.length} products`);
 
-    // Transform all products
-    const transformedProducts = allProducts.map(transformProductForSupabase);
+    // Remove duplicates and transform all products
+    const uniqueProducts = allProducts.reduce((acc, product) => {
+      if (!acc.some(p => p.id === product.id)) {
+        acc.push(product);
+      }
+      return acc;
+    }, [] as any[]);
+    
+    console.log(`Found ${allProducts.length} products, ${uniqueProducts.length} unique products`);
+    
+    const transformedProducts = uniqueProducts.map(transformProductForSupabase);
 
-    // Batch insert products in chunks of 100 for efficiency
-    const batchSize = 100;
+    // Use simple INSERT with ON CONFLICT DO NOTHING to avoid update conflicts
+    const batchSize = 50; // Smaller batch size for reliability
     const batches = [];
     
     for (let i = 0; i < transformedProducts.length; i += batchSize) {
@@ -48,7 +57,7 @@ export const migrateProductsToSupabase = async () => {
         .from('products')
         .upsert(batch, { 
           onConflict: 'id',
-          ignoreDuplicates: false 
+          ignoreDuplicates: true 
         });
 
       if (error) {
